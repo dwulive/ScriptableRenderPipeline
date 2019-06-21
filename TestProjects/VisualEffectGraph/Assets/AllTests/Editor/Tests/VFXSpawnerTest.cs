@@ -593,35 +593,26 @@ namespace UnityEditor.VFX.Test
 
             vfxComponent.Reinit();
 
-            StringBuilder log = new StringBuilder();
+            var log = new StringBuilder();
             log.AppendLine(DebugSpawnerStateHeader() + " & " + DebugSpawnerStateHeader());
-            for (int i = 0; i < 100; ++i)
+            for (int i = 0; i < 115; ++i)
             {
                 var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
                 var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
                 log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
                 log.AppendLine();
-                yield return null;
-            }
-            log.AppendLine("Stop");
-            vfxComponent.Stop();
-            for (int i = 0; i < 5; ++i)
-            {
-                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
-                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
-                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
-                log.AppendLine();
-                yield return null;
-            }
 
-            log.AppendLine("Play");
-            vfxComponent.Play();
-            for (int i = 0; i < 10; ++i)
-            {
-                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
-                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
-                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
-                log.AppendLine();
+                if (i == 100)
+                {
+                    log.AppendLine("Stop");
+                    vfxComponent.Stop();
+                }
+
+                if (i == 105)
+                {
+                    log.AppendLine("Play");
+                    vfxComponent.Play();
+                }
                 yield return null;
             }
 
@@ -682,17 +673,28 @@ namespace UnityEditor.VFX.Test
             Assert.IsTrue(maxFrame > 0);
 
             vfxComponent.Reinit();
-            string log = string.Empty;
-            for (int i = 0; i < 100; ++i)
+            var log = new StringBuilder();
+            log.AppendLine(DebugSpawnerStateHeader());
+            for (int i = 0; i < 150; ++i)
             {
                 var state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
-                log += string.Format("{0:00.00} => ", vfxComponent.aliveParticleCount);
-                log += DebugSpawnerState(state);
-                log += "\n";
+                log.AppendFormat("{0} ==> {1:0.00}", DebugSpawnerState(state), vfxComponent.aliveParticleCount);
+                log.AppendLine();
                 yield return null;
-            }
 
-            Debug.Log(log);
+                if (i == 100)
+                {
+                    log.AppendLine("Stop");
+                    vfxComponent.Stop();
+                }
+
+                if (i == 110)
+                {
+                    log.AppendLine("Play");
+                    vfxComponent.Play();
+                }
+            }
+            Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_ChangeLoopMode"));
 
             yield return null;
             UnityEngine.Object.DestroyImmediate(gameObj);
