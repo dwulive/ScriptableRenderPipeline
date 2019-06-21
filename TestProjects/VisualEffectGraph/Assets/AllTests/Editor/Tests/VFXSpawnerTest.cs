@@ -526,7 +526,15 @@ namespace UnityEditor.VFX.Test
 
         static string DebugSpawnerState(VFXSpawnerState state)
         {
-            var allState = k_SpawnerStateGetter.Select(o => o.Invoke(state, null).ToString());
+            var allState = k_SpawnerStateGetter.Select(o =>
+            {
+                var value = o.Invoke(state, null);
+                if (value is float)
+                {
+                    return string.Format("{0:0.00}", value);
+                }
+                return value.ToString(); ;
+            });
             return DebugSpawnerStateAggregate(allState);
         }
 
