@@ -595,10 +595,10 @@ namespace UnityEditor.VFX.Test
 
             var log = new StringBuilder();
             log.AppendLine(DebugSpawnerStateHeader() + " & " + DebugSpawnerStateHeader());
+            var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+            var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
             for (int i = 0; i < 115; ++i)
             {
-                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
-                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
                 log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
                 log.AppendLine();
 
@@ -613,7 +613,15 @@ namespace UnityEditor.VFX.Test
                     log.AppendLine("Play");
                     vfxComponent.Play();
                 }
-                yield return null;
+
+                var lastTime = state_A.totalTime;
+                maxFrame = 512;
+                while (state_A.totalTime == lastTime && --maxFrame > 0) //Ignore frame without vfxUpdate
+                {
+                    state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                    state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+                    yield return null;
+                }
             }
 
             Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_Chaining"));
@@ -675,12 +683,11 @@ namespace UnityEditor.VFX.Test
             vfxComponent.Reinit();
             var log = new StringBuilder();
             log.AppendLine(DebugSpawnerStateHeader());
+            var state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
             for (int i = 0; i < 150; ++i)
             {
-                var state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
                 log.AppendFormat("{0} ==> {1:0.00}", DebugSpawnerState(state), vfxComponent.aliveParticleCount);
                 log.AppendLine();
-                yield return null;
 
                 if (i == 100)
                 {
@@ -692,6 +699,14 @@ namespace UnityEditor.VFX.Test
                 {
                     log.AppendLine("Play");
                     vfxComponent.Play();
+                }
+
+                var lastTime = state.totalTime;
+                maxFrame = 512;
+                while (state.totalTime == lastTime && --maxFrame > 0) //Ignore frame without vfxUpdate
+                {
+                    state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                    yield return null;
                 }
             }
             Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_ChangeLoopMode"));
