@@ -11,6 +11,7 @@ using UnityEditor.VFX.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.VFX.Block;
+using System.Text;
 
 namespace UnityEditor.VFX.Test
 {
@@ -482,6 +483,210 @@ namespace UnityEditor.VFX.Test
             }
             Assert.IsTrue(maxFrame > 0);
 
+            UnityEngine.Object.DestroyImmediate(gameObj);
+            UnityEngine.Object.DestroyImmediate(cameraObj);
+        }
+
+        string expectedLogFolder = "Assets/AllTests/Editor/Tests/VFXSpawnerTest_";
+        bool CompareWithExpectedLog(StringBuilder log, string identifier)
+        {
+            var pathExpected = expectedLogFolder + identifier + ".expected.txt";
+            var pathActual = expectedLogFolder + identifier + ".actual.txt";
+
+            string expectedContent = string.Empty;
+            bool success = false;
+            try
+            {
+                expectedContent = System.IO.File.ReadAllText(pathExpected);
+            }
+            catch(System.Exception)
+            {
+                Debug.LogErrorFormat("Can't locate file : {0}", pathExpected);
+            }
+
+            success = expectedContent == log.ToString();
+            if (!success)
+            {
+                System.IO.File.WriteAllText(pathActual, log.ToString());
+            }
+            return success;
+        }
+
+        static readonly System.Reflection.MethodInfo[] k_SpawnerStateGetter = typeof(VFXSpawnerState).GetMethods().Where(o => o.Name.StartsWith("get_") && o.Name != "get_vfxEventAttribute").ToArray();
+        static string DebugSpawnerStateAggregate(IEnumerable<string> all)
+        {
+            return all.Select(o => new string(o.Take(12).ToArray()).PadRight(12)).Aggregate((a, b) => a + " | " + b);
+        }
+
+        static string DebugSpawnerStateHeader()
+        {
+            var allStateName = k_SpawnerStateGetter.Select(o => o.Name.Replace("get_", ""));
+            return DebugSpawnerStateAggregate(allStateName);
+        }
+
+        static string DebugSpawnerState(VFXSpawnerState state)
+        {
+            var allState = k_SpawnerStateGetter.Select(o => o.Invoke(state, null).ToString());
+            return DebugSpawnerStateAggregate(allState);
+        }
+
+        [UnityTest]
+        public IEnumerator CreateSpawner_Chaining()
+        {
+            EditorApplication.ExecuteMenuItem("Window/General/Game");
+            var graph = MakeTemporaryGraph();
+
+            var spawnerContext_A = ScriptableObject.CreateInstance<VFXBasicSpawner>();
+            var blockSpawnerConstant = ScriptableObject.CreateInstance<VFXSpawnerConstantRate>();
+            blockSpawnerConstant.GetInputSlot(0).value = 0.6f; //spawn count constant
+
+            var spawnerContext_B = ScriptableObject.CreateInstance<VFXBasicSpawner>();
+            var blockSpawnerBurst = ScriptableObject.CreateInstance<VFXSpawnerBurst>();
+            blockSpawnerBurst.GetInputSlot(0).value = 11.0f; //spawn count burst
+            blockSpawnerBurst.GetInputSlot(1).value = 0.2f; //delay burst
+
+            var spawnerInit = ScriptableObject.CreateInstance<VFXBasicInitialize>();
+            var spawnerOutput = ScriptableObject.CreateInstance<VFXPointOutput>();
+
+            spawnerContext_A.AddChild(blockSpawnerConstant);
+            spawnerContext_B.AddChild(blockSpawnerBurst);
+            graph.AddChild(spawnerContext_A);
+            graph.AddChild(spawnerContext_B);
+            graph.AddChild(spawnerInit);
+            graph.AddChild(spawnerOutput);
+
+            //Add Position to have minimal data, and thus, valid system
+            var setPosition = ScriptableObject.CreateInstance<SetAttribute>();
+            setPosition.SetSettingValue("attribute", "position");
+            spawnerInit.AddChild(setPosition);
+
+            spawnerContext_B.LinkFrom(spawnerContext_A, 0, 0 /* OnPlay */);
+            spawnerInit.LinkFrom(spawnerContext_B);
+            spawnerOutput.LinkFrom(spawnerInit);
+
+            graph.SetCompilationMode(VFXCompilationMode.Runtime);
+            graph.RecompileIfNeeded();
+
+            var gameObj = new GameObject("CreateSpawner_Chaining");
+            var vfxComponent = gameObj.AddComponent<VisualEffect>();
+            vfxComponent.visualEffectAsset = graph.visualEffectResource.asset;
+
+            var cameraObj = new GameObject("CreateSpawner_Chaining_Camera");
+            var camera = cameraObj.AddComponent<Camera>();
+            camera.transform.localPosition = Vector3.one;
+            camera.transform.LookAt(vfxComponent.transform);
+
+            int maxFrame = 512;
+            while (vfxComponent.culled && --maxFrame > 0)
+            {
+                yield return null;
+            }
+            Assert.IsTrue(maxFrame > 0);
+
+            vfxComponent.Reinit();
+
+            StringBuilder log = new StringBuilder();
+            log.AppendLine(DebugSpawnerStateHeader() + " & " + DebugSpawnerStateHeader());
+            for (int i = 0; i < 100; ++i)
+            {
+                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
+                log.AppendLine();
+                yield return null;
+            }
+            log.AppendLine("Stop");
+            vfxComponent.Stop();
+            for (int i = 0; i < 5; ++i)
+            {
+                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
+                log.AppendLine();
+                yield return null;
+            }
+
+            log.AppendLine("Play");
+            vfxComponent.Play();
+            for (int i = 0; i < 10; ++i)
+            {
+                var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
+                log.AppendLine();
+                yield return null;
+            }
+
+            Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_Chaining"));
+            yield return null;
+            UnityEngine.Object.DestroyImmediate(gameObj);
+            UnityEngine.Object.DestroyImmediate(cameraObj);
+        }
+
+        [UnityTest]
+        public IEnumerator CreateSpawner_ChangeLoopMode()
+        {
+            EditorApplication.ExecuteMenuItem("Window/General/Game");
+            var graph = MakeTemporaryGraph();
+
+            var spawnerContext = ScriptableObject.CreateInstance<VFXBasicSpawner>();
+            var blockSpawnerConstant = ScriptableObject.CreateInstance<VFXSpawnerConstantRate>();
+            var blockSpawnerBurst = ScriptableObject.CreateInstance<VFXSpawnerBurst>();
+
+            blockSpawnerConstant.GetInputSlot(0).value = 3.0f;  //spawn count constant
+            blockSpawnerBurst.GetInputSlot(0).value = 10.0f;    //spawn count burst
+            blockSpawnerBurst.GetInputSlot(1).value = 0.5f;     //delay burst
+
+            var spawnerInit = ScriptableObject.CreateInstance<VFXBasicInitialize>();
+            var spawnerOutput = ScriptableObject.CreateInstance<VFXPointOutput>();
+
+            spawnerContext.AddChild(blockSpawnerBurst);
+            spawnerContext.AddChild(blockSpawnerConstant);
+            graph.AddChild(spawnerContext);
+            graph.AddChild(spawnerInit);
+            graph.AddChild(spawnerOutput);
+
+            //Add Position to have minimal data, and thus, valid system
+            var setPosition = ScriptableObject.CreateInstance<SetAttribute>();
+            setPosition.SetSettingValue("attribute", "position");
+            spawnerInit.AddChild(setPosition);
+
+            spawnerInit.LinkFrom(spawnerContext);
+            spawnerOutput.LinkFrom(spawnerInit);
+
+            graph.SetCompilationMode(VFXCompilationMode.Runtime);
+            graph.RecompileIfNeeded();
+
+            var gameObj = new GameObject("CreateSpawner_ChangeLoopMode");
+            var vfxComponent = gameObj.AddComponent<VisualEffect>();
+            vfxComponent.visualEffectAsset = graph.visualEffectResource.asset;
+
+            var cameraObj = new GameObject("CreateSpawner_ChangeLoopMode_Camera");
+            var camera = cameraObj.AddComponent<Camera>();
+            camera.transform.localPosition = Vector3.one;
+            camera.transform.LookAt(vfxComponent.transform);
+
+            int maxFrame = 512;
+            while (vfxComponent.culled && --maxFrame > 0)
+            {
+                yield return null;
+            }
+            Assert.IsTrue(maxFrame > 0);
+
+            vfxComponent.Reinit();
+            string log = string.Empty;
+            for (int i = 0; i < 100; ++i)
+            {
+                var state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                log += string.Format("{0:00.00} => ", vfxComponent.aliveParticleCount);
+                log += DebugSpawnerState(state);
+                log += "\n";
+                yield return null;
+            }
+
+            Debug.Log(log);
+
+            yield return null;
             UnityEngine.Object.DestroyImmediate(gameObj);
             UnityEngine.Object.DestroyImmediate(cameraObj);
         }
