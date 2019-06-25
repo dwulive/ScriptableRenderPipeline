@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace UnityEditor.VFX
@@ -13,6 +14,15 @@ namespace UnityEditor.VFX
             get
             {
                 return 2;
+            }
+        }
+
+        protected override IEnumerable<VFXPropertyWithValue> inputProperties
+        {
+            get
+            {
+                foreach (var property in base.inputProperties)
+                    yield return property;
             }
         }
 
