@@ -599,9 +599,10 @@ namespace UnityEditor.VFX.Test
             log.AppendLine(DebugSpawnerStateHeader() + " & " + DebugSpawnerStateHeader());
             var state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
             var state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+            var aliveParticleCount = vfxComponent.aliveParticleCount;
             for (int i = 0; i < 115; ++i)
             {
-                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), vfxComponent.aliveParticleCount);
+                log.AppendFormat("{0} & {1} => {2:00.00}", DebugSpawnerState(state_A), DebugSpawnerState(state_B), aliveParticleCount);
                 log.AppendLine();
 
                 if (i == 100)
@@ -622,6 +623,7 @@ namespace UnityEditor.VFX.Test
                 {
                     state_A = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
                     state_B = VisualEffectUtility.GetSpawnerState(vfxComponent, 1u);
+                    aliveParticleCount = vfxComponent.aliveParticleCount;
                     yield return null;
                 }
             }
@@ -783,9 +785,10 @@ namespace UnityEditor.VFX.Test
             var log = new StringBuilder();
             log.AppendLine(DebugSpawnerStateHeader());
             var state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+            var aliveParticleCount = vfxComponent.aliveParticleCount;
             for (int i = 0; i < 150; ++i)
             {
-                log.AppendFormat("{0} ==> {1:0.00}", DebugSpawnerState(state), vfxComponent.aliveParticleCount);
+                log.AppendFormat("{0} ==> {1:0.00}", DebugSpawnerState(state), aliveParticleCount);
                 log.AppendLine();
 
                 if (i == 100)
@@ -805,6 +808,7 @@ namespace UnityEditor.VFX.Test
                 while (state.totalTime == lastTime && --maxFrame > 0) //Ignore frame without vfxUpdate
                 {
                     state = VisualEffectUtility.GetSpawnerState(vfxComponent, 0u);
+                    aliveParticleCount = vfxComponent.aliveParticleCount;
                     yield return null;
                 }
             }
