@@ -49,6 +49,8 @@ Pass
 		#endif
 
 		float3 posWS : TEXCOORD8;
+		
+		UNITY_VERTEX_OUTPUT_STEREO
 	};
 	
 	struct ps_output
@@ -95,6 +97,7 @@ ${VFXEnd}
 #endif
 	)
 	{
+		UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 		VFXTransformPSInputs(i);
 		${VFXComputeNormalWS}
 		outColor = VFXGetPixelOutputForward(i,normalWS,uvData);

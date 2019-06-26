@@ -25,6 +25,8 @@ struct ps_input
 	float4 cPosPrevious : TEXCOORD3;
 	float4 cPosNonJiterred : TEXCOORD4;
 	#endif
+	
+	UNITY_VERTEX_OUTPUT_STEREO
 };
 
 #define VFX_VARYING_PS_INPUTS ps_input
@@ -45,6 +47,7 @@ ${VFXInclude("Shaders/ParticleMeshes/Pass.template")}
 #pragma fragment frag
 float4 frag(ps_input i) : SV_TARGET
 {
+	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 	VFXTransformPSInputs(i);
 	float alpha = VFXGetFragmentColor(i).a;
 	alpha *= VFXGetTextureColor(VFX_SAMPLER(mainTexture),i).a;		
