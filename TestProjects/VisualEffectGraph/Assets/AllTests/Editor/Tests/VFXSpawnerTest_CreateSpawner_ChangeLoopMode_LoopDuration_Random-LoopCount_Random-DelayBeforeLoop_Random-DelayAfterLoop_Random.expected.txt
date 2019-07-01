@@ -1,4 +1,4 @@
-playing      | IsNewLoop    | loopState    | spawnCount   | deltaTime    | totalTime    | delayBeforeL | loopDuration | delayAfterLo | loopIndex    | loopCount   
+playing      | newLoop      | loopState    | spawnCount   | deltaTime    | totalTime    | delayBeforeL | loopDuration | delayAfterLo | loopIndex    | loopCount   
 False        | False        | Finished     | 0.00         | 0.00         | 0.00         | 0.00         | 0.00         | 0.00         | 0            | 0            ==> 0.00
 False        | True         | DelayingBefo | 0.00         | 0.10         | 0.10         | 0.25         | 0.48         | 0.11         | 0            | 7            ==> 0.00
 False        | False        | DelayingBefo | 0.00         | 0.10         | 0.20         | 0.25         | 0.48         | 0.11         | 0            | 7            ==> 0.00
