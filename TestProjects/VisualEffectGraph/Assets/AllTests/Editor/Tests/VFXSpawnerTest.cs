@@ -488,26 +488,39 @@ namespace UnityEditor.VFX.Test
         }
 
         string expectedLogFolder = "Assets/AllTests/Editor/Tests/VFXSpawnerTest_";
-        bool CompareWithExpectedLog(StringBuilder log, string identifier)
+        bool CompareWithExpectedLog(StringBuilder actualContent, string identifier)
         {
             var pathExpected = expectedLogFolder + identifier + ".expected.txt";
             var pathActual = expectedLogFolder + identifier + ".actual.txt";
 
-            string expectedContent = string.Empty;
-            bool success = false;
+            IEnumerable<string> expectedContent = Enumerable.Empty<string>();
             try
             {
-                expectedContent = System.IO.File.ReadAllText(pathExpected);
+                expectedContent = System.IO.File.ReadLines(pathExpected);
             }
             catch(System.Exception)
             {
                 Debug.LogErrorFormat("Can't locate file : {0}", pathExpected);
             }
 
-            success = expectedContent == log.ToString();
+            //Compare line by line to avoid carriage return differences
+            bool success = true;
+            var reader = new System.IO.StringReader(actualContent.ToString());
+            foreach (var expectedContentLine in expectedContent)
+            {
+                var line = reader.ReadLine();
+                if (line == null || String.Compare(line, expectedContentLine) != 0)
+                {
+                    success = false;
+                    Debug.LogError("Expected Line : " + expectedContentLine);
+                    Debug.LogError("Actual Line   : " + line);
+                    break;
+                }
+            }
+
             if (!success)
             {
-                System.IO.File.WriteAllText(pathActual, log.ToString());
+                System.IO.File.WriteAllText(pathActual, actualContent.ToString());
             }
             return success;
         }
@@ -628,7 +641,8 @@ namespace UnityEditor.VFX.Test
                 }
             }
 
-            Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_Chaining"));
+            var compare = CompareWithExpectedLog(log, "CreateSpawner_Chaining");
+            Assert.IsTrue(compare);
             yield return null;
             UnityEngine.Object.DestroyImmediate(gameObj);
             UnityEngine.Object.DestroyImmediate(cameraObj);
@@ -812,7 +826,9 @@ namespace UnityEditor.VFX.Test
                     yield return null;
                 }
             }
-            Assert.IsTrue(CompareWithExpectedLog(log, "CreateSpawner_ChangeLoopMode_" + testCase.ToString()));
+
+            var compare = CompareWithExpectedLog(log, "CreateSpawner_ChangeLoopMode_" + testCase.ToString());
+            Assert.IsTrue(compare);
 
             yield return null;
             UnityEngine.Object.DestroyImmediate(gameObj);
