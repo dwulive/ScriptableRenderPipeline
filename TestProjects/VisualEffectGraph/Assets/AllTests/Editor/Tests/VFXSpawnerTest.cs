@@ -509,7 +509,7 @@ namespace UnityEditor.VFX.Test
             foreach (var expectedContentLine in expectedContent)
             {
                 var line = reader.ReadLine();
-                if (line == null || String.Compare(line, expectedContentLine) != 0)
+                if (line == null || string.Compare(line, expectedContentLine, StringComparison.InvariantCulture) != 0)
                 {
                     success = false;
                     Debug.LogError("Expected Line : " + expectedContentLine);
