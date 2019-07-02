@@ -17,7 +17,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Exposure weight control for HDRP outputst
 - Shader macros for XR single-pass instancing
 - XR single-pass instancing support for indirect draws
-- Motion Vector support
+- Inverse trigonometric operators (atan, atan2, asin, acos)
+- Replaced Orient : Fixed rotation with new option Orient : Advanced
+- Motion Vector support for PlanarPrimitive & Mesh outputs
+
+### Fixed
+- Handle a possible exception (ReflectionTypeLoadException) while using VFXParameterBinderEditor
 
 ## [6.7.0-preview] - 2019-05-16
 ### Added
