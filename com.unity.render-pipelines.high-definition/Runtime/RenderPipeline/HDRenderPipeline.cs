@@ -967,8 +967,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             }
         }
 
-        private static readonly System.Reflection.MethodInfo k_VFXManagerPrepareCamera = typeof(VFX.VFXManager).GetMethod("PrepareCamera");
-        private static readonly System.Reflection.MethodInfo k_VFXManagerProcessCameraCommand = typeof(VFX.VFXManager).GetMethod("ProcessCameraCommand");
+        private static readonly System.Reflection.MethodInfo k_VFXManagerPrepareCamera = typeof(UnityEngine.VFX.VFXManager).GetMethod("PrepareCamera");
+        private static readonly System.Reflection.MethodInfo k_VFXManagerProcessCameraCommand = typeof(UnityEngine.VFX.VFXManager).GetMethod("ProcessCameraCommand");
         private static readonly bool isVFXCommandBufferSupported = k_VFXManagerPrepareCamera != null && k_VFXManagerProcessCameraCommand != null;
 
         private static void VFXPrepareCamera(Camera camera)
