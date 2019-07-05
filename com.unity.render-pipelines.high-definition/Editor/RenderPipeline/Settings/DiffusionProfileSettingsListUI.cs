@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEditor.Rendering;
 using UnityEditorInternal;
 using System;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     public class DiffusionProfileSettingsListUI
     {

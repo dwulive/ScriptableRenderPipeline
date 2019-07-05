@@ -1,8 +1,7 @@
 using System;
 using UnityEngine.Serialization;
-using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [Serializable]
     public partial class InfluenceVolume

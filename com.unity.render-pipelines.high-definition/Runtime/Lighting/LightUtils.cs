@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public class LightUtils
     {

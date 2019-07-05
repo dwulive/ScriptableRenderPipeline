@@ -15,7 +15,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Experimental.XR;
 #endif
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     internal struct XRView
     {

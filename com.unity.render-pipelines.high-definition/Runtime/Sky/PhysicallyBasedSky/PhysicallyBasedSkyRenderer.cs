@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public class PhysicallyBasedSkyRenderer : SkyRenderer
     {

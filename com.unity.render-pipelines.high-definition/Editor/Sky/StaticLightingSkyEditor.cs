@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [CustomEditor(typeof(StaticLightingSky))]
     [DisallowMultipleComponent]

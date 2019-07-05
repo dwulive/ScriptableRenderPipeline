@@ -1,8 +1,8 @@
 using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [VolumeComponentEditor(typeof(ChannelMixer))]
     sealed class ChannelMixerEditor : VolumeComponentEditor

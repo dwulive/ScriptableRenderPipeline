@@ -1,13 +1,12 @@
 using System;
-using UnityEngine.Rendering;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Experimental.Rendering;
-using UnityEditor.Experimental.Rendering.HDPipeline;
+using UnityEditor.Rendering;
+using UnityEditor.Rendering.HDPipeline;
 #endif
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public partial class HDAdditionalLightData : ISerializationCallbackReceiver
     {

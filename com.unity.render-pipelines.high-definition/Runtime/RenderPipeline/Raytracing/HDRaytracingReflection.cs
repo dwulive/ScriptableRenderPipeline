@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
 #if ENABLE_RAYTRACING
     using RTHandle = RTHandleSystem.RTHandle;

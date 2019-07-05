@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEngine.Experimental.Rendering.HDPipeline.Attributes;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.HDPipeline.Attributes;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [GenerateHLSL]
     public enum FullScreenDebugMode

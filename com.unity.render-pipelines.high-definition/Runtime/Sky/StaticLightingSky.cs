@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [ExecuteAlways]
     public class StaticLightingSky : MonoBehaviour

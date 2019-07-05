@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public partial class HDRenderPipelineAsset : IVersionable<HDRenderPipelineAsset.Version>
     {

@@ -1,20 +1,19 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Experimental.Rendering.HDPipeline.Drawing;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Experimental.Rendering.HDPipeline;
-using UnityEditor.ShaderGraph.Drawing.Inspector;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
+using UnityEditor.Rendering.HDPipeline.Drawing;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [Serializable]
     [Title("Master", "HDRP/Lit")]
@@ -216,7 +215,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Graph);
             }
         }
-        
+
         [SerializeField]
         HDRenderQueue.RenderQueueType m_RenderingPass = HDRenderQueue.RenderQueueType.Opaque;
 
@@ -262,7 +261,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Graph);
             }
         }
-        
+
         [SerializeField, Obsolete("Kept for data migration")]
         internal bool m_DrawBeforeRefraction;
 
@@ -626,7 +625,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Topological);
             }
         }
-        
+
         [SerializeField]
         bool m_depthOffset;
 
@@ -672,7 +671,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Graph);
             }
         }
-        
+
         [SerializeField]
         TransparentCullMode m_transparentCullMode = TransparentCullMode.Back;
         public TransparentCullMode transparentCullMode
@@ -714,7 +713,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         {
             get { return "https://github.com/Unity-Technologies/ShaderGraph/wiki/HD-Lit-Master-Node"; }
         }
-        
+
         public bool HasRefraction()
         {
             return (surfaceType == SurfaceType.Transparent && renderingPass != HDRenderQueue.RenderQueueType.PreRefraction && refractionModel != ScreenSpaceRefraction.RefractionModel.None);

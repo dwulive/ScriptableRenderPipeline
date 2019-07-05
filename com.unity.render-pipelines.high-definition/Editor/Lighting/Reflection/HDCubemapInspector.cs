@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [CustomEditorForRenderPipeline(typeof(Cubemap), typeof(HDRenderPipelineAsset))]
     class HDCubemapInspector : Editor

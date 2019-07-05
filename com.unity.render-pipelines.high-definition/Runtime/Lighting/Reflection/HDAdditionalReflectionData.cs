@@ -1,4 +1,4 @@
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [RequireComponent(typeof(ReflectionProbe))]
     public sealed partial class HDAdditionalReflectionData : HDProbe

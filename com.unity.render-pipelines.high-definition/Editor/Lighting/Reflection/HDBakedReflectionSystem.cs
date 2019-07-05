@@ -5,15 +5,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
-using UnityEditor.Experimental.Rendering;
-using UnityEditor.Experimental.Rendering.HDPipeline;
 using UnityEditor.VersionControl;
 using UnityEngine.Assertions;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using static UnityEditor.VersionControl.Provider;
+using UnityEditor.Experimental.Rendering;
+using UnityEditor.Rendering.HDPipeline;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     unsafe class HDBakedReflectionSystem : ScriptableBakedReflectionSystem
     {

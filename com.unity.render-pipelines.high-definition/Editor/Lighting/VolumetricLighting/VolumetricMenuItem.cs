@@ -1,9 +1,8 @@
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     public class VolumetricMenuItems
     {

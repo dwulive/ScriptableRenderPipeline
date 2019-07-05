@@ -6,11 +6,11 @@ using UnityEditor.Graphing.Util;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEditor.Experimental.Rendering.HDPipeline;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEditor.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
+namespace UnityEditor.Rendering.HDPipeline.Drawing
 {
     class StackLitSettingsView : VisualElement
     {
@@ -171,7 +171,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
             //
             //  baseParametrization
             //    energyConservingSpecular
-            //  
+            //
             //  anisotropy
             //  coat
             //  coatNormal
@@ -181,12 +181,12 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
             //  iridescence
             //  subsurfaceScattering
             //  transmission
-            //  
+            //
             //  receiveDecals
             //  receiveSSR
             //  geometricSpecularAA
             //  specularOcclusion
-            //  
+            //
             //  anisotropyForAreaLights
             //  recomputeStackPerLight
             //  shadeBaseUsingRefractedAngles
@@ -484,7 +484,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
                     toggle.OnToggleChanged(ChangeDebug);
                 });
             });
-            
+
             ps.Add(new PropertyRow(CreateLabel("Override Baked GI", indentLevel)), (row) =>
             {
                 row.Add(new Toggle(), (toggle) =>
@@ -871,7 +871,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
                         Debug.LogWarning("Not supported: " + alphaModeLit);
                         return AlphaMode.Alpha;
                     }
-                    
+
             }
         }
 
@@ -889,7 +889,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
                     {
                         Debug.LogWarning("Not supported: " + alphaMode);
                         return StackLitMasterNode.AlphaModeLit.Alpha;
-                    }                    
+                    }
             }
         }
     }

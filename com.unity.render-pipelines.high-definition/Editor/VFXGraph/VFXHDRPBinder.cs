@@ -1,6 +1,6 @@
 using System;
 using UnityEditor.VFX;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
 namespace UnityEditor.VFX.HDRP
 {

@@ -1,8 +1,7 @@
-using UnityEditor.Rendering;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [CanEditMultipleObjects]
     [VolumeComponentEditor(typeof(VolumetricLightingController))]

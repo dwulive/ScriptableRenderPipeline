@@ -252,7 +252,7 @@ Shader "HDRP/AxF"
 
             #define WRITE_NORMAL_BUFFER
             #pragma multi_compile _ WRITE_MSAA_DEPTH
-            
+
             #define SHADERPASS SHADERPASS_MOTION_VECTORS
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/AxF/AxF.hlsl"
@@ -351,7 +351,7 @@ Shader "HDRP/AxF"
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             // Setup DECALS_OFF so the shader stripper can remove variants
             #pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-            
+
             // Supported shadow modes per light type
             #pragma multi_compile SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
 
@@ -395,5 +395,5 @@ Shader "HDRP/AxF"
 
     }
 
-    CustomEditor "Experimental.Rendering.HDPipeline.AxFGUI"
+    CustomEditor "Rendering.HDPipeline.AxFGUI"
 }

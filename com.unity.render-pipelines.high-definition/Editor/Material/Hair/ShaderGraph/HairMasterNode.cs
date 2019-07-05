@@ -1,21 +1,19 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Experimental.Rendering.HDPipeline.Drawing;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
-using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Experimental.Rendering.HDPipeline;
-using UnityEditor.ShaderGraph.Drawing.Inspector;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
+using UnityEditor.Rendering.HDPipeline.Drawing;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [Serializable]
     [Title("Master", "HDRP/Hair")]
@@ -530,7 +528,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Graph);
             }
         }
-        
+
         [SerializeField]
         TransparentCullMode m_transparentCullMode = TransparentCullMode.Back;
         public TransparentCullMode transparentCullMode
@@ -546,7 +544,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 Dirty(ModificationScope.Graph);
             }
         }
-    
+
         [SerializeField]
         CompareFunction m_ZTest = CompareFunction.LessEqual;
         public CompareFunction zTest
@@ -761,7 +759,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             }
             return validSlots.OfType<IMayRequirePosition>().Aggregate(NeededCoordinateSpace.None, (mask, node) => mask | node.RequiresPosition(stageCapability));
         }
-    
+
         public override void ProcessPreviewMaterial(Material previewMaterial)
         {
             // Fixup the material settings:

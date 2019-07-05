@@ -1,6 +1,6 @@
-using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     using RTHandle = RTHandleSystem.RTHandle;
 

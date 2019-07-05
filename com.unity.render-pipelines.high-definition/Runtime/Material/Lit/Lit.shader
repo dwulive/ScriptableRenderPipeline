@@ -107,10 +107,10 @@ Shader "HDRP/Lit"
         _DistortionBlurRemapMin("DistortionBlurRemapMin", Float) = 0.0
         _DistortionBlurRemapMax("DistortionBlurRemapMax", Float) = 1.0
 
-            
+
         [ToggleUI]  _UseShadowThreshold("_UseShadowThreshold", Float) = 0.0
         [ToggleUI]  _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 0.0
-        _AlphaCutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5 
+        _AlphaCutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
         _AlphaCutoffShadow("_AlphaCutoffShadow", Range(0.0, 1.0)) = 0.5
         _AlphaCutoffPrepass("_AlphaCutoffPrepass", Range(0.0, 1.0)) = 0.5
         _AlphaCutoffPostpass("_AlphaCutoffPostpass", Range(0.0, 1.0)) = 0.5
@@ -157,7 +157,7 @@ Shader "HDRP/Lit"
         [HideInInspector][ToggleUI] _ZWrite("__zw", Float) = 1.0
         [HideInInspector] _CullMode("__cullmode", Float) = 2.0
         [HideInInspector] _CullModeForward("__cullmodeForward", Float) = 2.0 // This mode is dedicated to Forward to correctly handle backface then front face rendering thin transparent
-        [Enum(UnityEditor.Experimental.Rendering.HDPipeline.TransparentCullMode)] _TransparentCullMode("_TransparentCullMode", Int) = 2 // Back culling by default
+        [Enum(UnityEditor.Rendering.HDPipeline.TransparentCullMode)] _TransparentCullMode("_TransparentCullMode", Int) = 2 // Back culling by default
         [HideInInspector] _ZTestDepthEqualForOpaque("_ZTestDepthEqualForOpaque", Int) = 4 // Less equal
         [HideInInspector] _ZTestModeDistortion("_ZTestModeDistortion", Int) = 8
         [HideInInspector] _ZTestGBuffer("_ZTestGBuffer", Int) = 4
@@ -535,7 +535,7 @@ Shader "HDRP/Lit"
             HLSLPROGRAM
             #pragma multi_compile _ WRITE_NORMAL_BUFFER
             #pragma multi_compile _ WRITE_MSAA_DEPTH
-            
+
             #define SHADERPASS SHADERPASS_MOTION_VECTORS
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
@@ -633,7 +633,7 @@ Shader "HDRP/Lit"
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             // Setup DECALS_OFF so the shader stripper can remove variants
             #pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-            
+
             // Supported shadow modes per light type
             #pragma multi_compile SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
 
@@ -699,7 +699,7 @@ Shader "HDRP/Lit"
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             // Setup DECALS_OFF so the shader stripper can remove variants
             #pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-            
+
             // Supported shadow modes per light type
             #pragma multi_compile SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
 
@@ -775,17 +775,17 @@ Shader "HDRP/Lit"
 
             HLSLPROGRAM
 
-            #pragma raytracing test      
+            #pragma raytracing test
 
             #pragma multi_compile _ DEBUG_DISPLAY
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            
+
             #define SHADERPASS SHADERPASS_RAYTRACING_INDIRECT
             #define SKIP_RASTERIZED_SHADOWS
 
-            // multi compile that allows us to 
+            // multi compile that allows us to
             #pragma multi_compile _ DIFFUSE_LIGHTING_ONLY
             #pragma multi_compile _ MULTI_BOUNCE_INDIRECT
 
@@ -798,9 +798,9 @@ Shader "HDRP/Lit"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracing.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracingLightLoop.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
- 
+
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/RaytracingIntersection.hlsl"
-            
+
             #include "Packages/com.unity.render-pipelines.high-definition\Runtime\Lighting\LightLoop\LightLoopDef.hlsl"
             #define HAS_LIGHTLOOP
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
@@ -819,13 +819,13 @@ Shader "HDRP/Lit"
 
             HLSLPROGRAM
 
-            #pragma raytracing test      
+            #pragma raytracing test
 
             #pragma multi_compile _ DEBUG_DISPLAY
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            
+
             #define SHADERPASS SHADERPASS_RAYTRACING_FORWARD
             #define SKIP_RASTERIZED_SHADOWS
 
@@ -838,9 +838,9 @@ Shader "HDRP/Lit"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracing.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracingLightLoop.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
- 
+
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/RaytracingIntersection.hlsl"
-            
+
             #include "Packages/com.unity.render-pipelines.high-definition\Runtime\Lighting\LightLoop\LightLoopDef.hlsl"
             #define HAS_LIGHTLOOP
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
@@ -859,13 +859,13 @@ Shader "HDRP/Lit"
 
             HLSLPROGRAM
 
-            #pragma raytracing test      
+            #pragma raytracing test
 
             #pragma multi_compile _ DEBUG_DISPLAY
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            
+
             #define SHADERPASS SHADERPASS_RAYTRACING_GBUFFER
 
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/RaytracingMacros.hlsl"
@@ -874,9 +874,9 @@ Shader "HDRP/Lit"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracing.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/ShaderVariablesRaytracingLightLoop.hlsl"
- 
+
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/Raytracing/Shaders/Deferred/RaytracingIntersectonGBuffer.hlsl"
-            
+
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/StandardLit/StandardLit.hlsl"
             #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitRaytracingData.hlsl"
@@ -885,7 +885,7 @@ Shader "HDRP/Lit"
 
             ENDHLSL
         }
-        
+
         Pass
         {
             Name "VisibilityDXR"
@@ -912,5 +912,5 @@ Shader "HDRP/Lit"
         }
     }
 
-    CustomEditor "Experimental.Rendering.HDPipeline.LitGUI"
+    CustomEditor "Rendering.HDPipeline.LitGUI"
 }

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     // RenderRenderPipelineSettings represent settings that are immutable at runtime.
     // There is a dedicated RenderRenderPipelineSettings for each platform

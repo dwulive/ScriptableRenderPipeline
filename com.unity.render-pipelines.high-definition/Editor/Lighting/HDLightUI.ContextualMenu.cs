@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Experimental.Rendering;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     partial class HDLightUI
     {

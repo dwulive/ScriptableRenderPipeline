@@ -6,11 +6,11 @@ using UnityEditor.Graphing.Util;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEditor.Experimental.Rendering.HDPipeline;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEditor.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
+namespace UnityEditor.Rendering.HDPipeline.Drawing
 {
     class HDUnlitSettingsView : VisualElement
     {

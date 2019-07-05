@@ -1,17 +1,17 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Experimental.Rendering.HDPipeline.Drawing;
+using UnityEditor.Rendering.HDPipeline.Drawing;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [Serializable]
     [Title("Master", "HDRP/Decal")]
@@ -73,7 +73,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
         }
 
         const SlotMask decalParameter = SlotMask.Position | SlotMask.Albedo | SlotMask.AlphaAlbedo | SlotMask.Normal | SlotMask.AlphaNormal | SlotMask.Metallic | SlotMask.Occlusion | SlotMask.Smoothness | SlotMask.AlphaMAOS | SlotMask.Emission;
-        
+
 
         // This could also be a simple array. For now, catch any mismatched data.
         SlotMask GetActiveSlotMask()

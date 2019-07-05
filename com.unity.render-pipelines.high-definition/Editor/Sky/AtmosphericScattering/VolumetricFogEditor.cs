@@ -1,9 +1,9 @@
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEditor.Rendering;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [VolumeComponentEditor(typeof(VolumetricFog))]
     public class VolumetricFogEditor : AtmosphericScatteringEditor

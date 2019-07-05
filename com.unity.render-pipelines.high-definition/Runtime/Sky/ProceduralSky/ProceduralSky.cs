@@ -1,6 +1,4 @@
-using UnityEngine.Rendering;
-
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [VolumeComponentMenu("Sky/Procedural Sky")]
     [SkyUniqueID((int)SkyType.Procedural)]

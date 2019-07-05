@@ -1,12 +1,11 @@
-using System;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     abstract class BaseLitGUI
     {

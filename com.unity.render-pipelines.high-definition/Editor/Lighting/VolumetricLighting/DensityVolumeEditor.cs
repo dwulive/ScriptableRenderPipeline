@@ -1,9 +1,9 @@
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEditorInternal;
 using UnityEditor.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(DensityVolume))]

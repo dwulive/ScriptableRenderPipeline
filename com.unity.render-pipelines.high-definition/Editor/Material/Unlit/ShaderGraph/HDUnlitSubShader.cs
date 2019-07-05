@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     class HDUnlitSubShader : IHDUnlitSubShader
     {
@@ -497,7 +497,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             }
 #endif
 
-            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Experimental.Rendering.HDPipeline.HDUnlitGUI""");
+            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HDPipeline.HDUnlitGUI""");
 
             return subShader.GetShaderString(0);
         }

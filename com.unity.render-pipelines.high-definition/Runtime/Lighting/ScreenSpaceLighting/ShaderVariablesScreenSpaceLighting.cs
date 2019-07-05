@@ -1,6 +1,4 @@
-using UnityEngine.Rendering;
-
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [GenerateHLSL(needAccessors = false, omitStructDeclaration = true)]
     public struct ShaderVariablesScreenSpaceLighting

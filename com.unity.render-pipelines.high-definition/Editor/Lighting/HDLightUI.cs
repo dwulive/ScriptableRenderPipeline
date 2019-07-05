@@ -1,11 +1,10 @@
 using System;
 using System.Linq.Expressions;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
-using UnityEditor.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     using CED = CoreEditorDrawer<SerializedHDLight>;
 

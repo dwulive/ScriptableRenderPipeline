@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using System.Linq;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     // We don't reuse the other surface option ui block, AxF is too different
     public class AxfSurfaceInputsUIBlock : MaterialUIBlock

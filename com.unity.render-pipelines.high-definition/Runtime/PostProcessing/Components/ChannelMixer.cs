@@ -1,7 +1,6 @@
 using System;
-using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [Serializable, VolumeComponentMenu("Post-processing/Channel Mixer")]
     public sealed class ChannelMixer : VolumeComponent, IPostProcessComponent

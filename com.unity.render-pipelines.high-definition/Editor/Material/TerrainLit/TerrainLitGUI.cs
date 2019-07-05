@@ -4,9 +4,9 @@ using UnityEngine.Rendering;
 using System;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     /// <summary>
     /// GUI for HDRP Terrain Lit materials (does not include ShaderGraphs)

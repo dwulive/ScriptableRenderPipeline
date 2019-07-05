@@ -226,7 +226,7 @@ namespace UnityEngine.Rendering.LWRP
             int msaaSamples = 1;
             if (camera.allowMSAA && settings.msaaSampleCount > 1)
                 msaaSamples = (camera.targetTexture != null) ? camera.targetTexture.antiAliasing : settings.msaaSampleCount;
-            
+
             cameraData.isSceneViewCamera = camera.cameraType == CameraType.SceneView;
             cameraData.isHdrEnabled = camera.allowHDR && settings.supportsHDR;
 #if UNITY_2019_3_OR_NEWER
@@ -253,7 +253,7 @@ namespace UnityEngine.Rendering.LWRP
 
             bool anyShadowsEnabled = settings.supportsMainLightShadows || settings.supportsAdditionalLightShadows;
             cameraData.maxShadowDistance = (anyShadowsEnabled) ? settings.shadowDistance : 0.0f;
-            
+
             if (additionalCameraData != null)
             {
                 cameraData.maxShadowDistance = (additionalCameraData.renderShadows) ? cameraData.maxShadowDistance : 0.0f;
@@ -407,7 +407,7 @@ namespace UnityEngine.Rendering.LWRP
             int maxVisibleAdditionalLights = LightweightRenderPipeline.maxVisibleAdditionalLights;
 
             lightData.mainLightIndex = mainLightIndex;
-            
+
             if (settings.additionalLightsRenderingMode != LightRenderingMode.Disabled)
             {
                 lightData.additionalLightsCount =

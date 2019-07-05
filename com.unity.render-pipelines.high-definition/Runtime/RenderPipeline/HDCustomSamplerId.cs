@@ -1,6 +1,6 @@
 using UnityEngine.Profiling;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public enum CustomSamplerId
     {

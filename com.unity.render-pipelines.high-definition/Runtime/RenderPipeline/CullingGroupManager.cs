@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine.Experimental.Rendering;
-using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
 
     public class CullingGroupManager

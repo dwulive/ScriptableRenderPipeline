@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEditor.Rendering;
 using UnityEngine.Assertions;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [CustomEditorForRenderPipeline(typeof(Camera), typeof(HDRenderPipelineAsset))]
     [CanEditMultipleObjects]

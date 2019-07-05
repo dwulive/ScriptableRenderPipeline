@@ -1,11 +1,7 @@
 using System;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
-using UnityEditor.Rendering;
-using UnityEditor;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     /// <summary>
     /// Create a toggleable header for material UI, must be used within a scope.

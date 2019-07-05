@@ -1,7 +1,6 @@
-using UnityEngine.Rendering;
-using System;
+using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public class SharedRTManager
     {

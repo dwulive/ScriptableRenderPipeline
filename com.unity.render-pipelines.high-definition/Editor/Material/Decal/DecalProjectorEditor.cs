@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEditor.ShortcutManagement;
-using UnityEditor.Rendering;
 using static UnityEditorInternal.EditMode;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     [CustomEditor(typeof(DecalProjector))]
     [CanEditMultipleObjects]

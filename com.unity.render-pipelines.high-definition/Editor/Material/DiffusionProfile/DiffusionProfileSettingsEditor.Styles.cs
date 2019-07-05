@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     public sealed partial class DiffusionProfileSettingsEditor
     {

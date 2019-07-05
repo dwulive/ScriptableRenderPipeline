@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 
 // Include material common properties names
-using static UnityEngine.Experimental.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     /// <summary>
     /// GUI for HDRP StackLit shader graphs
@@ -16,7 +16,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
             ^ SurfaceOptionUIBlock.Features.AlphaCutoff
             ^ SurfaceOptionUIBlock.Features.BackThenFrontRendering
             ^ SurfaceOptionUIBlock.Features.ShowAfterPostProcessPass;
-        
+
         MaterialUIBlockList uiBlocks = new MaterialUIBlockList
         {
             new SurfaceOptionUIBlock(MaterialUIBlock.Expandable.Base, features: surfaceOptionFeatures),
@@ -37,7 +37,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline
                 }
             }
         }
-        
+
         public static void SetupMaterialKeywordsAndPass(Material material)
         {
             BaseLitGUI.SetupBaseLitKeywords(material);

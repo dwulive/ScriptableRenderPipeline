@@ -1,9 +1,7 @@
-using UnityEngine.Rendering;
-
 //-----------------------------------------------------------------------------
 // structure definition
 //-----------------------------------------------------------------------------
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     [GenerateHLSL(PackingRules.Exact)]
     public enum ShaderPass

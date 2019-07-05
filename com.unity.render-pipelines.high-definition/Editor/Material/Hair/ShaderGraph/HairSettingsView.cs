@@ -6,11 +6,10 @@ using UnityEditor.Graphing.Util;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEditor.Experimental.Rendering.HDPipeline;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HDPipeline;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
+namespace UnityEditor.Rendering.HDPipeline.Drawing
 {
     class HairSettingsView : VisualElement
     {
@@ -395,7 +394,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
             td.isOn = evt.newValue;
             m_Node.overrideBakedGI = td;
         }
-        
+
         void ChangeDepthOffset(ChangeEvent<bool> evt)
         {
             m_Node.owner.owner.RegisterCompleteObjectUndo("DepthOffset Change");
@@ -411,7 +410,7 @@ namespace UnityEditor.Experimental.Rendering.HDPipeline.Drawing
             td.isOn = evt.newValue;
             m_Node.zWrite = td;
         }
-        
+
         void ChangeTransparentCullMode(ChangeEvent<Enum> evt)
         {
             if (Equals(m_Node.transparentCullMode, evt.newValue))

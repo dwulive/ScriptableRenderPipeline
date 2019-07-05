@@ -1,12 +1,10 @@
 using System;
-using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline.Attributes;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.HDPipeline.Attributes;
 
 //-----------------------------------------------------------------------------
 // structure definition
 //-----------------------------------------------------------------------------
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public class AxF : RenderPipelineMaterial
     {

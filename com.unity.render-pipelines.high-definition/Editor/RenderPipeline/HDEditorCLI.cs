@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HDPipeline
 {
     public class HDEditorCLI
     {

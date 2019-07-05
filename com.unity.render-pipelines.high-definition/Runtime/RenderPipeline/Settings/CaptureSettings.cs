@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HDPipeline
 {
     public enum CameraProjection { Perspective, Orthographic };
 
