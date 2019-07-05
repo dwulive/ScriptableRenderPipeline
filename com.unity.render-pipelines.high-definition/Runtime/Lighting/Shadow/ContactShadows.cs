@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable, VolumeComponentMenu("Shadowing/Contact Shadows")]
     public class ContactShadows : VolumeComponent

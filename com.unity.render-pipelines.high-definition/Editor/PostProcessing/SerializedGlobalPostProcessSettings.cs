@@ -1,5 +1,5 @@
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     class SerializedGlobalPostProcessSettings
     {

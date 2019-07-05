@@ -395,5 +395,5 @@ Shader "HDRP/AxF"
 
     }
 
-    CustomEditor "Rendering.HDPipeline.AxFGUI"
+    CustomEditor "Rendering.HighDefinition.AxFGUI"
 }

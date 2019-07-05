@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine.Rendering;
 
 // Include material common properties names
-using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HighDefinition.HDMaterialProperties;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     // Needed for json serialization to work
     [Serializable]

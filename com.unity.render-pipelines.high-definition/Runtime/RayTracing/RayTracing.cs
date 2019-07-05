@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable, VolumeComponentMenu("Ray Tracing/Light Cluster")]
     public sealed class LightCluster : VolumeComponent

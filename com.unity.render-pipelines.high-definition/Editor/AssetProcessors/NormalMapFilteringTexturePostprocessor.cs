@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     public class NormalMapFilteringTexturePostprocessor : AssetPostprocessor
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     using AntialiasingMode = HDAdditionalCameraData.AntialiasingMode;
 

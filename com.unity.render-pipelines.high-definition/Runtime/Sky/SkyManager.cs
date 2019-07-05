@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     using RTHandle = RTHandleSystem.RTHandle;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable, VolumeComponentMenu("Post-processing/Lens Distortion")]
     public sealed class LensDistortion : VolumeComponent, IPostProcessComponent

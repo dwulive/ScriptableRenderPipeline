@@ -1,6 +1,6 @@
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
 #pragma warning disable 618 // Obsolete warning
     [CanEditMultipleObjects]

@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public partial class DecalProjector : IVersionable<DecalProjector.Version>
     {

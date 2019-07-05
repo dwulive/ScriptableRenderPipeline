@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using System.Linq;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     public static class DiffusionProfileMaterialUI
     {

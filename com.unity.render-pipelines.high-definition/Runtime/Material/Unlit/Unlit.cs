@@ -1,9 +1,9 @@
-using UnityEngine.Rendering.HDPipeline.Attributes;
+using UnityEngine.Rendering.HighDefinition.Attributes;
 
 //-----------------------------------------------------------------------------
 // structure definition
 //-----------------------------------------------------------------------------
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public class Unlit : RenderPipelineMaterial
     {

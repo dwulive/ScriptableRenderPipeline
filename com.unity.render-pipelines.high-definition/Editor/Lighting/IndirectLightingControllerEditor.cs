@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditor.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [CanEditMultipleObjects]
     [VolumeComponentEditor(typeof(IndirectLightingController))]

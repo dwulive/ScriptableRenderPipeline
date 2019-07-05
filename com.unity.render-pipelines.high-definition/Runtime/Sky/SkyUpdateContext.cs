@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     internal class SkyUpdateContext
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public static partial class StringExtention
     {

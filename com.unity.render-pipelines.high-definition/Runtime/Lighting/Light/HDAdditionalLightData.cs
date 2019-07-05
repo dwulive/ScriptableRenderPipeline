@@ -8,7 +8,7 @@ using UnityEditor;
 #endif
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // This enum extent the original LightType enum with new light type from HD
     public enum LightTypeExtent

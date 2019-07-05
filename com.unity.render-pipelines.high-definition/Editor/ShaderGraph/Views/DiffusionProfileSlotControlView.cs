@@ -3,10 +3,10 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEditor.Rendering.HDPipeline;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEditor.Rendering.HighDefinition;
+using UnityEngine.Rendering.HighDefinition;
 
-namespace UnityEditor.Rendering.HDPipeline.Drawing.Slots
+namespace UnityEditor.Rendering.HighDefinition.Drawing.Slots
 {
     class DiffusionProfileSlotControlView : VisualElement
     {

@@ -2,10 +2,10 @@ using System;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using Object = UnityEngine.Object;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     partial class HDCameraEditor
     {

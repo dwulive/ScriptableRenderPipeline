@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 #if UNITY_EDITOR
-using UnityEditor.Rendering.HDPipeline;
+using UnityEditor.Rendering.HighDefinition;
 #endif
 using UnityEngine.Rendering.Experimental.LookDev;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public partial class HDRenderPipeline : IDataProvider
     {

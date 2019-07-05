@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     /// <summary>Utilities for <see cref="CameraSettings"/>.</summary>
     public static class CameraSettingsUtilities

@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable]
     public class FalseColorDebugSettings

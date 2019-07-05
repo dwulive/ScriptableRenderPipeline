@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [VolumeComponentMenu("Sky/HDRI Sky")]
     [SkyUniqueID((int)SkyType.HDRI)]

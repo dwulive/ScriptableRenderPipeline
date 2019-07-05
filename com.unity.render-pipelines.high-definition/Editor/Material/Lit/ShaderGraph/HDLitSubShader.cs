@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     class HDLitSubShader : IHDLitSubShader
     {
@@ -1150,7 +1150,7 @@ namespace UnityEditor.Rendering.HDPipeline
                 subShader.AddShaderChunk("}", false);
             }
 #endif
-            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HDPipeline.HDLitGUI""");
+            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HighDefinition.HDLitGUI""");
 
             return subShader.GetShaderString(0);
         }

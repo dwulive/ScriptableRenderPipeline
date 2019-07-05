@@ -6,14 +6,14 @@ using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
-using UnityEditor.Rendering.HDPipeline.Drawing;
+using UnityEditor.Rendering.HighDefinition.Drawing;
 
 // Include material common properties names
-using static UnityEngine.Rendering.HDPipeline.HDMaterialProperties;
+using static UnityEngine.Rendering.HighDefinition.HDMaterialProperties;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [Serializable]
     [Title("Master", "HDRP/Lit")]

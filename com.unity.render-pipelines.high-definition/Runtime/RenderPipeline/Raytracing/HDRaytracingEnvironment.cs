@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 using System.Collections.Generic;
 using Unity.Collections;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [DisallowMultipleComponent, ExecuteInEditMode]
     public class HDRaytracingEnvironment : MonoBehaviour

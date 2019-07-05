@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [VolumeComponentMenu("Fog/Volumetric Fog")]
     public class VolumetricFog : AtmosphericScattering

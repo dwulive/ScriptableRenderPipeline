@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     class FabricSubShader : IFabricSubShader
     {
@@ -690,7 +690,7 @@ namespace UnityEditor.Rendering.HDPipeline
             }
 #endif
 
-            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HDPipeline.FabricGUI""");
+            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HighDefinition.FabricGUI""");
 
             return subShader.GetShaderString(0);
         }

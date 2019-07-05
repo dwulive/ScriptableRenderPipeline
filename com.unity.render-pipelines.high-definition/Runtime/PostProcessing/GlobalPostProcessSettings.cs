@@ -2,7 +2,7 @@ using System;
 using UnityEngine.Serialization;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public enum GradingLutFormat
     {

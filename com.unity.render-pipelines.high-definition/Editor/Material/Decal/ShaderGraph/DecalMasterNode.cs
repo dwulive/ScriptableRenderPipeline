@@ -1,17 +1,17 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Rendering.HDPipeline.Drawing;
+using UnityEditor.Rendering.HighDefinition.Drawing;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [Serializable]
     [Title("Master", "HDRP/Decal")]

@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     /// <summary>
     /// Holds settings for the reflection system.

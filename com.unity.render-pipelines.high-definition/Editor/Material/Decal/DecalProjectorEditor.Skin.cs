@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     partial class DecalProjectorEditor
     {

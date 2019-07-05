@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public sealed partial class DiffusionProfileSettings : IVersionable<DiffusionProfileSettings.Version>
     {
@@ -64,7 +64,7 @@ namespace UnityEngine.Rendering.HDPipeline
                         newProfiles[index] = CreateNewDiffusionProfile(d, assetName, profile, index);
                         // Update the diffusion profile hash is required for assets that are upgraded because it will
                         // be assigned to materials right after the create of the asset so we don't wait for the auto hash update
-                        UnityEditor.Rendering.HDPipeline.DiffusionProfileHashTable.UpdateDiffusionProfileHashNow(newProfiles[index]);
+                        UnityEditor.Rendering.HighDefinition.DiffusionProfileHashTable.UpdateDiffusionProfileHashNow(newProfiles[index]);
                     }
                     index++;
                 }

@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [VolumeComponentMenu("Sky/Physically Based Sky (Experimental)")]
     [SkyUniqueID((int)SkyType.PhysicallyBased)]

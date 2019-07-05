@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable, VolumeComponentMenu("Lighting/Screen Space Reflection")]
     public class ScreenSpaceReflection : VolumeComponent

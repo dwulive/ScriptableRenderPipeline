@@ -1,9 +1,9 @@
 using UnityEditor.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
 
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [VolumeComponentEditor(typeof(MotionBlur))]
     sealed class MotionBlurEditor : VolumeComponentEditor

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // This enum is just here to centralize UniqueID values for skies provided with HDRP
     public enum SkyType

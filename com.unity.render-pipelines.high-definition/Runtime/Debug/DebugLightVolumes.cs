@@ -1,6 +1,6 @@
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public class DebugLightVolumes
     {

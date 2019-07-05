@@ -1,4 +1,4 @@
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using System;
 
 namespace UnityEngine.Rendering

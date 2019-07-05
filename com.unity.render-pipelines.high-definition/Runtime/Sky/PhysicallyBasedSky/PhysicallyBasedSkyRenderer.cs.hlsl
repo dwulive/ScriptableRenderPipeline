@@ -5,7 +5,7 @@
 #ifndef PHYSICALLYBASEDSKYRENDERER_CS_HLSL
 #define PHYSICALLYBASEDSKYRENDERER_CS_HLSL
 //
-// UnityEngine.Rendering.HDPipeline.PhysicallyBasedSkyRenderer+PbrSkyConfig:  static fields
+// UnityEngine.Rendering.HighDefinition.PhysicallyBasedSkyRenderer+PbrSkyConfig:  static fields
 //
 #define PBRSKYCONFIG_OPTICAL_DEPTH_TABLE_SIZE_X (128)
 #define PBRSKYCONFIG_OPTICAL_DEPTH_TABLE_SIZE_Y (128)

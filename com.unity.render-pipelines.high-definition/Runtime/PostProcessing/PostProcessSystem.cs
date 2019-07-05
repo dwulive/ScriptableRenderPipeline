@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     using RTHandle = RTHandleSystem.RTHandle;
     using AntialiasingMode = HDAdditionalCameraData.AntialiasingMode;

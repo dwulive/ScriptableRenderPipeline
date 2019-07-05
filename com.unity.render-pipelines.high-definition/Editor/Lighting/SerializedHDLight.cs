@@ -1,7 +1,7 @@
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     using LightShape = HDLightUI.LightShape;
     internal class SerializedHDLight

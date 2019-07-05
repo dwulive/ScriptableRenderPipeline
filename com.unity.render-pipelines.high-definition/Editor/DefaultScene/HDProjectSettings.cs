@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditorInternal;
 using System.IO;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     //As ScriptableSingleton is not usable due to internal FilePathAttribute,
     //copying mechanism here

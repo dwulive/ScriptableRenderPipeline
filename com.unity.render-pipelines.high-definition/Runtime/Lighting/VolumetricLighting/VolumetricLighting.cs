@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     using RTHandle = RTHandleSystem.RTHandle;
 
@@ -832,4 +832,4 @@ namespace UnityEngine.Rendering.HDPipeline
                 }
         }
     } // class VolumetricLightingModule
-} // namespace UnityEngine.Rendering.HDPipeline
+} // namespace UnityEngine.Rendering.HighDefinition

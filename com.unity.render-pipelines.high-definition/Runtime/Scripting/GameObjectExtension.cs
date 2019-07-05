@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // Util functions to create a new Light in HDRP
     public static class GameObjectExtension

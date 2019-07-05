@@ -1,5 +1,5 @@
 using UnityEditor.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEditorInternal;
 using UnityEngine;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System;
 using Object = UnityEngine.Object;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [VolumeComponentEditor(typeof(DiffusionProfileOverride))]
     sealed class DiffusionProfileOverrideEditor : VolumeComponentEditor

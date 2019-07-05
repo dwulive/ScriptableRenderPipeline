@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public enum ShaderVariantLogLevel
     {

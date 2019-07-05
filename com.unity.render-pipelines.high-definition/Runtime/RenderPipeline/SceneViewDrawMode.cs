@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEditor;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public class SceneViewDrawMode
     {

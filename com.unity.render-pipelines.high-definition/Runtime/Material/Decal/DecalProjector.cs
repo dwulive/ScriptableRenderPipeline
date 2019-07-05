@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [ExecuteAlways]
 #if UNITY_EDITOR

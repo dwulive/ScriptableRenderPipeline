@@ -1,6 +1,6 @@
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [VolumeComponentMenu("Lighting/Volumetric fog quality")]
     public class VolumetricLightingController : VolumeComponent
@@ -16,4 +16,4 @@ namespace UnityEngine.Rendering.HDPipeline
             displayName = "Volumetric Fog Quality";
         }
     }
-} // UnityEngine.Rendering.HDPipeline
+} // UnityEngine.Rendering.HighDefinition

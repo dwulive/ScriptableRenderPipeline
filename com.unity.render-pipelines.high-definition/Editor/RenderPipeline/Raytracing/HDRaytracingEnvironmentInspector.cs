@@ -1,7 +1,7 @@
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEditor.Rendering;
 
-namespace UnityEditor.Experimental.Rendering.HDPipeline
+namespace UnityEditor.Experimental.Rendering.HighDefinition
 {
     using CED = CoreEditorDrawer<SerializedHDRaytracingEnvironment>;
 

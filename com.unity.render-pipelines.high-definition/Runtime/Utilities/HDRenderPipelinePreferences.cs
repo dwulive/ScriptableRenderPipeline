@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // This file can't be in the editor assembly as we need to access it in runtime-editor-specific
     // places like OnGizmo etc and we don't want to add the editor assembly as a dependency of the

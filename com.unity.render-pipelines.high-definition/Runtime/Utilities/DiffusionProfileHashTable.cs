@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     // This class keep track of every diffusion profile in the project so it can generate unique uint hashes
     // for every asset, which are used to differentiate diffusion profiles in the shader

@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [FormerName("UnityEditor.ShaderGraph.HDPBRSubShader")]
     class HDPBRSubShader : IPBRSubShader
@@ -529,7 +529,7 @@ namespace UnityEditor.Rendering.HDPipeline
             subShader.Deindent();
             subShader.AddShaderChunk("}", true);
 
-            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HDPipeline.HDPBRLitGUI""");
+            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HighDefinition.HDPBRLitGUI""");
 
             return subShader.GetShaderString(0);
         }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable]
     public class HDPhysicalCamera
@@ -179,8 +179,8 @@ namespace UnityEngine.Rendering.HDPipeline
         /// using System.Collections.Generic;
         /// using UnityEngine;
         /// using UnityEngine.Rendering;
-        /// using UnityEngine.Rendering.HDPipeline;
-        /// using UnityEngine.Rendering.HDPipeline.Attributes;
+        /// using UnityEngine.Rendering.HighDefinition;
+        /// using UnityEngine.Rendering.HighDefinition.Attributes;
         ///
         /// [ExecuteAlways]
         /// [RequireComponent(typeof(Camera))]

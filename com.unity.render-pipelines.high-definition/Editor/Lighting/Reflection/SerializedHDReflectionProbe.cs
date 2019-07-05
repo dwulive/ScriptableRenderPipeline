@@ -1,6 +1,6 @@
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     internal class SerializedHDReflectionProbe : SerializedHDProbe
     {

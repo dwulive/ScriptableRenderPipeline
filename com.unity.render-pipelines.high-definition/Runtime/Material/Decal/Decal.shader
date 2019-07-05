@@ -728,5 +728,5 @@ Shader "HDRP/Decal"
         }
 
 	}
-    CustomEditor "Rendering.HDPipeline.DecalUI"
+    CustomEditor "Rendering.HighDefinition.DecalUI"
 }

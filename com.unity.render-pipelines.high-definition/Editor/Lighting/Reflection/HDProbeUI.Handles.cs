@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEditorInternal;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     static partial class HDProbeUI
     {

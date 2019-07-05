@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [GenerateHLSL]
     public class DiffusionProfileConstants
@@ -221,7 +221,7 @@ namespace UnityEngine.Rendering.HDPipeline
 #if UNITY_EDITOR
             if (m_Version != Version.Last)
                 TryToUpgrade();
-            UnityEditor.Rendering.HDPipeline.DiffusionProfileHashTable.UpdateDiffusionProfileHashNow(this);
+            UnityEditor.Rendering.HighDefinition.DiffusionProfileHashTable.UpdateDiffusionProfileHashNow(this);
 #endif
         }
 

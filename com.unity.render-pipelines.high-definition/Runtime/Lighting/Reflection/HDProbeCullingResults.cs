@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.Assertions;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public struct HDProbeCullingResults
     {

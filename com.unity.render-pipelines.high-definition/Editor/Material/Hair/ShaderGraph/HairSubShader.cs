@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     class HairSubShader : IHairSubShader
     {
@@ -669,7 +669,7 @@ namespace UnityEditor.Rendering.HDPipeline
             }
             subShader.Deindent();
             subShader.AddShaderChunk("}", true);
-            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HDPipeline.HairGUI""");
+            subShader.AddShaderChunk(@"CustomEditor ""UnityEditor.Rendering.HighDefinition.HairGUI""");
 
             return subShader.GetShaderString(0);
         }

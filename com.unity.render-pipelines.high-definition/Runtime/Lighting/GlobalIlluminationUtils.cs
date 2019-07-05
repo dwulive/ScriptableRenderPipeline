@@ -1,7 +1,7 @@
 using UnityEngine.Experimental.GlobalIllumination;
 using Unity.Collections;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public class GlobalIlluminationUtils
     {

@@ -1,9 +1,9 @@
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
-using static UnityEditor.Rendering.HDPipeline.HDEditorUtils;
+using static UnityEditor.Rendering.HighDefinition.HDEditorUtils;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     internal partial class ProbeSettingsUI
     {

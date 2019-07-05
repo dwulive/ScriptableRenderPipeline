@@ -1,9 +1,9 @@
 using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     // TODO: handle retina / EditorGUIUtility.pixelsPerPoint
     [VolumeComponentEditor(typeof(ShadowsMidtonesHighlights))]

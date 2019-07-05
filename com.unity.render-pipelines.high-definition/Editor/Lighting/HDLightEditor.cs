@@ -1,11 +1,11 @@
 using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [CanEditMultipleObjects]
     [CustomEditorForRenderPipeline(typeof(Light), typeof(HDRenderPipelineAsset))]

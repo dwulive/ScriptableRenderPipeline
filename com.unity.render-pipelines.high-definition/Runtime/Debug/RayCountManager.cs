@@ -2,7 +2,7 @@ using UnityEngine.Rendering;
 using Unity.Collections;
 using System.Collections.Generic;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
 #if ENABLE_RAYTRACING
     public class RayCountManager

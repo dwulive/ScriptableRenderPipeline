@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 using UnityEditor.Experimental.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     static partial class HDProbeUI
     {

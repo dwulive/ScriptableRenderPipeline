@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using UnityEngine.Experimental.XR;
 #endif
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     internal partial class XRSystem
     {

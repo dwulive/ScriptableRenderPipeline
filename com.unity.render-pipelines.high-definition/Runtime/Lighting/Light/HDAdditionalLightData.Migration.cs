@@ -2,11 +2,11 @@ using System;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Rendering;
-using UnityEditor.Rendering.HDPipeline;
+using UnityEditor.Rendering.HighDefinition;
 #endif
 using UnityEngine.Serialization;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public partial class HDAdditionalLightData : ISerializationCallbackReceiver
     {

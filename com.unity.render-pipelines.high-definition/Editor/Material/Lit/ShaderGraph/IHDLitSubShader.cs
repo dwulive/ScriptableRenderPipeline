@@ -1,7 +1,7 @@
 
 using UnityEditor.ShaderGraph;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     interface IHDLitSubShader : ISubShader
     {

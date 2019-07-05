@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     class HDRPPreprocessBuild : IPreprocessBuildWithReport
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // RenderRenderPipelineSettings represent settings that are immutable at runtime.
     // There is a dedicated RenderRenderPipelineSettings for each platform

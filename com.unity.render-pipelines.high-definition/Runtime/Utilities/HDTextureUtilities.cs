@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine.Assertions;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     internal static partial class HDTextureUtilities
     {

@@ -1,6 +1,6 @@
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // This enum allow to identify which render target is used for a specific feature
     public enum GBufferUsage

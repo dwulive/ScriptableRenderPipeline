@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 
 using static UnityEditor.VFX.VFXAbstractRenderedOutput;
-using static UnityEngine.Rendering.HDPipeline.HDRenderQueue;
+using static UnityEngine.Rendering.HighDefinition.HDRenderQueue;
 
 namespace UnityEditor.VFX
 {

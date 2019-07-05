@@ -264,5 +264,5 @@ Shader "HDRP/TerrainLit"
 
     Dependency "BaseMapShader" = "Hidden/HDRP/TerrainLit_Basemap"
     Dependency "BaseMapGenShader" = "Hidden/HDRP/TerrainLit_BasemapGen"
-    CustomEditor "UnityEditor.Rendering.HDPipeline.TerrainLitGUI"
+    CustomEditor "UnityEditor.Rendering.HighDefinition.TerrainLitGUI"
 }

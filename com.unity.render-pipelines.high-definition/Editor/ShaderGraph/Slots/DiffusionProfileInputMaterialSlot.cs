@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Rendering.HDPipeline.Drawing.Slots;
+using UnityEditor.Rendering.HighDefinition.Drawing.Slots;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.ShaderGraph.Drawing.Controls;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     [Serializable]
     [FormerName("UnityEditor.ShaderGraph.DiffusionProfileInputMaterialSlot")]

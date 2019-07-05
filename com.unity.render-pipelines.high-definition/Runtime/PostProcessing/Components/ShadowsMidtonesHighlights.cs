@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     [Serializable, VolumeComponentMenu("Post-processing/Shadows, Midtones, Highlights")]
     public sealed class ShadowsMidtonesHighlights : VolumeComponent, IPostProcessComponent

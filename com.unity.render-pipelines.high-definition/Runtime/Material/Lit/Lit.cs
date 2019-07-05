@@ -1,7 +1,7 @@
-using UnityEngine.Rendering.HDPipeline.Attributes;
+using UnityEngine.Rendering.HighDefinition.Attributes;
 using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public partial class Lit : RenderPipelineMaterial
     {

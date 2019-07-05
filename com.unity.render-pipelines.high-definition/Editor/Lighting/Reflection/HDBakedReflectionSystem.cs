@@ -9,9 +9,9 @@ using UnityEditor.VersionControl;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.Rendering;
-using UnityEditor.Rendering.HDPipeline;
+using UnityEditor.Rendering.HighDefinition;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     unsafe class HDBakedReflectionSystem : ScriptableBakedReflectionSystem
     {

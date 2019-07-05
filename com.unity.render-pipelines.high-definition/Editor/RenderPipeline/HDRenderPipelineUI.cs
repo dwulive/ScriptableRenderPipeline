@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using System.Text;
-using static UnityEngine.Rendering.HDPipeline.RenderPipelineSettings;
+using static UnityEngine.Rendering.HighDefinition.RenderPipelineSettings;
 
-namespace UnityEditor.Rendering.HDPipeline
+namespace UnityEditor.Rendering.HighDefinition
 {
     using CED = CoreEditorDrawer<SerializedHDRenderPipelineAsset>;
 

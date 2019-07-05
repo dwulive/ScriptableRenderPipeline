@@ -1,6 +1,6 @@
 using UnityEngine.Assertions;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // Blue noise texture bank
     public sealed class BlueNoise

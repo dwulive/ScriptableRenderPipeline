@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // In HD we don't expose HDRenderQueue instead we create as much value as needed in the enum for our different pass
     // and use inspector to manipulate the value.

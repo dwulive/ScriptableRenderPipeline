@@ -3,7 +3,7 @@ using UnityEditor.Graphing.Util;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.ShaderGraph.Drawing.Controls;
 
-namespace UnityEditor.Rendering.HDPipeline.Drawing
+namespace UnityEditor.Rendering.HighDefinition.Drawing
 {
     class DecalSettingsView : VisualElement
     {

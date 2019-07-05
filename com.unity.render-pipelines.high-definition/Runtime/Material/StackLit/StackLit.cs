@@ -1,6 +1,6 @@
-using UnityEngine.Rendering.HDPipeline.Attributes;
+using UnityEngine.Rendering.HighDefinition.Attributes;
 
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public class StackLit : RenderPipelineMaterial
     {

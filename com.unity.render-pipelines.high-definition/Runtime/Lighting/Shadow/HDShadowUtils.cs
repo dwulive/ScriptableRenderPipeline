@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     // TODO remove every occurrence of ShadowSplitData in function parameters when we'll have scriptable culling
     public static class HDShadowUtils
