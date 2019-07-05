@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Callbacks;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering
+namespace UnityEditor.Rendering
 {
     #pragma warning disable 414
 
@@ -73,7 +71,7 @@ namespace UnityEditor.Experimental.Rendering
             }
         }
         static event Action<bool> OnDebugWindowToggled;
-                
+
         [DidReloadScripts]
         static void OnEditorReload()
         {
@@ -432,7 +430,7 @@ namespace UnityEditor.Experimental.Rendering
 
                     m_PanelScroll = scrollScope.scrollPosition;
                 }
-                
+
                 Rect splitterRect = new Rect(splitterPos - 3, 0, 6, Screen.height);
                 GUI.Box(splitterRect, "", s_SplitterLeft);
 

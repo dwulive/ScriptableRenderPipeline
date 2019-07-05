@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     public enum DebugAction
     {

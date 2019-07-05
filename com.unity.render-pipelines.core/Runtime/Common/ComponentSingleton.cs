@@ -1,4 +1,4 @@
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     // Use this class to get a static instance of a component
     // Mainly used to have a default instance

@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerVector3 : DebugUIHandlerWidget
     {

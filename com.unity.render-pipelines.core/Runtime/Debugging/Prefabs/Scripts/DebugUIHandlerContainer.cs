@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerContainer : MonoBehaviour
     {

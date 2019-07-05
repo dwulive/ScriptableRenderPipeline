@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerFoldout : DebugUIHandlerWidget
     {
@@ -38,7 +38,7 @@ namespace UnityEngine.Experimental.Rendering.UI
                 text.fontSize = 15;
                 text.text = m_Field.columnLabels[index];
             }
-            
+
             UpdateValue();
         }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     //
     // Unity can't serialize Dictionary so here's a custom wrapper that does. Note that you have to

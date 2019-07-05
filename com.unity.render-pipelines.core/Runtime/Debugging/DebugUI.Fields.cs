@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine.Assertions;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     public partial class DebugUI
     {
@@ -129,7 +129,7 @@ namespace UnityEngine.Experimental.Rendering
             public int[] enumValues;
             public int[] quickSeparators;
             public int[] indexes;
-            
+
             public Func<int> getIndex { get; set; }
             public Action<int> setIndex { get; set; }
 
@@ -177,7 +177,7 @@ namespace UnityEngine.Experimental.Rendering
                     quickSeparators[i] = wholeNameIndex++;
                 }
             }
-            
+
             public void InitIndexes()
             {
                 indexes = new int[enumNames.Length];

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     [Serializable]
     public class DebugUIPrefabBundle

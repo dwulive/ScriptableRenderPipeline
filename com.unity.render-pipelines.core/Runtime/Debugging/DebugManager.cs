@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine.Assertions;
-using UnityEngine.Experimental.Rendering.UI;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.UI;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     using UnityObject = UnityEngine.Object;
 
@@ -116,7 +115,7 @@ namespace UnityEngine.Experimental.Rendering
             if (displayRuntimeUI)
                 m_RootUICanvas?.ResetAllHierarchy();
         }
-        
+
         public void RegisterData(IDebugData data) => resetData += data.GetReset();
 
         public void UnregisterData(IDebugData data) => resetData -= data.GetReset();

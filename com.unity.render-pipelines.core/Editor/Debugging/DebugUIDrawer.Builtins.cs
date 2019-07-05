@@ -1,9 +1,8 @@
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
 
-namespace UnityEditor.Experimental.Rendering
+namespace UnityEditor.Rendering
 {
     [DebugUIDrawer(typeof(DebugUI.Value))]
     public sealed class DebugUIDrawerValue : DebugUIDrawer
@@ -88,7 +87,7 @@ namespace UnityEditor.Experimental.Rendering
 
             if (EditorGUI.EndChangeCheck())
                 Apply(w, s, value);
-            
+
             return true;
         }
     }
@@ -174,7 +173,7 @@ namespace UnityEditor.Experimental.Rendering
                 w.InitIndexes();
 
             EditorGUI.BeginChangeCheck();
-            
+
             int index = -1;
             int value = w.GetValue();
             if (w.enumNames == null || w.enumValues == null)
@@ -232,7 +231,7 @@ namespace UnityEditor.Experimental.Rendering
                 // Fallback just in case, we may be handling sub/sectionned enums here
                 if (index < 0)
                     index = 0;
-                
+
                 var labelRect = rect;
                 labelRect.width = EditorGUIUtility.labelWidth;
                 const int oneValueWidth = 70;
@@ -242,7 +241,7 @@ namespace UnityEditor.Experimental.Rendering
                     valueRects[i] = rect;
                     valueRects[i].x += EditorGUIUtility.labelWidth + i * oneValueWidth;
                     valueRects[i].width = oneValueWidth;
-                }                
+                }
                 EditorGUI.LabelField(labelRect, EditorGUIUtility.TrTextContent(w.displayName));
                 int indent = EditorGUI.indentLevel;
                 EditorGUI.indentLevel = 0; //be at left of rects
@@ -294,7 +293,7 @@ namespace UnityEditor.Experimental.Rendering
         {
             var w = Cast<DebugUI.Foldout>(widget);
             var s = Cast<DebugStateBool>(state);
-            
+
             EditorGUI.BeginChangeCheck();
 
             Rect rect = PrepareControlRect();

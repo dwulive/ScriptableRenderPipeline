@@ -1,4 +1,4 @@
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerHBox : DebugUIHandlerWidget
     {

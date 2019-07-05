@@ -1,4 +1,4 @@
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     public partial class DebugShapes
     {
@@ -17,7 +17,7 @@ namespace UnityEngine.Experimental.Rendering
                 return s_Instance;
             }
         }
-        
+
         Mesh m_sphereMesh = null;
         Mesh m_boxMesh = null;
         Mesh m_coneMesh = null;
@@ -112,7 +112,7 @@ namespace UnityEngine.Experimental.Rendering
                 triangles[i++] = vertices.Length - (lon + 1) - 1;
             }
 
-            // Assign them to 
+            // Assign them to
             outputMesh.vertices = vertices;
             outputMesh.normals = normals;
             outputMesh.uv = uvs;
@@ -199,7 +199,7 @@ namespace UnityEngine.Experimental.Rendering
             {
 	            // Bottom
 	            3, 1, 0,
-                3, 2, 1,			
+                3, 2, 1,
 	            // Left
 	            3 + 4 * 1, 1 + 4 * 1, 0 + 4 * 1,
                 3 + 4 * 1, 2 + 4 * 1, 1 + 4 * 1,

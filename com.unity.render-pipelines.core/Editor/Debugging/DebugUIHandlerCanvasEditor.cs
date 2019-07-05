@@ -5,7 +5,7 @@ using UnityEditor.Rendering;
 using UnityEditorInternal;
 using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     [CustomEditor(typeof(DebugUIHandlerCanvas))]
     public sealed class DebugUIHandlerCanvasEditor : Editor

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UnityEngine.Experimental
+namespace UnityEngine
 {
 #if UNITY_EDITOR
     using UnityEditor;

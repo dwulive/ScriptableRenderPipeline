@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerWidget : MonoBehaviour
     {

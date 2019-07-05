@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Assertions;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     public partial class DebugUI
     {
@@ -39,7 +39,7 @@ namespace UnityEngine.Experimental.Rendering
 
             public bool isEditorOnly { get { return (flags & Flags.EditorOnly) != 0; } }
             public bool isRuntimeOnly { get { return (flags & Flags.RuntimeOnly) != 0; } }
-            public bool isInactiveInEditor { get { return (isRuntimeOnly && !Application.isPlaying); } } 
+            public bool isInactiveInEditor { get { return (isRuntimeOnly && !Application.isPlaying); } }
 
             internal virtual void GenerateQueryPath()
             {

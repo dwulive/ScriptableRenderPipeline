@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerEnumHistory : DebugUIHandlerEnumField
     {
@@ -35,7 +35,7 @@ namespace UnityEngine.Experimental.Rendering.UI
                 index = 0;
 
             valueLabel.text = m_Field.enumNames[index].text;
-            
+
             DebugUI.HistoryEnumField field = m_Field as DebugUI.HistoryEnumField;
             int historyDepth = field?.historyDepth ?? 0;
             for (int indexHistory = 0; indexHistory < historyDepth; ++indexHistory)

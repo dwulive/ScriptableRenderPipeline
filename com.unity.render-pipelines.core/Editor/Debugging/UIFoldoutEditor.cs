@@ -1,7 +1,6 @@
-using UnityEditor.Rendering;
-using UnityEngine.Experimental.Rendering.UI;
+using UnityEngine.Rendering.UI;
 
-namespace UnityEditor.Experimental.Rendering.UI
+namespace UnityEditor.Rendering.UI
 {
     [CustomEditor(typeof(UIFoldout), true)]
     sealed class UIFoldoutEditor : Editor

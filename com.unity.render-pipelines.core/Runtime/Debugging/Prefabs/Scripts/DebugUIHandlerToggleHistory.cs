@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-namespace UnityEngine.Experimental.Rendering.UI
+namespace UnityEngine.Rendering.UI
 {
     public class DebugUIHandlerToggleHistory : DebugUIHandlerToggle
     {
@@ -26,7 +26,7 @@ namespace UnityEngine.Experimental.Rendering.UI
             }
 
             //this call UpdateValueLabel which will rely on historyToggles
-            base.SetWidget(widget); 
+            base.SetWidget(widget);
         }
 
         protected override void UpdateValueLabel()

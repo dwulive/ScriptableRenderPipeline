@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
     public static unsafe class CoreUnsafeUtils
     {
