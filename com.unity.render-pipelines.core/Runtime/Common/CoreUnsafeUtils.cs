@@ -6,7 +6,7 @@ namespace UnityEngine.Experimental.Rendering
 {
     public static unsafe class CoreUnsafeUtils
     {
-        internal struct FixedBufferStringQueue
+        public struct FixedBufferStringQueue
         {
             byte* m_ReadCursor;
             byte* m_WriteCursor;
@@ -292,7 +292,7 @@ namespace UnityEngine.Experimental.Rendering
                 var h = getter.Get(ref v);
                 HashUtilities.AppendHash(ref h, ref *outHash);
             }
-                
+
         }
 
         public static void CombineHashes(int count, Hash128* hashes, Hash128* outHash)

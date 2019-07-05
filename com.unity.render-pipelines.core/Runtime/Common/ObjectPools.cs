@@ -2,24 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-namespace UnityEngine.Experimental.Rendering
+namespace UnityEngine.Rendering
 {
-    class ObjectPool<T> where T : new()
+    public class ObjectPool<T> where T : new()
     {
-        public struct PooledObject : IDisposable
-        {
-            readonly T m_ToReturn;
-            readonly ObjectPool<T> m_Pool;
-
-            internal PooledObject(T value, ObjectPool<T> pool)
-            {
-                m_ToReturn = value;
-                m_Pool = pool;
-            }
-
-            void IDisposable.Dispose() => m_Pool.Release(m_ToReturn);
-        }
-
         readonly Stack<T> m_Stack = new Stack<T>();
         readonly UnityAction<T> m_ActionOnGet;
         readonly UnityAction<T> m_ActionOnRelease;
@@ -51,6 +37,20 @@ namespace UnityEngine.Experimental.Rendering
             return element;
         }
 
+        public struct PooledObject : IDisposable
+        {
+            readonly T m_ToReturn;
+            readonly ObjectPool<T> m_Pool;
+
+            internal PooledObject(T value, ObjectPool<T> pool)
+            {
+                m_ToReturn = value;
+                m_Pool = pool;
+            }
+
+            void IDisposable.Dispose() => m_Pool.Release(m_ToReturn);
+        }
+
         public PooledObject Get(out T v) => new PooledObject(v = Get(), this);
 
         public void Release(T element)
@@ -63,7 +63,7 @@ namespace UnityEngine.Experimental.Rendering
         }
     }
 
-    internal static class GenericPool<T>
+    public static class GenericPool<T>
         where T : new()
     {
         // Object pool to avoid allocations.
@@ -76,7 +76,7 @@ namespace UnityEngine.Experimental.Rendering
         public static void Release(T toRelease) => s_Pool.Release(toRelease);
     }
 
-    internal static class ListPool<T>
+    public static class ListPool<T>
     {
         // Object pool to avoid allocations.
         static readonly ObjectPool<List<T>> s_Pool = new ObjectPool<List<T>>(null, l => l.Clear());
@@ -88,7 +88,7 @@ namespace UnityEngine.Experimental.Rendering
         public static void Release(List<T> toRelease) => s_Pool.Release(toRelease);
     }
 
-    internal static class HashSetPool<T>
+    public static class HashSetPool<T>
     {
         // Object pool to avoid allocations.
         static readonly ObjectPool<HashSet<T>> s_Pool = new ObjectPool<HashSet<T>>(null, l => l.Clear());
@@ -100,7 +100,7 @@ namespace UnityEngine.Experimental.Rendering
         public static void Release(HashSet<T> toRelease) => s_Pool.Release(toRelease);
     }
 
-    internal static class DictionaryPool<TKey, TValue>
+    public static class DictionaryPool<TKey, TValue>
     {
         // Object pool to avoid allocations.
         static readonly ObjectPool<Dictionary<TKey, TValue>> s_Pool
