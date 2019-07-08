@@ -1,8 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.Tests
+namespace UnityEngine.Rendering.Tests
 {
     public class BitArrayTests
     {
