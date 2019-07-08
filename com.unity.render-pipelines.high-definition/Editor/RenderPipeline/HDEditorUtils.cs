@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 
 namespace UnityEditor.Rendering.HighDefinition
 {
-    public class HDEditorUtils
+    class HDEditorUtils
     {
         const string EditorStyleSheetPath =
             @"Packages/com.unity.render-pipelines.high-definition/Editor/HDRPEditor.uss";

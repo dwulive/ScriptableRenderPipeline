@@ -9,7 +9,7 @@ using UnityEditor;
 namespace UnityEngine.Rendering.HighDefinition
 {
 #if ENABLE_RAYTRACING
-    public class HDRayTracingLights
+    class HDRayTracingLights
     {
         // The list of non-directional lights in the sub-scene
         public List<HDAdditionalLightData> hdLightArray = null;
@@ -21,7 +21,7 @@ namespace UnityEngine.Rendering.HighDefinition
         public List<HDProbe> reflectionProbeArray = null;
     }
 
-    public class HDRaytracingManager
+    class HDRaytracingManager
     {
         // The list of ray-tracing environments that have been registered
         List<HDRaytracingEnvironment> m_Environments = new List<HDRaytracingEnvironment>();
@@ -56,7 +56,7 @@ namespace UnityEngine.Rendering.HighDefinition
         }
 
         // This class holds everything regarding the state of the ray tracing structure of a sub scene filtered by a layer mask
-        public class HDRayTracingSubScene
+        class HDRayTracingSubScene
         {
             // The mask that defines which part of the sub-scene is targeted by this
             public LayerMask mask = -1;
@@ -656,7 +656,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
                 // Fetch all the reflection probes in the scene
                 subScene.lights.reflectionProbeArray = new List<HDProbe>();
-                
+
                 HDAdditionalReflectionData[] reflectionProbeArray = UnityEngine.GameObject.FindObjectsOfType<HDAdditionalReflectionData>();
                 for (int reflIdx = 0; reflIdx < reflectionProbeArray.Length; ++reflIdx)
                 {

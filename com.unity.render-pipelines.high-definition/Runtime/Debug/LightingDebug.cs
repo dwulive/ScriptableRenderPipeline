@@ -33,7 +33,7 @@ namespace UnityEngine.Rendering.HighDefinition
         IndirectPlanarProbe = 1 << 8,
     }
 
-    public static class DebugLightHierarchyExtensions
+    static class DebugLightHierarchyExtensions
     {
         public static bool IsEnabledFor(
             this DebugLightFilterMode mode,

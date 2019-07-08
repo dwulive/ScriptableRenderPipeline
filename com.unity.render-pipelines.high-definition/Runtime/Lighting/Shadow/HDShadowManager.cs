@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnityEngine.Rendering.HighDefinition
 {
-    public enum ShadowMapType
+    enum ShadowMapType
     {
         CascadedDirectional,
         PunctualAtlas,
@@ -11,7 +11,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [GenerateHLSL]
-    public struct HDShadowData
+    struct HDShadowData
     {
         public Vector3      rot0;
         public Vector3      rot1;
@@ -43,7 +43,7 @@ namespace UnityEngine.Rendering.HighDefinition
     // and it will add too much useless stuff for other lights
     // Note: In order to support HLSL array generation, we need to use fixed arrays and so a unsafe context for this struct
     [GenerateHLSL]
-    public unsafe struct HDDirectionalShadowData
+    unsafe struct HDDirectionalShadowData
     {
         // We can't use Vector4 here because the vector4[] makes this struct non blittable
         [HLSLArray(4, typeof(Vector4))]
@@ -55,7 +55,7 @@ namespace UnityEngine.Rendering.HighDefinition
         public fixed float      cascadeBorders[4];
     }
 
-    public class HDShadowRequest
+    class HDShadowRequest
     {
         public Matrix4x4            view;
         // Use the y flipped device projection matrix as light projection matrix
@@ -103,14 +103,14 @@ namespace UnityEngine.Rendering.HighDefinition
         public HDShadowData cachedShadowData;
     }
 
-    public enum HDShadowQuality
+    enum HDShadowQuality
     {
         Low = 0,
         Medium = 1,
         High = 2,
     }
 
-    public enum DirectionalShadowAlgorithm
+    enum DirectionalShadowAlgorithm
     {
         PCF5x5,
         PCF7x7,
@@ -119,7 +119,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    public struct HDShadowInitParameters
+    struct HDShadowInitParameters
     {
         [Serializable]
         public struct HDShadowAtlasInitParams
@@ -168,14 +168,14 @@ namespace UnityEngine.Rendering.HighDefinition
         public int maxScreenSpaceShadows;
     }
 
-    public class HDShadowResolutionRequest
+    class HDShadowResolutionRequest
     {
         public Rect             atlasViewport;
         public Vector2          resolution;
         public ShadowMapType    shadowMapType;
     }
 
-    public partial class HDShadowManager : IDisposable
+    partial class HDShadowManager : IDisposable
     {
         public const int            k_DirectionalShadowCascadeCount = 4;
         public const int            k_MinShadowMapResolution = 16;

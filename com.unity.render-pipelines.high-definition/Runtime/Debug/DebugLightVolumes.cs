@@ -2,7 +2,7 @@ using UnityEngine.Experimental.Rendering;
 
 namespace UnityEngine.Rendering.HighDefinition
 {
-    public class DebugLightVolumes
+    class DebugLightVolumes
     {
         // Render target that holds the light count in floating points
         RTHandleSystem.RTHandle m_LightCountBuffer = null;

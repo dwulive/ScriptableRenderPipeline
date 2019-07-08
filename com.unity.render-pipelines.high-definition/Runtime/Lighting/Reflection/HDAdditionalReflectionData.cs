@@ -10,7 +10,7 @@ namespace UnityEngine.Rendering.HighDefinition
         }
     }
 
-    public static class HDAdditionalReflectionDataExtensions
+    static class HDAdditionalReflectionDataExtensions
     {
         /// <summary>
         /// Request to render this probe next update.

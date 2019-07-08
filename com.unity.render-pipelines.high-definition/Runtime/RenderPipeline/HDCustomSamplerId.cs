@@ -117,7 +117,7 @@ namespace UnityEngine.Rendering.HighDefinition
         Max
     }
 
-    public static class HDCustomSamplerExtension
+    static class HDCustomSamplerExtension
     {
         static CustomSampler[] s_Samplers;
 

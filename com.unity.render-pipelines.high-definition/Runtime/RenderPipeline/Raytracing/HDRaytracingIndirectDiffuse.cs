@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace UnityEngine.Rendering.HighDefinition
 {
 #if ENABLE_RAYTRACING
-    public class HDRaytracingIndirectDiffuse
+    class HDRaytracingIndirectDiffuse
     {
         // External structures
         HDRenderPipelineAsset m_PipelineAsset = null;

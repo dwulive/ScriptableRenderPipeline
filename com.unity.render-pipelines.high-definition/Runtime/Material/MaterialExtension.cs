@@ -107,7 +107,7 @@ namespace UnityEditor.Rendering.HighDefinition
         Front = CullMode.Front,
     }
 
-    public static class MaterialExtension
+    static class MaterialExtension
     {
         public static SurfaceType   GetSurfaceType(this Material material)
         {

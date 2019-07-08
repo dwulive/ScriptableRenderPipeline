@@ -22,7 +22,7 @@ namespace UnityEngine.Rendering.HighDefinition
         const string m_RayGenGBufferHalfResBinned = "RayGenGBufferHalfResBinned";
         const string m_MissShaderNameGBuffer = "MissShaderGBuffer";
 
-        public void InitRaytracingDeferred()
+        void InitRaytracingDeferred()
         {
             m_RayBinResult = new ComputeBuffer(1, sizeof(uint));
             m_RayBinSizeResult = new ComputeBuffer(1, sizeof(uint));
@@ -32,7 +32,7 @@ namespace UnityEngine.Rendering.HighDefinition
             m_RaytracingGBufferManager.CreateBuffers();
         }
 
-        public void ReleaseRayTracingDeferred()
+        void ReleaseRayTracingDeferred()
         {
             CoreUtils.SafeRelease(m_RayBinResult);
             CoreUtils.SafeRelease(m_RayBinSizeResult);
@@ -40,7 +40,7 @@ namespace UnityEngine.Rendering.HighDefinition
             m_RaytracingGBufferManager.DestroyBuffers();
         }
 
-        public void RenderRaytracingDeferredLighting(CommandBuffer cmd, HDCamera hdCamera, HDRaytracingEnvironment rtEnvironment,
+        void RenderRaytracingDeferredLighting(CommandBuffer cmd, HDCamera hdCamera, HDRaytracingEnvironment rtEnvironment,
          RTHandle directionBuffer, bool rayBinning, LayerMask layerMask, float maxRayLength, RTHandle outputBuffer, bool disableSpecularLighting = false, bool halfResolution = false)
         {
             ComputeShader rayBinningCS = m_Asset.renderPipelineRayTracingResources.rayBinningCS;

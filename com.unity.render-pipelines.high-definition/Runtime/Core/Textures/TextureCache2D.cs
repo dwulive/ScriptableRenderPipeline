@@ -1,6 +1,6 @@
 namespace UnityEngine.Rendering
 {
- 	public class TextureCache2D : TextureCache
+ 	class TextureCache2D : TextureCache
     {
         private Texture2DArray m_Cache;
 

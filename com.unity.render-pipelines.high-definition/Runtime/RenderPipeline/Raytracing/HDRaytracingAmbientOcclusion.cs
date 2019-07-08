@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace UnityEngine.Rendering.HighDefinition
 {
 #if ENABLE_RAYTRACING
-    public class HDRaytracingAmbientOcclusion
+    class HDRaytracingAmbientOcclusion
     {
         // External structures
         RenderPipelineResources m_PipelineResources = null;

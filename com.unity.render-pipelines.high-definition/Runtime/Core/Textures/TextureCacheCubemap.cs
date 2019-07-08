@@ -2,7 +2,7 @@ using System;
 
 namespace UnityEngine.Rendering
 {
-    public class TextureCacheCubemap : TextureCache
+    class TextureCacheCubemap : TextureCache
     {
         private CubemapArray m_Cache;
 

@@ -22,7 +22,7 @@ namespace UnityEngine.Rendering.HighDefinition
         // Disk,
     };
 
-    public static class GPULightTypeExtension
+    static class GPULightTypeExtension
     {
         public static bool IsAreaLight(this GPULightType lightType)
         {
@@ -45,7 +45,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
     // These structures share between C# and hlsl need to be align on float4, so we pad them.
     [GenerateHLSL(PackingRules.Exact, false)]
-    public struct DirectionalLightData
+    struct DirectionalLightData
     {
         // Packing order depends on chronological access to avoid cache misses
         // Make sure to respect the 16-byte alignment
@@ -84,7 +84,7 @@ namespace UnityEngine.Rendering.HighDefinition
     };
 
     [GenerateHLSL(PackingRules.Exact, false)]
-    public struct LightData
+    struct LightData
     {
         // Packing order depends on chronological access to avoid cache misses
         // Make sure to respect the 16-byte alignment
@@ -153,7 +153,7 @@ namespace UnityEngine.Rendering.HighDefinition
     // Users can also chose to not have any projection, in this case we use the property minProjectionDistance to minimize code change. minProjectionDistance is set to huge number
     // that simulate effect of no shape projection
     [GenerateHLSL(PackingRules.Exact, false)]
-    public struct EnvLightData
+    struct EnvLightData
     {
         // Packing order depends on chronological access to avoid cache misses
         public uint lightLayers;
