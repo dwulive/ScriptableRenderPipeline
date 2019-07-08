@@ -111,7 +111,7 @@ namespace UnityEngine.Rendering
         }
     }
 
-    static class BC6HExtensions
+    internal static class BC6HExtensions
     {
         public static void BC6HEncodeFastCubemap(this CommandBuffer cmb, RenderTargetIdentifier source, int sourceSize, RenderTargetIdentifier target, int fromMip, int toMip, int targetArrayIndex = 0)
         {

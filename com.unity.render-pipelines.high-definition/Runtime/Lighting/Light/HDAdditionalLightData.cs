@@ -91,7 +91,7 @@ namespace UnityEngine.Rendering.HighDefinition
         Tube,
     }
 
-    static class HDLightTypeExtension
+    public static class HDLightTypeExtension
     {
         /// <summary>
         /// Returns true if the hd light type is a spot light

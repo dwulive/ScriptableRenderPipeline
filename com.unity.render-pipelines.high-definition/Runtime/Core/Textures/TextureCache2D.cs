@@ -1,4 +1,4 @@
-namespace UnityEngine.Rendering
+namespace UnityEngine.Rendering.HighDefinition
 {
  	class TextureCache2D : TextureCache
     {

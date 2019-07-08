@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityEngine.Rendering
+namespace UnityEngine.Rendering.HighDefinition
 {
     class TextureCacheCubemap : TextureCache
     {

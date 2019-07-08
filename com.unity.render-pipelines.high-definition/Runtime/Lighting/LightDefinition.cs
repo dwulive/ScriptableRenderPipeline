@@ -22,7 +22,7 @@ namespace UnityEngine.Rendering.HighDefinition
         // Disk,
     };
 
-    static class GPULightTypeExtension
+    public static class GPULightTypeExtension
     {
         public static bool IsAreaLight(this GPULightType lightType)
         {
