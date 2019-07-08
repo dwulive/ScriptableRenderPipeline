@@ -1,8 +1,7 @@
-using UnityEditor.Experimental.Rendering.TestFramework;
 using NUnit.Framework;
 using System;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline.Tests
+namespace UnityEngine.Rendering.Tests
 {
     public unsafe class FixedBufferStringQueueTests
     {
