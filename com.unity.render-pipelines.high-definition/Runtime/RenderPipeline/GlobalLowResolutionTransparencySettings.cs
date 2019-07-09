@@ -10,7 +10,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    struct GlobalLowResolutionTransparencySettings
+    public struct GlobalLowResolutionTransparencySettings
     {
         /// <summary>Default GlobalLowResolutionTransparencySettings</summary>
         public static readonly GlobalLowResolutionTransparencySettings @default = new GlobalLowResolutionTransparencySettings()

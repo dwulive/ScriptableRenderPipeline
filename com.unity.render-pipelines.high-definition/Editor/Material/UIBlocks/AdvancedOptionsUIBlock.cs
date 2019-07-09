@@ -5,7 +5,7 @@ using UnityEngine.Rendering.HighDefinition;
 
 namespace UnityEditor.Rendering.HighDefinition
 {
-    public class AdvancedOptionsUIBlock : MaterialUIBlock
+    class AdvancedOptionsUIBlock : MaterialUIBlock
     {
         [Flags]
         public enum Features

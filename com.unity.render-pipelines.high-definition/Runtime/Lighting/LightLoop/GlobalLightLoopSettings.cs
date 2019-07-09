@@ -6,7 +6,7 @@ namespace UnityEngine.Rendering.HighDefinition
     // There is a dedicated RenderRenderPipelineSettings for each platform
 
     [Serializable]
-    enum CubeReflectionResolution
+    public enum CubeReflectionResolution
     {
         CubeReflectionResolution128 = 128,
         CubeReflectionResolution256 = 256,
@@ -17,7 +17,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    enum PlanarReflectionResolution
+    public enum PlanarReflectionResolution
     {
         PlanarReflectionResolution64 = 64,
         PlanarReflectionResolution128 = 128,
@@ -31,7 +31,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    enum CookieResolution
+    public enum CookieResolution
     {
         CookieResolution64 = 64,
         CookieResolution128 = 128,
@@ -45,7 +45,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    enum CubeCookieResolution
+    public enum CubeCookieResolution
     {
         CubeCookieResolution64 = 64,
         CubeCookieResolution128 = 128,
@@ -57,7 +57,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    struct GlobalLightLoopSettings
+    public struct GlobalLightLoopSettings
     {
         /// <summary>Default GlobalDecalSettings</summary>
         public static readonly GlobalLightLoopSettings @default = new GlobalLightLoopSettings()

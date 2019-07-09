@@ -6,7 +6,7 @@ namespace UnityEngine.Rendering.HighDefinition
     // There is a dedicated RenderRenderPipelineSettings for each platform
 
     [Serializable]
-    struct GlobalDecalSettings
+    public struct GlobalDecalSettings
     {
         /// <summary>Default GlobalDecalSettings</summary>
         public static readonly GlobalDecalSettings @default = new GlobalDecalSettings()

@@ -103,14 +103,14 @@ namespace UnityEngine.Rendering.HighDefinition
         public HDShadowData cachedShadowData;
     }
 
-    enum HDShadowQuality
+    public enum HDShadowQuality
     {
         Low = 0,
         Medium = 1,
         High = 2,
     }
 
-    enum DirectionalShadowAlgorithm
+    public enum DirectionalShadowAlgorithm
     {
         PCF5x5,
         PCF7x7,
@@ -119,7 +119,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    struct HDShadowInitParameters
+    public struct HDShadowInitParameters
     {
         [Serializable]
         public struct HDShadowAtlasInitParams

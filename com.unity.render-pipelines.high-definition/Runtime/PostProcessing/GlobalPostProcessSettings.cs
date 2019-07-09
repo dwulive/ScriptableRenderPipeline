@@ -12,7 +12,7 @@ namespace UnityEngine.Rendering.HighDefinition
     }
 
     [Serializable]
-    struct GlobalPostProcessSettings
+    public struct GlobalPostProcessSettings
     {
         /// <summary>Default GlobalPostProcessSettings</summary>
         public static readonly GlobalPostProcessSettings @default = new GlobalPostProcessSettings()

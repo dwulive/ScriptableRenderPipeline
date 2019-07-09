@@ -7,7 +7,7 @@ namespace UnityEngine.Rendering.HighDefinition
 {
     using RTHandle = RTHandleSystem.RTHandle;
 
-    internal class HDUtils
+    public class HDUtils
     {
         public const PerObjectData k_RendererConfigurationBakedLighting = PerObjectData.LightProbe | PerObjectData.Lightmaps | PerObjectData.LightProbeProxyVolume;
         public const PerObjectData k_RendererConfigurationBakedLightingWithShadowMask = k_RendererConfigurationBakedLighting | PerObjectData.OcclusionProbe | PerObjectData.OcclusionProbeProxyVolume | PerObjectData.ShadowMask;
@@ -69,7 +69,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
         static MaterialPropertyBlock s_PropertyBlock = new MaterialPropertyBlock();
 
-        public static List<RenderPipelineMaterial> GetRenderPipelineMaterialList()
+        internal static List<RenderPipelineMaterial> GetRenderPipelineMaterialList()
         {
             var baseType = typeof(RenderPipelineMaterial);
             var assembly = baseType.Assembly;
