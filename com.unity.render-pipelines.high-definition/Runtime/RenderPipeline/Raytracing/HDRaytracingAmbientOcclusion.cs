@@ -1,11 +1,9 @@
-using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections.Generic;
+using UnityEngine.Experimental.Rendering;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
 #if ENABLE_RAYTRACING
-    public class HDRaytracingAmbientOcclusion
+    class HDRaytracingAmbientOcclusion
     {
         // External structures
         RenderPipelineResources m_PipelineResources = null;
@@ -74,13 +72,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
         {
             // Let's check all the resources
             HDRaytracingEnvironment rtEnvironment = m_RaytracingManager.CurrentEnvironment();
-            RayTracingShader aoShader = m_PipelineRayTracingResources.aoRaytracing;
-            var aoSettings = VolumeManager.instance.stack.GetComponent<AmbientOcclusion>();
+
 
             // Check if the state is valid for evaluating ambient occlusion
-            bool invalidState = rtEnvironment == null
-            || aoShader == null
-            || m_PipelineResources.textures.owenScrambledTex == null || m_PipelineResources.textures.scramblingTex == null;
+            bool invalidState = rtEnvironment == null;
 
             // If any of the previous requirements is missing, the effect is not requested or no acceleration structure, set the default one and leave right away
             if (invalidState)
@@ -88,6 +83,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
                 SetDefaultAmbientOcclusionTexture(cmd);
                 return;
             }
+
+            RayTracingShader aoShader = m_PipelineRayTracingResources.aoRaytracing;
+            var aoSettings = VolumeManager.instance.stack.GetComponent<AmbientOcclusion>();
 
             // Grab the acceleration structure for the target camera
             RayTracingAccelerationStructure accelerationStructure = m_RaytracingManager.RequestAccelerationStructure(rtEnvironment.aoLayerMask);
@@ -99,8 +97,9 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             cmd.SetRayTracingAccelerationStructure(aoShader, HDShaderIDs._RaytracingAccelerationStructureName, accelerationStructure);
 
             // Inject the ray-tracing sampling data
-            cmd.SetRayTracingTextureParam(aoShader, HDShaderIDs._OwenScrambledTexture, m_PipelineResources.textures.owenScrambledTex);
-            cmd.SetRayTracingTextureParam(aoShader, HDShaderIDs._ScramblingTexture, m_PipelineResources.textures.scramblingTex);
+            cmd.SetGlobalTexture(HDShaderIDs._OwenScrambledRGTexture, m_PipelineResources.textures.owenScrambledRGBATex);
+            cmd.SetGlobalTexture(HDShaderIDs._OwenScrambledTexture, m_PipelineResources.textures.owenScrambled256Tex);
+            cmd.SetGlobalTexture(HDShaderIDs._ScramblingTexture, m_PipelineResources.textures.scramblingTex);
 
             // Inject the ray generation data
             cmd.SetRayTracingFloatParams(aoShader, HDShaderIDs._RaytracingRayBias, rtEnvironment.rayBias);

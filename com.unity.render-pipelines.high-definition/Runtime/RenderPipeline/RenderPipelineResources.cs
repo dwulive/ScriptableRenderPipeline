@@ -1,9 +1,8 @@
 using System;
-using UnityEngine.Rendering;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace UnityEngine.Experimental.Rendering.HDPipeline
+namespace UnityEngine.Rendering.HighDefinition
 {
     public partial class RenderPipelineResources : ScriptableObject
     {
@@ -117,8 +116,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             public Shader gradientSkyPS;
             [Reload("Runtime/Sky/AmbientProbeConvolution.compute")]
             public ComputeShader ambientProbeConvolutionCS;
-            [Reload("Runtime/Sky/PhysicallyBasedSky/OpticalDepthPrecomputation.compute")]
-            public ComputeShader opticalDepthPrecomputationCS;
             [Reload("Runtime/Sky/PhysicallyBasedSky/GroundIrradiancePrecomputation.compute")]
             public ComputeShader groundIrradiancePrecomputationCS;
             [Reload("Runtime/Sky/PhysicallyBasedSky/InScatteredRadiancePrecomputation.compute")]
@@ -148,7 +145,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             [Reload("Runtime/Core/CoreResources/ClearUIntTextureArray.compute")]
             public ComputeShader clearUIntTextureCS;
 
-            // Shadow            
+            // XR
+            [Reload("Runtime/ShaderLibrary/XRMirrorView.shader")]
+            public Shader xrMirrorViewPS;
+            [Reload("Runtime/ShaderLibrary/XROcclusionMesh.shader")]
+            public Shader xrOcclusionMeshPS;
+
+            // Shadow
             [Reload("Runtime/Lighting/Shadow/ShadowClear.shader")]
             public Shader shadowClearPS;
             [Reload("Runtime/Lighting/Shadow/EVSMBlur.compute")]
@@ -185,8 +188,6 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             public ComputeShader uberPostCS;
             [Reload("Runtime/PostProcessing/Shaders/LutBuilder3D.compute")]
             public ComputeShader lutBuilder3DCS;
-            [Reload("Runtime/PostProcessing/Shaders/TemporalAntialiasing.compute")]
-            public ComputeShader temporalAntialiasingCS;
             [Reload("Runtime/PostProcessing/Shaders/DepthOfFieldKernel.compute")]
             public ComputeShader depthOfFieldKernelCS;
             [Reload("Runtime/PostProcessing/Shaders/DepthOfFieldCoC.compute")]
@@ -229,6 +230,8 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             public Shader clearBlackPS;
             [Reload("Runtime/PostProcessing/Shaders/SubpixelMorphologicalAntialiasing.shader")]
             public Shader SMAAPS;
+            [Reload("Runtime/PostProcessing/Shaders/TemporalAntialiasing.shader")]
+            public Shader temporalAntialiasingPS;
 
             // Iterator to retrieve all compute shaders in reflection so we don't have to keep a list of
             // used compute shaders up to date (prefer editor-only usage)
@@ -265,8 +268,10 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             public Texture2D[] blueNoise16LTex;
             [Reload("Runtime/RenderPipelineResources/Texture/BlueNoise16/RGB/LDR_RGB1_{0}.png", 0, 32)]
             public Texture2D[] blueNoise16RGBTex;
-            [Reload("Runtime/RenderPipelineResources/Texture/CoherentNoise/OwenScrambledNoise.png")]
-            public Texture2D owenScrambledTex;
+            [Reload("Runtime/RenderPipelineResources/Texture/CoherentNoise/OwenScrambledNoise4.png")]
+            public Texture2D owenScrambledRGBATex;
+            [Reload("Runtime/RenderPipelineResources/Texture/CoherentNoise/OwenScrambledNoise256.png")]
+            public Texture2D owenScrambled256Tex;
             [Reload("Runtime/RenderPipelineResources/Texture/CoherentNoise/ScrambleNoise.png")]
             public Texture2D scramblingTex;
 
