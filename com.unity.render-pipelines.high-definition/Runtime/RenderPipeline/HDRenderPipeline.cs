@@ -1115,11 +1115,6 @@ namespace UnityEngine.Rendering.HighDefinition
                     dynResHandler.SetCurrentCameraRequest(cameraRequestedDynamicRes);
                     RTHandles.SetHardwareDynamicResolutionState(dynResHandler.HardwareDynamicResIsEnabled());
 
-                    // TODO: Very weird callbacks
-                    //  They are called at the beginning of a camera render, but the very same camera may not end its rendering
-                    //  for various reasons (full screen pass through, custom render, or just invalid parameters)
-                    //  and in that case the associated ending call is never called.
-                    UnityEngine.Rendering.RenderPipeline.BeginCameraRendering(renderContext, camera);
                     VFXManager.PrepareCamera(camera);
 
                     // Reset pooled variables

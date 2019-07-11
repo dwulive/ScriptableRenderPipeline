@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [7.1.0] - 2019-XX-XX
+### Added
+- Motion Vector support for PlanarPrimitive & Mesh outputs
 
 ## [7.0.0] - 2019-07-10
 ### Added
@@ -16,12 +18,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial Event Name inspector for visual effect asset and component
 - Subgraphs
 - Move HDRP outputs to HDRP package + expose HDRP queue selection
-- Exposure weight control for HDRP outputst
+- Add exposure weight control for HDRP outputs
 - Shader macros for XR single-pass instancing
 - XR single-pass instancing support for indirect draws
 - Inverse trigonometric operators (atan, atan2, asin, acos)
 - Replaced Orient : Fixed rotation with new option Orient : Advanced
-- Motion Vector support for PlanarPrimitive & Mesh outputs
 
 ### Fixed
 - Handle a possible exception (ReflectionTypeLoadException) while using VFXParameterBinderEditor
