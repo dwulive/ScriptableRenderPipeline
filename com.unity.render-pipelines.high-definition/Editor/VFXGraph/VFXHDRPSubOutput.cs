@@ -75,14 +75,14 @@ namespace UnityEditor.VFX
         //TODO : extend & factorize this method
         public static void GetStencilStateForDepthOrMV(bool receiveDecals, bool receiveSSR, bool useObjectVelocity, out int stencilWriteMask, out int stencilRef)
         {
-            stencilWriteMask = (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.DecalsForwardOutputNormalBuffer;
-            stencilRef = receiveDecals ? (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.DecalsForwardOutputNormalBuffer : 0;
+            stencilWriteMask = (int)HDRenderPipeline.StencilBitMask.DecalsForwardOutputNormalBuffer;
+            stencilRef = receiveDecals ? (int)HDRenderPipeline.StencilBitMask.DecalsForwardOutputNormalBuffer : 0;
 
-            stencilWriteMask |= (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.DoesntReceiveSSR;
-            stencilRef |= !receiveSSR ? (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.DoesntReceiveSSR : 0;
+            stencilWriteMask |= (int)HDRenderPipeline.StencilBitMask.DoesntReceiveSSR;
+            stencilRef |= !receiveSSR ? (int)HDRenderPipeline.StencilBitMask.DoesntReceiveSSR : 0;
 
-            stencilWriteMask |= useObjectVelocity ? (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.ObjectMotionVectors : 0;
-            stencilRef |= useObjectVelocity ? (int)UnityEngine.Experimental.Rendering.HDPipeline.HDRenderPipeline.StencilBitMask.ObjectMotionVectors : 0;
+            stencilWriteMask |= useObjectVelocity ? (int)HDRenderPipeline.StencilBitMask.ObjectMotionVectors : 0;
+            stencilRef |= useObjectVelocity ? (int)HDRenderPipeline.StencilBitMask.ObjectMotionVectors : 0;
         }
 
         public override IEnumerable<KeyValuePair<string, VFXShaderWriter>> GetStencilStateOverridesStr()
