@@ -195,7 +195,7 @@ half MainLightRealtimeShadow(float4 shadowCoord)
 #else
     ShadowSamplingData shadowSamplingData = GetMainLightShadowSamplingData();
     half shadowStrength = GetMainLightShadowStrength();
-    return SampleShadowmap(shadowCoord, TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture), shadowSamplingData, shadowStrength, false);
+    return SampleShadowmap(shadowCoord, TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_MainLightShadowmapTexture), shadowSamplingData, shadowStrength, true);
 #endif
 }
 

@@ -21,7 +21,7 @@ namespace UnityEngine.Rendering.LWRP
         }
 
         const int k_MaxCascades = 4;
-        const int k_ShadowmapBufferBits = 16;
+        const int k_ShadowmapBufferBits = 32;
         int m_ShadowmapWidth;
         int m_ShadowmapHeight;
         int m_ShadowCasterCascadesCount;
@@ -74,6 +74,9 @@ namespace UnityEngine.Rendering.LWRP
             if (light.shadows == LightShadows.None)
                 return false;
 
+            var tr = renderingData.cameraData.camera.transform;
+            var camZ = tr.forward;
+            var LoV = Vector3.Dot(light.transform.forward,camZ);
             if (shadowLight.lightType != LightType.Directional)
             {
                 Debug.LogWarning("Only directional lights are supported as main light.");
@@ -94,7 +97,7 @@ namespace UnityEngine.Rendering.LWRP
 
             for (int cascadeIndex = 0; cascadeIndex < m_ShadowCasterCascadesCount; ++cascadeIndex)
             {
-                bool success = ShadowUtils.ExtractDirectionalLightMatrix(ref renderingData.cullResults, ref renderingData.shadowData,
+                bool success = ShadowUtils.ExtractDirectionalLightMatrix(LoV,camZ,tr.position,ref renderingData.cullResults, ref renderingData.shadowData,
                     shadowLightIndex, cascadeIndex, m_ShadowmapWidth, m_ShadowmapHeight, shadowResolution, light.shadowNearPlane,
                     out m_CascadeSplitDistances[cascadeIndex], out m_CascadeSlices[cascadeIndex], out m_CascadeSlices[cascadeIndex].viewMatrix, out m_CascadeSlices[cascadeIndex].projectionMatrix);
 

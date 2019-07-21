@@ -79,7 +79,7 @@ namespace UnityEngine.Rendering.LWRP
         Shader m_DefaultShader;
         internal ScriptableRenderer m_Renderer;
 
-        public Material blitMaterial;
+        [NonSerialized] public Material blitMaterial;
         // Default values set when a new LightweightRenderPipeline asset is created
         [SerializeField] int k_AssetVersion = 4;
 

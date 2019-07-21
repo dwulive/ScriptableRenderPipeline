@@ -72,8 +72,11 @@ namespace UnityEngine.Rendering.LWRP
                 // Clearing render target is cost free on mobile and it avoid tile loading
                 if (m_IsMobileOrSwitch)
                     cmd.ClearRenderTarget(true, true, Color.black);
-                
-                cmd.Blit(m_Source.Identifier(), BuiltinRenderTextureType.CameraTarget);
+				var pipe = GraphicsSettings.renderPipelineAsset as LightweightRenderPipelineAsset;
+                if(pipe.blitMaterial!=null)
+                    cmd.Blit(m_Source.Identifier(), BuiltinRenderTextureType.CameraTarget,pipe.blitMaterial);
+                else
+                    cmd.Blit(m_Source.Identifier(), BuiltinRenderTextureType.CameraTarget);
             }
             else
             {
