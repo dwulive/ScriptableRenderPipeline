@@ -1,5 +1,40 @@
 using System;
+using u;
+using UnityEngine;
 
+namespace u
+{
+    public struct I
+    {
+        public Vector3 camC;
+        public Matrix4x4 projMatrix0;
+        public Matrix4x4 projMatrix1;
+        public float nopt;
+
+        public static float nearZ = 1.0f;
+        public static float farZ = 128.0f;
+
+        public static float nearZ0 = 0.5f;
+        public static float farZ0 = 1024;
+
+        public static float nearZ1 = 1.0f;
+        public static float farZ1 = 128.0f;
+
+        public static float yGain = 1.0f;
+        public static float bGain = 1.0f;
+        public static float wGain = 1;
+        public static float aGain = 1;
+        public static float xGain = 1;
+        public static float pGain = -1;
+        public static bool swapW = true;
+        public static bool pOrder = false;
+        public static float minH;
+        public static float camYGain = -1;
+
+        public static I i;
+    }
+
+}
 namespace UnityEngine.Rendering.LWRP
 {
     public struct ShadowSliceData
@@ -201,29 +236,13 @@ namespace UnityEngine.Rendering.LWRP
          float B = -2 * n * f * d;
          return new Matrix4x4 (
              new Vector4(n, 0, 0, 0),
-             new Vector4(0, A*aGain, 0, swapW ? wGain: yGain*bGain*B),
+             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain : I.yGain * I.bGain *B),
              new Vector4(0, 0, n, 0),
-             new Vector4(0, swapW ? yGain * bGain * B : wGain, 0, 0));
+             new Vector4(0, I.swapW ? I.yGain * I.bGain * B : I.wGain, 0, 0));
 }
 
-        public static float nearZ = 1.0f;
-        public static float farZ =128.0f;
-
-        public static float nearZ0 = 1.0f;
-        public static float farZ0 = 128.0f;
-
-        public static float nearZ1 = 1.0f;
-        public static float farZ1 = 128.0f;
-
-        public static float yGain = 1.0f;
-        public static float bGain = 1.0f;
-        public static float wGain = 1;
-        public static float aGain = 1;
-        public static float xGain = -1;
-        public static float pGain = -1;
-        public static bool swapW = true;
-        public static bool pOrder = false;
-        static void applyLISPSM(float LoV, Vector3 camC, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
+        
+        static void applyLISPSM(float LoV, Vector3 camWC, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
 {
 
  //    float LoV = dot(camera.getForwardVector(), dir);
@@ -234,24 +253,24 @@ namespace UnityEngine.Rendering.LWRP
             // where shadows might not be visible (e.g. a character standing won't see shadows at her feet).
             //     float dzn = Mathf.Max(0.0f, params.options.shadowNearHint - camera.zn);
             //     float dzf = Mathf.Max(0.0f, camera.zf - params.options.shadowFarHint);
-            float dzn = nearZ;// Mathf.Max(0.0f, params.options.shadowNearHint - camera.zn);
-            float dzf = farZ;// Mathf.Max(0.0f, camera.zf - params.options.shadowFarHint);
+            float dzn = I.nearZ - I.nearZ0;// Mathf.Max(0.0f, params.options.shadowNearHint - camera.zn);
+            float dzf = I.farZ0 - I.farZ;// Mathf.Max(0.0f, camera.zf - params.options.shadowFarHint);
 
             // near/far plane's distance from the eye in view space of the shadow receiver volume.
             //      Vector2 znf = -computeNearFar(camera.view, wsShadowReceiversVolume.data(), vertexCount);
-            float zn = nearZ0;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
-            float zf = farZ0;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
+            float zn = I.nearZ0;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
+            float zf = I.farZ0;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
 
-            Vector3 lsCameraPosition = viewMatrix * camC;
-
+            Vector3 lsCameraPosition = viewMatrix * camWC;
+            I.i.camC = lsCameraPosition;
             // compute n and f, the near and far planes coordinates of Wp (warp space).
             // It's found by looking down the Y axis in light space (i.e. -Z axis of Wp,
             // i.e. the axis orthogonal to the light direction) and taking the Min/Max
             // of the shadow receivers volume.
             // Note: znear/zfar encoded in Mp has no influence here (b/c we're interested only by the y axis)
             // Vector2 nf = computeNearFarOfWarpSpace(LMpMv, wsShadowReceiversVolume.data(), vertexCount);
-            float n = lsCameraPosition.y;// nf[0];              // near plane coordinate of Mp (light space)
-            float f = n+ farZ1*2;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
+            float n = I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
+            float f = n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
             float d = Mathf.Abs(f - n);    // Wp's depth-range d (abs necessary because we're dealing with z-coordinates, not distances)
 
     // The simplification below is correct only for directional lights
@@ -279,13 +298,13 @@ namespace UnityEngine.Rendering.LWRP
          float nopt1 = dzn / (2.0f - 3.0f * (dzn / (zf - zn)));
 
         // We simply use the Max of the two expressions
-         float nopt = Mathf.Max(nopt0, nopt1);
+          var nopt = Mathf.Max(nopt0, nopt1);
+          I.i.nopt = nopt;
 
-        
          Vector3 p = new Vector3(
                 // Another option here is to use lsShadowReceiversCenter.x, which skews less the
                 // x axis. Doesn't seem to make a big difference in the end.
-                lsCameraPosition.x* xGain,
+                lsCameraPosition.x* I.xGain,
                 n - nopt,
                 // note: various papers suggest to use the shadow receiver's center z coordinate in light
                 // space, i.e. to center "vertically" on the shadow receiver volume.
@@ -295,10 +314,12 @@ namespace UnityEngine.Rendering.LWRP
                 0
         );
 
-         Matrix4x4 Wv = Matrix4x4.Translate(pGain*p);
+         Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p);
          viewMatrix = Wv * viewMatrix;
-        var Wp = warpFrustum(nopt, nopt + d);
-                projMatrix = pOrder? projMatrix*Wp : Wp * projMatrix;
+                var Wp = warpFrustum(nopt, nopt + d);
+                I.i.projMatrix0 = projMatrix;
+                I.i.projMatrix1 = Wp;
+                projMatrix = I.pOrder ? projMatrix*Wp : Wp * projMatrix;
                // W = Wp;
  //               W = Wp * Wv;
     }
