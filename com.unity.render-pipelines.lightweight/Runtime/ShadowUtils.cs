@@ -6,9 +6,10 @@ namespace u
 {
     public struct I
     {
-        public Vector3 camC;
+        public Vector4 camC;
         public Matrix4x4 projMatrix0;
         public Matrix4x4 projMatrix1;
+        public Matrix4x4 projMatrix2;
         public float nopt;
 
         public static float nearZ = 1.0f;
@@ -22,11 +23,12 @@ namespace u
 
         public static float yGain = 1.0f;
         public static float bGain = 1.0f;
+        public static float nearZ2 = 2.0f;
         public static float wGain = 1;
         public static float aGain = 1;
         public static float xGain = 1;
         public static float pGain = -1;
-        public static bool swapW = true;
+        public static bool swapW = false;
         public static bool pOrder = false;
         public static float minH;
         public static float camYGain = -1;
@@ -70,7 +72,7 @@ namespace UnityEngine.Rendering.LWRP
                 GraphicsSettings.HasShaderDefine(Graphics.activeTier, BuiltinShaderDefine.UNITY_METAL_SHADOWS_USE_POINT_FILTERING);
         }
 
-        public static bool ExtractDirectionalLightMatrix(float LoV,Vector3 camZ,Vector3 camC,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
+        public static bool ExtractDirectionalLightMatrix(float LoV,Vector3 camZ,Vector4 camC,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
             ShadowSplitData splitData;
             bool success = cullResults.ComputeDirectionalShadowMatricesAndCullingPrimitives(shadowLightIndex,
@@ -236,13 +238,13 @@ namespace UnityEngine.Rendering.LWRP
          float B = -2 * n * f * d;
          return new Matrix4x4 (
              new Vector4(n, 0, 0, 0),
-             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain : I.yGain * I.bGain *B),
+             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain :  I.bGain *B),
              new Vector4(0, 0, n, 0),
-             new Vector4(0, I.swapW ? I.yGain * I.bGain * B : I.wGain, 0, 0));
+             new Vector4(0, I.swapW ?  I.bGain * B : I.wGain, 0, 0));
 }
 
         
-        static void applyLISPSM(float LoV, Vector3 camWC, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
+        static void applyLISPSM(float LoV, Vector4 camWC, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
 {
 
  //    float LoV = dot(camera.getForwardVector(), dir);
@@ -258,10 +260,10 @@ namespace UnityEngine.Rendering.LWRP
 
             // near/far plane's distance from the eye in view space of the shadow receiver volume.
             //      Vector2 znf = -computeNearFar(camera.view, wsShadowReceiversVolume.data(), vertexCount);
-            float zn = I.nearZ0;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
-            float zf = I.farZ0;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
+            float zn = I.nearZ2;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
+            float zf = I.farZ1;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
 
-            Vector3 lsCameraPosition = viewMatrix * camWC;
+            Vector3 lsCameraPosition = projMatrix*(viewMatrix * camWC);
             I.i.camC = lsCameraPosition;
             // compute n and f, the near and far planes coordinates of Wp (warp space).
             // It's found by looking down the Y axis in light space (i.e. -Z axis of Wp,
@@ -320,9 +322,10 @@ namespace UnityEngine.Rendering.LWRP
                 I.i.projMatrix0 = projMatrix;
                 I.i.projMatrix1 = Wp;
                 projMatrix = I.pOrder ? projMatrix*Wp : Wp * projMatrix;
-               // W = Wp;
- //               W = Wp * Wv;
-    }
+                I.i.projMatrix2 = projMatrix;
+                // W = Wp;
+                //               W = Wp * Wv;
+            }
             else
             {
                 Debug.Log("Invalid D");
