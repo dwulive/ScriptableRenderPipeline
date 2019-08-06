@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed PBR master node always opaque (wrong blend modes for forward pass)
 - Fixed alphaClip option in materials not updating the renderqueue.
 - Fixed PBR master node preview
+- Now the static lighting sky will correctly take the default values for non-overridden properties
+- Fix shadergraph material pass setup not called
+- Fix property sync in shadergraph with the current material in the inspector
+- Fixed an issue causing Scene View selection wire gizmo to not appear when using HDRP Shader Graphs.
+
+### Changed
+- direct strenght properties in ambient occlusion now affect direct specular as well
+- Added a warning in the material UI when the diffusion profile assigned is not in the HDRP asset
+- Added Alembic velocity support to various Shaders.
 
 ## [6.9.0] - 2019-07-02
 
