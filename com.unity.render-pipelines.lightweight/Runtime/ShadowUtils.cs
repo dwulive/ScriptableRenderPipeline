@@ -18,11 +18,14 @@ namespace u
         public static float d;
         public static float nearZ = 1.0f;
         public static float farZ = 128.0f;
-        public static float aspect = 0.875f;
+        public static float aspect = 1.0f;
+        public static float aspectY = 9.0f/16.0f;
         public static bool using2;
-
+        public static float LoV;
+        public static float sinV;
         public static float nearZ0 = 0.5f;
         public static float farZ0 = 1024;
+
 
         public static float nearZ1 = 1.0f;
         public static float farZ1 = 128.0f;
@@ -32,6 +35,7 @@ namespace u
         public static float bGain = -1.0f;
         public static float nearZ2 = 1.0f;
         public static float wGain = 1;
+        public static float wBias = 0;
         public static float aGain = -1;
         public static float xGain = 0;
         public static float zGain = 1;
@@ -92,6 +96,7 @@ namespace UnityEngine.Rendering.LWRP
 
 
         }
+       
         public static bool ExtractDirectionalLightMatrix(Camera cam,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
             var camM = cam.transform.localToWorldMatrix;
@@ -99,8 +104,8 @@ namespace UnityEngine.Rendering.LWRP
             points[0] = camM* new Vector4(0,0,I.nearZ, 1);
             points[1] = camM* new Vector4(I.farZ*I.aspect, 0, I.farZ, 1);
             points[2] = camM * new Vector4(-I.farZ * I.aspect, 0, I.farZ, 1);
-            points[3] = camM * new Vector4(0, I.farZ * I.aspect,  I.farZ, 1);
-            points[4] = camM * new Vector4(0,-I.farZ * I.aspect,  I.farZ, 1);
+            points[3] = camM * new Vector4(0, I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
+            points[4] = camM * new Vector4(0,-I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
             var camZ = (Vector3)camM.GetColumn(2);
 
             I.camZ = camZ;
@@ -113,15 +118,17 @@ namespace UnityEngine.Rendering.LWRP
             //camZ *= -1;
             var y0 = (Vector3)viewMatrix.GetRow(1);
             var dot0 = Vector3.Dot(y0, camZ);
-            var z0 = -(Vector3)viewMatrix.GetRow(2);
+            var z0 = (Vector3)viewMatrix.GetRow(2);
             var camZ0 =camZ- Vector3.Dot(camZ, z0) * z0;
             camZ0.Normalize();
-            var cr = Vector3.Cross(y0, camZ0);
-            var si = Vector3.Dot(cr, z0);
-            var cs = Vector3.Dot(y0, camZ0);
-            var theta = Mathf.Atan2(si, cs);
-            var rot = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -theta * Mathf.Rad2Deg));
-            viewMatrix = rot* viewMatrix;
+            Matrix4x4 _view = Matrix4x4.TRS(camM.GetRow(3), Quaternion.LookRotation(z0,camZ0),new Vector3(-1,1,1) );
+            viewMatrix = _view.inverse;
+//            var cr = Vector3.Cross(y0, camZ0);
+  //          var si = Vector3.Dot(cr, z0);
+   //         var cs = Vector3.Dot(y0, camZ0);
+    //        var theta = Mathf.Atan2(si, cs);
+     //       var rot = Matrix4x4.Rotate(Quaternion.Euler(0, 0, -theta * Mathf.Rad2Deg));
+      //      viewMatrix = rot* viewMatrix;
  
             var y1 = viewMatrix.GetRow(1);
             var dot1 = Vector3.Dot(y1, camZ);
@@ -136,6 +143,7 @@ namespace UnityEngine.Rendering.LWRP
             I.i.C = viewMatrix.GetRow(3);
     //        viewMatrix = temp.inverse;
             var LoV = Vector3.Dot(z0, camZ);
+            I.LoV = LoV;
             applyLISPSM(LoV, points, ref viewMatrix, ref projMatrix);
             cascadeSplitDistance = splitData.cullingSphere;
             shadowSliceData.offsetX = (cascadeIndex % 2) * shadowResolution;
@@ -273,14 +281,15 @@ namespace UnityEngine.Rendering.LWRP
         // it looks towards the +y axis, and assumes -1,1 for the left/right and bottom/top planes.
  static  Matrix4x4 warpFrustum(float n, float f)
  {
+            var nInv = 1/n;
          float d = 1 / (f - n);
          float A = (f + n) * d;
          float B = -2 * n * f * d;
          return new Matrix4x4 (
-             new Vector4(n, 0, 0, 0),
-             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain :  I.bGain *B),
-             new Vector4(0, 0, n, 0),
-             new Vector4(0, I.swapW ?  I.bGain * B : I.wGain, 0, 0));
+             new Vector4(1, 0, 0, 0),
+             new Vector4(0, (A* I.aGain)*nInv, 0, I.bGain *B*nInv),
+             new Vector4(0, 0, 1, 0),
+             new Vector4(0, I.wGain*nInv, 0, I.wBias));
 }
 
         
@@ -289,7 +298,7 @@ namespace UnityEngine.Rendering.LWRP
 
  //    float LoV = dot(camera.getForwardVector(), dir);
             float sinLV = Mathf.Sqrt(1.0f - LoV * LoV);
-
+            I.sinV = sinLV;
             // Virtual near plane -- the default is 1m, can be changed by the user.
             // The virtual near plane prevents too much resolution to be wasted in the area near the eye
             // where shadows might not be visible (e.g. a character standing won't see shadows at her feet).
@@ -318,10 +327,10 @@ namespace UnityEngine.Rendering.LWRP
             I.i.camC.x = x01.Mid();
             I.i.camC.y = nf.Mid();
             I.i.camC.z = z01.Mid();
-
-            float n = nf[0]* I.camYGain; //  I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
-            float f = nf[1] * I.camYGain; //  n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
-            float d = Mathf.Abs(f - n);    // Wp's depth-range d (abs necessary because we're dealing with z-coordinates, not distances)
+            
+            float n = nf[0]*I.camYGain; //  I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
+            float f = nf[1]*I.camYGain; //  n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
+            float d = Mathf.Abs(f-n);    // Wp's depth-range d (abs necessary because we're dealing with z-coordinates, not distances)
             I.n = n;
             I.d = d;
     // The simplification below is correct only for directional lights
@@ -370,8 +379,8 @@ namespace UnityEngine.Rendering.LWRP
                 I.nNopt = n - nopt;
 
                 Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p);
-         viewMatrix = Wv * viewMatrix;
                 var Wp = warpFrustum(nopt, nopt + d);
+                viewMatrix = Wv * viewMatrix;
                 I.i.projMatrix0 = projMatrix;
                 I.i.projMatrix1 = Wp;
                 projMatrix = I.pOrder ? projMatrix*Wp : Wp * projMatrix;
