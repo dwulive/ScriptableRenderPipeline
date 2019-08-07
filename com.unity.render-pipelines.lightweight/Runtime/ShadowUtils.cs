@@ -286,10 +286,10 @@ namespace UnityEngine.Rendering.LWRP
          float A = (f + n) * d;
          float B = -2 * n * f * d;
          return new Matrix4x4 (
-             new Vector4(1, 0, 0, 0),
-             new Vector4(0, (A* I.aGain)*nInv, 0, I.bGain *B*nInv),
-             new Vector4(0, 0, 1, 0),
-             new Vector4(0, I.wGain*nInv, 0, I.wBias));
+             new Vector4(n, 0, 0, 0),
+             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain :  I.bGain *B),
+             new Vector4(0, 0, n, 0),
+             new Vector4(0, I.swapW ?  I.bGain * B : I.wGain, 0, 0));
 }
 
         
