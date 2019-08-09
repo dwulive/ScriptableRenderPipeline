@@ -16,7 +16,7 @@ namespace u
         public static float nNopt;
         public static float n;
         public static float d;
-        public static float nearZ = 1.0f;
+        public static float nearZ = 2.0f;
         public static float farZ = 128.0f;
         public static float aspect = 1.0f;
         public static float aspectY = 9.0f/16.0f;
@@ -25,21 +25,22 @@ namespace u
         public static float sinV;
         public static float nearZ0 = 0.5f;
         public static float farZ0 = 1024;
-
+        public static Vector2 W;
+        public static float lGain = 0.875f;
 
         public static float nearZ1 = 1.0f;
         public static float farZ1 = 128.0f;
         public Vector4 Y;
         public Vector4 Z;
         public Vector4 C;
-        public static float bGain = -1.0f;
+        public static float bGain = 1.0f;
         public static float nearZ2 = 1.0f;
         public static float wGain = 1;
         public static float wBias = 0;
-        public static float aGain = -1;
+        public static float aGain = 1;
         public static float xGain = 0;
         public static float zGain = 1;
-        public static float pGain = -1;
+        public static float pGain = 1;
         public static bool swapW = false;
         public static bool pOrder = false;
         public static float camYGain = 1;
@@ -96,7 +97,27 @@ namespace UnityEngine.Rendering.LWRP
 
 
         }
-       
+        private static void ComputeMinMax(Vector3 c, ref Vector3 min,ref Vector3 max)
+        {
+
+          
+            min = Vector3.Min(c, min);
+            max = Vector3.Max(c, max);
+        }
+        private static (Vector3 min,Vector3 max) ComputeMinMax(Matrix4x4 m, Vector4[] points)
+        {
+            var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+            I.W = ComputeMinMax(m, 3, points);
+            ComputeMinMax(m.MultiplyPoint(points[0]), ref min, ref max);
+            ComputeMinMax(m.MultiplyPoint(points[1]), ref min, ref max);
+            ComputeMinMax(m.MultiplyPoint(points[2]), ref min, ref max);
+            ComputeMinMax(m.MultiplyPoint(points[3]), ref min, ref max);
+            ComputeMinMax(m.MultiplyPoint(points[4]), ref min, ref max);
+            return (min, max);
+
+
+        }
         public static bool ExtractDirectionalLightMatrix(Camera cam,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
             var camM = cam.transform.localToWorldMatrix;
@@ -121,7 +142,7 @@ namespace UnityEngine.Rendering.LWRP
             var z0 = (Vector3)viewMatrix.GetRow(2);
             var camZ0 =camZ- Vector3.Dot(camZ, z0) * z0;
             camZ0.Normalize();
-            Matrix4x4 _view = Matrix4x4.TRS(camM.GetRow(3), Quaternion.LookRotation(z0,camZ0),new Vector3(-1,1,1) );
+            Matrix4x4 _view = Matrix4x4.TRS(camM.GetRow(3), Quaternion.LookRotation(z0,camZ0),new Vector3(1,1,1) );
             viewMatrix = _view.inverse;
 //            var cr = Vector3.Cross(y0, camZ0);
   //          var si = Vector3.Dot(cr, z0);
@@ -132,7 +153,7 @@ namespace UnityEngine.Rendering.LWRP
  
             var y1 = viewMatrix.GetRow(1);
             var dot1 = Vector3.Dot(y1, camZ);
-            Assert.IsTrue(dot1 > dot0);
+            Assert.IsTrue(dot1 > dot0-1.0f/256f);
             var dot2 = Vector3.Dot(y1, camZ0);
             Assert.IsTrue(dot2 >= 0.98f);
             I.i.Y = y1;
@@ -287,17 +308,29 @@ namespace UnityEngine.Rendering.LWRP
          float B = -2 * n * f * d;
          return new Matrix4x4 (
              new Vector4(n, 0, 0, 0),
-             new Vector4(0, A* I.aGain, 0, I.swapW ? I.wGain :  I.bGain *B),
+             new Vector4(0, A* I.aGain, 0, I.wGain),
              new Vector4(0, 0, n, 0),
-             new Vector4(0, I.swapW ?  I.bGain * B : I.wGain, 0, 0));
+             new Vector4(0, I.bGain * B, 0, 0));
 }
+        static Matrix4x4 Remap(Vector3 m0,Vector3 m1)
+        {
+            var z0 = -m1.z;
+            m1.z = -m0.z;
+            m0.z = z0;
+            var mid = (m0 + m1) * -1f;
+            var span =   (m1 - m0);
 
-        
+            return new Matrix4x4(new Vector4(2 / span.x, 0, 0, 0),
+                        new Vector4(0, 2 / span.y, 0, 0),
+                        new Vector4(0, 0, -2 / span.z, 0),
+                        new Vector4(mid.x/span.x, mid.y/span.y,-mid.x/span.z, 1));
+        }
+
         static void applyLISPSM(float LoV, Vector4[] points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
 {
 
  //    float LoV = dot(camera.getForwardVector(), dir);
-            float sinLV = Mathf.Sqrt(1.0f - LoV * LoV);
+            float sinLV = Mathf.Sqrt(1.0f - LoV * LoV*I.lGain);
             I.sinV = sinLV;
             // Virtual near plane -- the default is 1m, can be changed by the user.
             // The virtual near plane prevents too much resolution to be wasted in the area near the eye
@@ -326,7 +359,7 @@ namespace UnityEngine.Rendering.LWRP
             Vector2 z01 = ComputeMinMax(LMpMv, 2, points);
             I.i.camC.x = x01.Mid();
             I.i.camC.y = nf.Mid();
-            I.i.camC.z = z01.Mid();
+            I.i.camC.z = z01.y;
             
             float n = nf[0]*I.camYGain; //  I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
             float f = nf[1]*I.camYGain; //  n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
@@ -378,12 +411,16 @@ namespace UnityEngine.Rendering.LWRP
         );
                 I.nNopt = n - nopt;
 
-                Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p);
+                Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p).inverse;
                 var Wp = warpFrustum(nopt, nopt + d);
                 viewMatrix = Wv * viewMatrix;
                 I.i.projMatrix0 = projMatrix;
-                I.i.projMatrix1 = Wp;
-                projMatrix = I.pOrder ? projMatrix*Wp : Wp * projMatrix;
+                
+
+                (var m0, var m1) = ComputeMinMax(Wp * viewMatrix, points);
+                projMatrix = Remap(m0,m1)* Wp;
+                I.i.projMatrix1 = Remap(m0, m1);
+
                 I.i.projMatrix2 = projMatrix;
                 // W = Wp;
                 //               W = Wp * Wv;
