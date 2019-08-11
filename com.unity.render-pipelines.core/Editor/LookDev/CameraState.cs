@@ -62,7 +62,7 @@ namespace UnityEditor.Rendering.Experimental.LookDev
         {
             camera.transform.rotation = rotation;
             camera.transform.position = position;
-            camera.nearClipPlane = nearClip;
+           // camera.nearClipPlane = nearClip;
             camera.farClipPlane = farClip;
             camera.fieldOfView = fieldOfView;
         }

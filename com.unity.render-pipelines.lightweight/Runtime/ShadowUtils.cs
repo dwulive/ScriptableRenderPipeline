@@ -29,10 +29,11 @@ namespace u
         public static float lGain = 0.875f;
 
         public static float nearZ1 = 1.0f;
-        public static float farZ1 = 128.0f;
+        public static float farZ2 = 128.0f;
         public Vector4 Y;
         public Vector4 Z;
         public Vector4 C;
+        public static float noptGain = 1;
         public static float bGain = 1.0f;
         public static float nearZ2 = 1.0f;
         public static float wGain = 1;
@@ -86,8 +87,12 @@ namespace UnityEngine.Rendering.LWRP
 
         private static Vector2 ComputeMinMax(Matrix4x4 m,int row, Vector4[] points)
         {
-            var z = m.GetRow(row);
-            var d0 = Vector3.Dot(z,points[0]);
+            return ComputeMinMax(m.GetRow(row), points);
+        }
+
+        private static Vector2 ComputeMinMax(Vector4 z, Vector4[] points)
+        {
+            var d0 = Vector3.Dot(z, points[0]);
             var d1 = Vector3.Dot(z, points[1]);
             var d2 = Vector3.Dot(z, points[2]);
             var d3 = Vector3.Dot(z, points[3]);
@@ -323,7 +328,7 @@ namespace UnityEngine.Rendering.LWRP
             return new Matrix4x4(new Vector4(2 / span.x, 0, 0, 0),
                         new Vector4(0, 2 / span.y, 0, 0),
                         new Vector4(0, 0, -2 / span.z, 0),
-                        new Vector4(mid.x/span.x, mid.y/span.y,-mid.x/span.z, 1));
+                        new Vector4(mid.x/span.x, mid.y/span.y,-z0/span.z, 1));
         }
 
         static void applyLISPSM(float LoV, Vector4[] points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
@@ -343,7 +348,7 @@ namespace UnityEngine.Rendering.LWRP
             // near/far plane's distance from the eye in view space of the shadow receiver volume.
             //      Vector2 znf = -computeNearFar(camera.view, wsShadowReceiversVolume.data(), vertexCount);
             float zn = I.nearZ2;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
-            float zf = I.farZ1;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
+            float zf = I.farZ2;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
                                //    var LMpMv = projMatrix * viewMatrix;
           var LMpMv = viewMatrix;
                                //   Vector3 lsCameraPosition = projMatrix*(viewMatrix * points[0]);
@@ -392,7 +397,7 @@ namespace UnityEngine.Rendering.LWRP
 
 
                 // We simply use the Max of the two expressions
-                var nopt =  Mathf.Max(nopt0, nopt1);
+                var nopt =  Mathf.Max(nopt0, nopt1)*I.noptGain;
                 I.using2 = nopt == nopt1;
                 I.nopt = nopt;
         
