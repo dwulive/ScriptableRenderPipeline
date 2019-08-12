@@ -7,7 +7,8 @@ namespace u
 {
     public struct I
     {
-        public Vector4 camC;
+        public static Vector4 camC;
+        public static Vector4 camC0;
         public static Vector3 camZ;
         public Matrix4x4 projMatrix0;
         public Matrix4x4 projMatrix1;
@@ -24,23 +25,24 @@ namespace u
         public static float LoV;
         public static float sinV;
         public static float nearZ0 = 0.5f;
-        public static float farZ0 = 1024;
+        public static float farZ0 = 128;
         public static Vector2 W;
-        public static float lGain = 0.875f;
+        public static float lGain = 1.0f;
 
         public static float nearZ1 = 1.0f;
-        public static float farZ2 = 128.0f;
+        public static float farZ2 =256.0f;
         public Vector4 Y;
         public Vector4 Z;
         public Vector4 C;
         public static float noptGain = 1;
         public static float bGain = 1.0f;
-        public static float nearZ2 = 1.0f;
+        public static float nearZ2 = 1.5f;
         public static float wGain = 1;
         public static float wBias = 0;
         public static float aGain = 1;
-        public static float xGain = 0;
-        public static float zGain = 1;
+        public static float xGain = 1;
+        public static float zGain = -1;
+        public static float zLerp = 1;
         public static float pGain = 1;
         public static bool swapW = false;
         public static bool pOrder = false;
@@ -93,14 +95,26 @@ namespace UnityEngine.Rendering.LWRP
         private static Vector2 ComputeMinMax(Vector4 z, Vector4[] points)
         {
             var d0 = Vector3.Dot(z, points[0]);
-            var d1 = Vector3.Dot(z, points[1]);
-            var d2 = Vector3.Dot(z, points[2]);
-            var d3 = Vector3.Dot(z, points[3]);
-            var d4 = Vector3.Dot(z, points[4]);
-            return new Vector2(Mathf.Min(Mathf.Min(Mathf.Min(d0, d1), Mathf.Min(d2, d3)), d4),
-                               Mathf.Max(Mathf.Max(Mathf.Max(d0, d1), Mathf.Max(d2, d3)), d4));
-
-
+            var rv = new Vector2(d0,d0);
+            for(int i = 1;i<points.Length;++i)
+            {
+                var d1 = Vector3.Dot(z, points[i]);
+                rv.x = Math.Min(rv.x,d1);
+                rv.y = Math.Max(rv.y,d1);
+            }
+            return rv;
+        }
+        private static Vector2 ComputeMinMax(Vector3 z,Matrix4x4 m, Vector4[] points)
+        {
+            var d0 = Vector3.Dot(z, m.MultiplyPoint3x4(points[0]));
+            var rv = new Vector2(d0,d0);
+            for(int i = 1;i<points.Length;++i)
+            {
+                var d1 = Vector3.Dot(z, m.MultiplyPoint3x4(points[i]));
+                rv.x = Math.Min(rv.x,d1);
+                rv.y = Math.Max(rv.y,d1);
+            }
+            return rv;
         }
         private static void ComputeMinMax(Vector3 c, ref Vector3 min,ref Vector3 max)
         {
@@ -114,11 +128,8 @@ namespace UnityEngine.Rendering.LWRP
             var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             I.W = ComputeMinMax(m, 3, points);
-            ComputeMinMax(m.MultiplyPoint(points[0]), ref min, ref max);
-            ComputeMinMax(m.MultiplyPoint(points[1]), ref min, ref max);
-            ComputeMinMax(m.MultiplyPoint(points[2]), ref min, ref max);
-            ComputeMinMax(m.MultiplyPoint(points[3]), ref min, ref max);
-            ComputeMinMax(m.MultiplyPoint(points[4]), ref min, ref max);
+            for(int i=0;i<points.Length;++i)
+                ComputeMinMax(m.MultiplyPoint(points[i]), ref min, ref max);
             return (min, max);
 
 
@@ -126,12 +137,20 @@ namespace UnityEngine.Rendering.LWRP
         public static bool ExtractDirectionalLightMatrix(Camera cam,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
             var camM = cam.transform.localToWorldMatrix;
-            var points = new Vector4[5];
-            points[0] = camM* new Vector4(0,0,I.nearZ, 1);
-            points[1] = camM* new Vector4(I.farZ*I.aspect, 0, I.farZ, 1);
-            points[2] = camM * new Vector4(-I.farZ * I.aspect, 0, I.farZ, 1);
-            points[3] = camM * new Vector4(0, I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
-            points[4] = camM * new Vector4(0,-I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
+            var points = new Vector4[12];
+            var midZ = Mathf.Lerp(I.nearZ , I.farZ,0.25f);
+            points[0] = camM * new Vector4( I.nearZ * I.aspect, 0, I.nearZ, 1);
+            points[1] = camM * new Vector4(-I.nearZ * I.aspect, 0, I.nearZ, 1);
+            points[2] = camM * new Vector4(0, I.nearZ * I.aspect*I.aspectY,  I.nearZ, 1);
+            points[3] = camM * new Vector4(0,-I.nearZ * I.aspect*I.aspectY,  I.nearZ, 1);
+            points[4] = camM * new Vector4( midZ * I.aspect, 0, midZ, 1);
+            points[5] = camM * new Vector4(-midZ * I.aspect, 0, midZ, 1);
+            points[6] = camM * new Vector4(0, midZ * I.aspect*I.aspectY,  midZ, 1);
+            points[7] = camM * new Vector4(0,-midZ * I.aspect*I.aspectY,  midZ, 1);
+            points[8] = camM * new Vector4( I.farZ * I.aspect, 0, I.farZ, 1);
+            points[9] = camM * new Vector4(-I.farZ * I.aspect, 0, I.farZ, 1);
+            points[10] = camM * new Vector4(0, I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
+            points[11] = camM * new Vector4(0,-I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
             var camZ = (Vector3)camM.GetColumn(2);
 
             I.camZ = camZ;
@@ -140,11 +159,15 @@ namespace UnityEngine.Rendering.LWRP
                 cascadeIndex, shadowData.mainLightShadowCascadesCount, shadowData.mainLightShadowCascadesSplit, shadowResolution, shadowNearPlane, out viewMatrix, out projMatrix,
                 out splitData);
 
-            
+            I.camC0 = viewMatrix.inverse.MultiplyVector(-viewMatrix.GetRow(3));
+            var z0 = (Vector3)viewMatrix.GetRow(2);
+             var LoV = Vector3.Dot(z0, camZ); 
+                I.LoV = LoV;
+            if(Math.Abs(LoV) < 0.9f)
+            {
             //camZ *= -1;
             var y0 = (Vector3)viewMatrix.GetRow(1);
             var dot0 = Vector3.Dot(y0, camZ);
-            var z0 = (Vector3)viewMatrix.GetRow(2);
             var camZ0 =camZ- Vector3.Dot(camZ, z0) * z0;
             camZ0.Normalize();
             Matrix4x4 _view = Matrix4x4.TRS(camM.GetRow(3), Quaternion.LookRotation(z0,camZ0),new Vector3(1,1,1) );
@@ -168,9 +191,10 @@ namespace UnityEngine.Rendering.LWRP
  //           viewMatrix = temp.inverse;
             I.i.C = viewMatrix.GetRow(3);
     //        viewMatrix = temp.inverse;
-            var LoV = Vector3.Dot(z0, camZ);
-            I.LoV = LoV;
-            applyLISPSM(LoV, points, ref viewMatrix, ref projMatrix);
+           
+            
+                applyLISPSM(LoV,camZ,points,ref viewMatrix,ref projMatrix);
+            }
             cascadeSplitDistance = splitData.cullingSphere;
             shadowSliceData.offsetX = (cascadeIndex % 2) * shadowResolution;
             shadowSliceData.offsetY = (cascadeIndex / 2) * shadowResolution;
@@ -326,12 +350,16 @@ namespace UnityEngine.Rendering.LWRP
             var span =   (m1 - m0);
 
             return new Matrix4x4(new Vector4(2 / span.x, 0, 0, 0),
-                        new Vector4(0, 2 / span.y, 0, 0),
-                        new Vector4(0, 0, -2 / span.z, 0),
-                        new Vector4(mid.x/span.x, mid.y/span.y,-z0/span.z, 1));
+                        new Vector4(0, 1, 0, 0),
+                        new Vector4(0, 0, -1.0f / span.z, 0),
+                        new Vector4(0*mid.x/span.x, 0,-z0/span.z, 1));
+//            return new Matrix4x4(new Vector4(1, 0, 0, 0),
+//                        new Vector4(0, 1, 0, 0),
+//                        new Vector4(0, 0, -2 / span.z, 0),
+//                        new Vector4(0, 0,-z0/span.z, 1));
         }
 
-        static void applyLISPSM(float LoV, Vector4[] points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
+        static void applyLISPSM(float LoV,Vector3 camZ, Vector4[] points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
 {
 
  //    float LoV = dot(camera.getForwardVector(), dir);
@@ -352,28 +380,32 @@ namespace UnityEngine.Rendering.LWRP
                                //    var LMpMv = projMatrix * viewMatrix;
           var LMpMv = viewMatrix;
                                //   Vector3 lsCameraPosition = projMatrix*(viewMatrix * points[0]);
-                               //  I.i.camC = lsCameraPosition;
+                               //  I.camC = lsCameraPosition;
                                // compute n and f, the near and far planes coordinates of Wp (warp space).
                                // It's found by looking down the Y axis in light space (i.e. -Z axis of Wp,
                                // i.e. the axis orthogonal to the light direction) and taking the Min/Max
                                // of the shadow receivers volume.
                                // Note: znear/zfar encoded in Mp has no influence here (b/c we're interested only by the y axis)
                                // Vector2 nf = computeNearFarOfWarpSpace(LMpMv, wsShadowReceiversVolume.data(), vertexCount);
-            Vector2 nf = ComputeMinMax(LMpMv, 1, points);
+            Vector2 y01 = ComputeMinMax(LMpMv, 1, points);
             Vector2 x01 = ComputeMinMax(LMpMv, 0, points);
             Vector2 z01 = ComputeMinMax(LMpMv, 2, points);
-            I.i.camC.x = x01.Mid();
-            I.i.camC.y = nf.Mid();
-            I.i.camC.z = z01.y;
-            
-            float n = nf[0]*I.camYGain; //  I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
-            float f = nf[1]*I.camYGain; //  n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
+            I.camC.x = x01.Mid();
+            I.camC.y = y01.Mid();
+            I.camC.z = Mathf.Lerp(z01.x,z01.y,I.zLerp)*I.zGain;
+           // viewMatrix.m03 -= I.camC.x;
+          //  viewMatrix.m13 -= I.camC.y;
+          //  viewMatrix.m23 -= I.camC.z;
+          //  var camLZ = viewMatrix.MultiplyVector(camZ);
+          //  var nf = ComputeMinMax(camLZ,viewMatrix,points);
+            float n = y01.x*I.camYGain; //  I.camYGain *lsCameraPosition.y + I.nearZ1;// nf[0];              // near plane coordinate of Mp (light space)
+            float f = y01.y*I.camYGain; //  n+ I.farZ1;//conservative estimate, we might be able to get away with less // nf[1];              // far plane coordinate of Mp (light space)
             float d = Mathf.Abs(f-n);    // Wp's depth-range d (abs necessary because we're dealing with z-coordinates, not distances)
             I.n = n;
             I.d = d;
     // The simplification below is correct only for directional lights
      float z0 = zn;                // for directional lights, z0 = zn
-     float z1 = z0 + d * sinLV;    // btw, note that z1 doesn't depend on zf
+            float z1 = z0 + d* sinLV;    // btw, note that z1 doesn't depend on zf
 
 
           //  Matrix4x4 W = Matrix4x4.identity;
@@ -402,23 +434,26 @@ namespace UnityEngine.Rendering.LWRP
                 I.nopt = nopt;
         
 
-         Vector3 p = new Vector3(
-                // Another option here is to use lsShadowReceiversCenter.x, which skews less the
-                // x axis. Doesn't seem to make a big difference in the end.
-                I.i.camC.x * I.xGain,
-                n - nopt,
-                // note: various papers suggest to use the shadow receiver's center z coordinate in light
-                // space, i.e. to center "vertically" on the shadow receiver volume.
-                // e.g. (LMpMv * wsShadowReceiversVolume.center()).z
-                // However, simply using 0, guarantees to be centered on the light frustum, which itself
-                // is built from the shadow receiver and/or casters bounds.
-                I.i.camC.z * I.zGain
-        );
+        // Vector3 p = new Vector3(
+        //        // Another option here is to use lsShadowReceiversCenter.x, which skews less the
+        //        // x axis. Doesn't seem to make a big difference in the end.
+        //        I.camC.x * I.xGain,
+        //        n - nopt,
+        //        // note: various papers suggest to use the shadow receiver's center z coordinate in light
+        //        // space, i.e. to center "vertically" on the shadow receiver volume.
+        //        // e.g. (LMpMv * wsShadowReceiversVolume.center()).z
+        //        // However, simply using 0, guarantees to be centered on the light frustum, which itself
+        //        // is built from the shadow receiver and/or casters bounds.
+        //        I.camC.z * I.zGain
+        //);
                 I.nNopt = n - nopt;
 
-                Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p).inverse;
+                viewMatrix.m03 -= I.camC.x;
+                viewMatrix.m13 -= n - nopt;
+                viewMatrix.m23 -= I.camC.z;
+               // Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p).inverse;
                 var Wp = warpFrustum(nopt, nopt + d);
-                viewMatrix = Wv * viewMatrix;
+              //  viewMatrix = Wv * viewMatrix;
                 I.i.projMatrix0 = projMatrix;
                 
 
