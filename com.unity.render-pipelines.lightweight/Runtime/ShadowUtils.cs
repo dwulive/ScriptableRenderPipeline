@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using u;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,7 +10,12 @@ namespace u
     {
         public static Vector4 camC;
         public static Vector4 camC0;
+        public static Vector4 camGC;
+        public static Vector4 camGC0;
         public static Vector3 camZ;
+        public static Matrix4x4 M0;
+        public static Matrix4x4 M1;
+        public static Vector3 [] corners = new Vector3[4];
         public Matrix4x4 projMatrix0;
         public Matrix4x4 projMatrix1;
         public Matrix4x4 projMatrix2;
@@ -20,7 +26,7 @@ namespace u
         public static float nearZ = 2.0f;
         public static float farZ = 128.0f;
         public static float aspect = 1.0f;
-        public static float aspectY = 9.0f/16.0f;
+        public static float aspectY = aspect*9.0f/16.0f;
         public static bool using2;
         public static float LoV;
         public static float sinV;
@@ -87,35 +93,28 @@ namespace UnityEngine.Rendering.LWRP
                 GraphicsSettings.HasShaderDefine(Graphics.activeTier, BuiltinShaderDefine.UNITY_METAL_SHADOWS_USE_POINT_FILTERING);
         }
 
-        private static Vector2 ComputeMinMax(Matrix4x4 m,int row, Vector4[] points)
+        static float Dot(this Vector4 v0, Vector3 v1)
+        {
+            return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z + v0.w;
+        }
+        private static Vector2 ComputeMinMax(Matrix4x4 m,int row, List<Vector3> points)
         {
             return ComputeMinMax(m.GetRow(row), points);
         }
 
-        private static Vector2 ComputeMinMax(Vector4 z, Vector4[] points)
+        private static Vector2 ComputeMinMax(Vector4 z, List<Vector3> points)
         {
-            var d0 = Vector3.Dot(z, points[0]);
+            var d0 = z.Dot(points[0]);
             var rv = new Vector2(d0,d0);
-            for(int i = 1;i<points.Length;++i)
+            for(int i = 1;i<points.Count;++i)
             {
-                var d1 = Vector3.Dot(z, points[i]);
+                var d1 = z.Dot( points[i]);
                 rv.x = Math.Min(rv.x,d1);
                 rv.y = Math.Max(rv.y,d1);
             }
             return rv;
         }
-        private static Vector2 ComputeMinMax(Vector3 z,Matrix4x4 m, Vector4[] points)
-        {
-            var d0 = Vector3.Dot(z, m.MultiplyPoint3x4(points[0]));
-            var rv = new Vector2(d0,d0);
-            for(int i = 1;i<points.Length;++i)
-            {
-                var d1 = Vector3.Dot(z, m.MultiplyPoint3x4(points[i]));
-                rv.x = Math.Min(rv.x,d1);
-                rv.y = Math.Max(rv.y,d1);
-            }
-            return rv;
-        }
+   
         private static void ComputeMinMax(Vector3 c, ref Vector3 min,ref Vector3 max)
         {
 
@@ -123,34 +122,115 @@ namespace UnityEngine.Rendering.LWRP
             min = Vector3.Min(c, min);
             max = Vector3.Max(c, max);
         }
-        private static (Vector3 min,Vector3 max) ComputeMinMax(Matrix4x4 m, Vector4[] points)
+        private static (Vector3 min,Vector3 max) ComputeMinMax(Matrix4x4 m, List<Vector3> points)
         {
             var min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             var max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             I.W = ComputeMinMax(m, 3, points);
-            for(int i=0;i<points.Length;++i)
+            for(int i=0;i<points.Count;++i)
                 ComputeMinMax(m.MultiplyPoint(points[i]), ref min, ref max);
             return (min, max);
 
 
         }
+        static Vector3 TransposedMultiplyVector(this Matrix4x4 m, Vector3 v)
+        {
+            return new Vector3(  m.m00 * v.x + m.m10 * v.y + m.m20 * v.z,
+                                 m.m01 * v.x + m.m11 * v.y + m.m21 * v.z,
+                                 m.m02 * v.x + m.m12 * v.y + m.m22 * v.z);
+
+
+        }
+        static void ClipToY(Vector3 [] c, List<Vector3> points)
+        {
+            int vCount = c.Length;
+            int i0 = vCount-1;
+            int i1 = 0;
+            while( i1 < vCount)
+            {
+                var c0 = c[i0];
+                var c1 = c[i1];
+                var c0p = c0.y >= 0;
+                var c1p = c1.y >= 0;
+                if (c0p )
+                    points.Add(c0);
+                if(c0p!=c1p)
+                {
+                    var clip=  c0 - (c1-c0)*( c0.y / (c1.y-c0.y) );
+                    points.Add(clip);
+                    Assert.AreApproximatelyEqual(clip.y, 0.0f, 1e-4f);
+                }
+                i0 = i1;
+                ++i1;
+           }
+
+        }
+        static void AddPoint(Vector3 c0, List<Vector3> points)
+        {
+                var c0p = c0.y >= -0.0f;
+                if (c0p)
+                    points.Add(c0);
+        }
+        static void AddSegment(Vector3 c0, Vector3 c1, List<Vector3> points)
+        {
+            var c0p = c0.y >= -0.0f;
+            var c1p = c1.y >= -0.0f;
+            if (c0p != c1p)
+            {
+                var clip=  c0 + (c1-c0)*( (-0.0f-c0.y) / (c1.y-c0.y) );
+                points.Add(clip);
+                Assert.AreApproximatelyEqual(clip.y, -0.0f, 1e-4f);
+            }
+        }
         public static bool ExtractDirectionalLightMatrix(Camera cam,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
+            I.i.projMatrix0 = cam.projectionMatrix;
+            I.M0 = cam.transform.localToWorldMatrix;
+            I.M1 = cam.cameraToWorldMatrix;
+            cam.CalculateFrustumCorners(new Rect(0, 0,1, 1), 1, Camera.MonoOrStereoscopicEye.Mono, I.corners);
             var camM = cam.transform.localToWorldMatrix;
-            var points = new Vector4[12];
+            var cs = new Vector3[6];
+            var points = new List<Vector3>();
             var midZ = Mathf.Lerp(I.nearZ , I.farZ,0.25f);
-            points[0] = camM * new Vector4( I.nearZ * I.aspect, 0, I.nearZ, 1);
-            points[1] = camM * new Vector4(-I.nearZ * I.aspect, 0, I.nearZ, 1);
-            points[2] = camM * new Vector4(0, I.nearZ * I.aspect*I.aspectY,  I.nearZ, 1);
-            points[3] = camM * new Vector4(0,-I.nearZ * I.aspect*I.aspectY,  I.nearZ, 1);
-            points[4] = camM * new Vector4( midZ * I.aspect, 0, midZ, 1);
-            points[5] = camM * new Vector4(-midZ * I.aspect, 0, midZ, 1);
-            points[6] = camM * new Vector4(0, midZ * I.aspect*I.aspectY,  midZ, 1);
-            points[7] = camM * new Vector4(0,-midZ * I.aspect*I.aspectY,  midZ, 1);
-            points[8] = camM * new Vector4( I.farZ * I.aspect, 0, I.farZ, 1);
-            points[9] = camM * new Vector4(-I.farZ * I.aspect, 0, I.farZ, 1);
-            points[10] = camM * new Vector4(0, I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
-            points[11] = camM * new Vector4(0,-I.farZ * I.aspect*I.aspectY,  I.farZ, 1);
+            cs[0] = camM.MultiplyPoint3x4(I.corners[1]*I.nearZ);
+            cs[1] = camM.MultiplyPoint3x4(I.corners[0]*I.nearZ);
+            cs[2] = camM.MultiplyPoint3x4(I.corners[1]*midZ );
+            cs[3] = camM.MultiplyPoint3x4(I.corners[0]*midZ );
+            cs[4] = camM.MultiplyPoint3x4(I.corners[1]*I.farZ);
+            cs[5] = camM.MultiplyPoint3x4(I.corners[0]*I.farZ);
+            for (int i = 0; i < cs.Length; ++i)
+                AddPoint(cs[i], points);
+             // vertical
+            AddSegment(cs[0], cs[1], points);
+            AddSegment(cs[2], cs[3], points);
+            AddSegment(cs[4], cs[5], points);
+            // along top
+            AddSegment(cs[0], cs[2], points);
+            AddSegment(cs[2], cs[4], points);
+            // along bottom
+            AddSegment(cs[1], cs[3], points);
+            AddSegment(cs[3], cs[5], points);
+
+            cs[0] = camM.MultiplyPoint3x4(I.corners[2] * I.nearZ);
+            cs[1] = camM.MultiplyPoint3x4(I.corners[3] * I.nearZ);
+            cs[2] = camM.MultiplyPoint3x4(I.corners[2] * midZ);
+            cs[3] = camM.MultiplyPoint3x4(I.corners[3] * midZ);
+            cs[4] = camM.MultiplyPoint3x4(I.corners[2] * I.farZ);
+            cs[5] = camM.MultiplyPoint3x4(I.corners[3] * I.farZ);
+            for (int i = 0; i < cs.Length; ++i)
+                AddPoint(cs[i], points);
+            // vertical
+            AddSegment(cs[0], cs[1], points);
+            AddSegment(cs[2], cs[3], points);
+            AddSegment(cs[4], cs[5], points);
+            // along top
+            AddSegment(cs[0], cs[2], points);
+            AddSegment(cs[2], cs[4], points);
+            // along bottom
+            AddSegment(cs[1], cs[3], points);
+            AddSegment(cs[3], cs[5], points);
+
+
             var camZ = (Vector3)camM.GetColumn(2);
 
             I.camZ = camZ;
@@ -159,18 +239,21 @@ namespace UnityEngine.Rendering.LWRP
                 cascadeIndex, shadowData.mainLightShadowCascadesCount, shadowData.mainLightShadowCascadesSplit, shadowResolution, shadowNearPlane, out viewMatrix, out projMatrix,
                 out splitData);
 
-            I.camC0 = viewMatrix.inverse.MultiplyVector(-viewMatrix.GetRow(3));
+            var _c = viewMatrix.GetColumn(3);
+            I.camGC = -viewMatrix.TransposedMultiplyVector(_c);
+            I.camGC0 = viewMatrix.inverse.GetColumn(3);
+            I.camC0 = viewMatrix.GetColumn(3);
             var z0 = (Vector3)viewMatrix.GetRow(2);
              var LoV = Vector3.Dot(z0, camZ); 
                 I.LoV = LoV;
-            if(Math.Abs(LoV) < 0.9f)
+            if(Math.Abs(LoV) < 0.95f && points.Count> 0)
             {
             //camZ *= -1;
             var y0 = (Vector3)viewMatrix.GetRow(1);
             var dot0 = Vector3.Dot(y0, camZ);
             var camZ0 =camZ- Vector3.Dot(camZ, z0) * z0;
             camZ0.Normalize();
-            Matrix4x4 _view = Matrix4x4.TRS(camM.GetRow(3), Quaternion.LookRotation(z0,camZ0),new Vector3(1,1,1) );
+            Matrix4x4 _view = Matrix4x4.TRS(I.camGC, Quaternion.LookRotation(z0,camZ0),new Vector3(1,1,1) );
             viewMatrix = _view.inverse;
 //            var cr = Vector3.Cross(y0, camZ0);
   //          var si = Vector3.Dot(cr, z0);
@@ -189,7 +272,7 @@ namespace UnityEngine.Rendering.LWRP
  //           var temp = viewMatrix.inverse;
  //           temp.SetColumn(3, camM.GetColumn(3));
  //           viewMatrix = temp.inverse;
-            I.i.C = viewMatrix.GetRow(3);
+            I.i.C = viewMatrix.GetColumn(3);
     //        viewMatrix = temp.inverse;
            
             
@@ -352,14 +435,14 @@ namespace UnityEngine.Rendering.LWRP
             return new Matrix4x4(new Vector4(2 / span.x, 0, 0, 0),
                         new Vector4(0, 1, 0, 0),
                         new Vector4(0, 0, -1.0f / span.z, 0),
-                        new Vector4(0*mid.x/span.x, 0,-z0/span.z, 1));
+                        new Vector4(mid.x/span.x, 0,-z0/span.z, 1));
 //            return new Matrix4x4(new Vector4(1, 0, 0, 0),
 //                        new Vector4(0, 1, 0, 0),
 //                        new Vector4(0, 0, -2 / span.z, 0),
 //                        new Vector4(0, 0,-z0/span.z, 1));
         }
 
-        static void applyLISPSM(float LoV,Vector3 camZ, Vector4[] points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
+        static void applyLISPSM(float LoV,Vector3 camZ, List<Vector3> points, ref Matrix4x4 viewMatrix, ref Matrix4x4 projMatrix)
 {
 
  //    float LoV = dot(camera.getForwardVector(), dir);
@@ -454,7 +537,7 @@ namespace UnityEngine.Rendering.LWRP
                // Matrix4x4 Wv = Matrix4x4.Translate(I.pGain *p).inverse;
                 var Wp = warpFrustum(nopt, nopt + d);
               //  viewMatrix = Wv * viewMatrix;
-                I.i.projMatrix0 = projMatrix;
+               // I.i.projMatrix0 = projMatrix;
                 
 
                 (var m0, var m1) = ComputeMinMax(Wp * viewMatrix, points);
