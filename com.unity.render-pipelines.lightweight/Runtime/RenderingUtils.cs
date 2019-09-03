@@ -11,7 +11,6 @@ namespace UnityEngine.Rendering.LWRP
         static List<ShaderTagId> m_LegacyShaderPassNames = new List<ShaderTagId>()
         {
             new ShaderTagId("Always"),
-            new ShaderTagId("ForwardBase"),
             new ShaderTagId("PrepassBase"),
             new ShaderTagId("Vertex"),
             new ShaderTagId("VertexLMRGBM"),

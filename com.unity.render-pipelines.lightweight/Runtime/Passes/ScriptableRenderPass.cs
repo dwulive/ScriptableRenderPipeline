@@ -19,13 +19,13 @@ namespace UnityEngine.Rendering.LWRP
         AfterRenderingOpaques = 300,
         BeforeRenderingSkybox = 350,
         AfterRenderingSkybox = 400,
-        ScreenCameraUITransparent = 450,
+        BeforeRenderingTransparents = 450,
         AfterRenderingTransparents = 500,
         BeforeRenderingPostProcessing = 550,
         AfterRenderingPostProcessing = 600,
         AfterRendering = 1000,
         ScreenCameraUIOpaque = 1004,
-        ScreenCameraUTransparent = 1004,
+        ScreenCameraUITransparent = 1006,
 
     }
 

@@ -19,6 +19,7 @@ namespace UnityEngine.Rendering.LWRP
         public DrawObjectsPass(string profilerTag, bool opaque, RenderPassEvent evt, RenderQueueRange renderQueueRange, LayerMask layerMask, StencilState stencilState, int stencilReference)
         {
             m_ProfilerTag = profilerTag;
+            m_ShaderTagIdList.Add(new ShaderTagId("ForwardBase"));
             m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
             m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
             renderPassEvent = evt;

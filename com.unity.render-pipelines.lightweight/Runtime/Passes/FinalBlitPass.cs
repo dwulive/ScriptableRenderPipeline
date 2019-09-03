@@ -63,10 +63,13 @@ namespace UnityEngine.Rendering.LWRP
             else
                 cmd.DisableShaderKeyword(ShaderKeywordStrings.KillAlpha);
 
-            ref CameraData cameraData = ref renderingData.cameraData;
+            ref CameraData cameraData = ref renderingData.cameraData
+            ;
             // Use default blit for XR as we are not sure the UniversalRP blit handles stereo.
             // The blit will be reworked for stereo along the XRSDK work.
-            Material blitMaterial = (cameraData.isStereoEnabled) ? null : m_BlitMaterial;
+            var pipe = GraphicsSettings.renderPipelineAsset as LightweightRenderPipelineAsset;
+
+            Material blitMaterial = (pipe.blitMaterial != null) ? pipe.blitMaterial : (cameraData.isStereoEnabled) ? null : m_BlitMaterial;
             cmd.SetGlobalTexture("_BlitTex", m_Source.Identifier());
             if (cameraData.isStereoEnabled || cameraData.isSceneViewCamera || cameraData.isDefaultViewport)
             {
@@ -78,10 +81,7 @@ namespace UnityEngine.Rendering.LWRP
                 // Must clear for Screen Spawn canvases.  Don't need to clear color, but I this is free on mobile tiled renderers.
                 if (true ) // m_IsMobileOrSwitch)
                     cmd.ClearRenderTarget(true, true, Color.black);
-				var pipe = GraphicsSettings.renderPipelineAsset as LightweightRenderPipelineAsset;
-                if(pipe.blitMaterial!=null)
-                    cmd.Blit(m_Source.Identifier(), BuiltinRenderTextureType.CameraTarget,pipe.blitMaterial);
-                else
+				
                 cmd.Blit(m_Source.Identifier(), BuiltinRenderTextureType.CameraTarget, blitMaterial);
             }
             else
@@ -94,7 +94,7 @@ namespace UnityEngine.Rendering.LWRP
                     BuiltinRenderTextureType.CameraTarget,
                     m_ClearBlitTarget ? RenderBufferLoadAction.DontCare : RenderBufferLoadAction.Load,
                     RenderBufferStoreAction.Store,
-                    m_ClearBlitTarget ? ClearFlag.Color : ClearFlag.None,
+                    (m_ClearBlitTarget ? ClearFlag.Color : ClearFlag.None)|ClearFlag.Depth,
                     Color.black,
                     m_TargetDimension);
 
