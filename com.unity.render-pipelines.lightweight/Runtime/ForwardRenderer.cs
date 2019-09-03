@@ -1,10 +1,12 @@
+
 namespace UnityEngine.Rendering.LWRP
 {
     internal class ForwardRenderer : ScriptableRenderer
     {
         const int k_DepthStencilBufferBits = 32;
         const string k_CreateCameraTextures = "Create Camera Texture";
-
+        const int layerUI = 5;
+        const int layerMaskUI = (1 << layerUI);
         DepthOnlyPass m_DepthPrepass;
         MainLightShadowCasterPass m_MainLightShadowCasterPass;
         AdditionalLightsShadowCasterPass m_AdditionalLightsShadowCasterPass;
@@ -18,6 +20,10 @@ namespace UnityEngine.Rendering.LWRP
         PostProcessPass m_PostProcessPass;
         FinalBlitPass m_FinalBlitPass;
         CapturePass m_CapturePass;
+        // UGEN
+        DrawObjectsPass m_RenderUIOpaqueForwardPass;
+        DrawObjectsPass m_RenderUITransparentForwardPass;
+
 
 #if UNITY_EDITOR
         SceneViewDepthCopyPass m_SceneViewDepthCopyPass;
@@ -54,15 +60,19 @@ namespace UnityEngine.Rendering.LWRP
             m_AdditionalLightsShadowCasterPass = new AdditionalLightsShadowCasterPass(RenderPassEvent.BeforeRenderingShadows);
             m_DepthPrepass = new DepthOnlyPass(RenderPassEvent.BeforeRenderingPrepasses, RenderQueueRange.opaque, data.opaqueLayerMask);
             m_ScreenSpaceShadowResolvePass = new ScreenSpaceShadowResolvePass(RenderPassEvent.BeforeRenderingPrepasses, screenspaceShadowsMaterial);
-            m_RenderOpaqueForwardPass = new DrawObjectsPass("Render Opaques", true, RenderPassEvent.BeforeRenderingOpaques, RenderQueueRange.opaque, data.opaqueLayerMask, m_DefaultStencilState, stencilData.stencilReference);
+            m_RenderOpaqueForwardPass = new DrawObjectsPass("Render Opaques", true, RenderPassEvent.BeforeRenderingOpaques, RenderQueueRange.opaque, data.opaqueLayerMask & (~layerMaskUI), m_DefaultStencilState, stencilData.stencilReference);
             m_CopyDepthPass = new CopyDepthPass(RenderPassEvent.BeforeRenderingOpaques, copyDepthMaterial);
             m_OpaquePostProcessPass = new PostProcessPass(RenderPassEvent.BeforeRenderingOpaques, true);
             m_DrawSkyboxPass = new DrawSkyboxPass(RenderPassEvent.BeforeRenderingSkybox);
-            m_CopyColorPass = new CopyColorPass(RenderPassEvent.BeforeRenderingTransparents, samplingMaterial);
-            m_RenderTransparentForwardPass = new DrawObjectsPass("Render Transparents", false, RenderPassEvent.BeforeRenderingTransparents, RenderQueueRange.transparent, data.transparentLayerMask, m_DefaultStencilState, stencilData.stencilReference);
+            m_CopyColorPass = new CopyColorPass(RenderPassEvent.ScreenCameraUITransparent, samplingMaterial);
+            m_RenderTransparentForwardPass = new DrawObjectsPass("Render Transparents", false, RenderPassEvent.ScreenCameraUITransparent, RenderQueueRange.transparent, data.transparentLayerMask&(~layerMaskUI), m_DefaultStencilState, stencilData.stencilReference);
             m_PostProcessPass = new PostProcessPass(RenderPassEvent.BeforeRenderingPostProcessing);
             m_CapturePass = new CapturePass(RenderPassEvent.AfterRendering);
             m_FinalBlitPass = new FinalBlitPass(RenderPassEvent.AfterRendering, blitMaterial);
+
+            // UGEN
+            m_RenderUIOpaqueForwardPass = new DrawObjectsPass("Render Opaques", true, RenderPassEvent.ScreenCameraUIOpaque, RenderQueueRange.opaque, layerMaskUI, m_DefaultStencilState, stencilData.stencilReference);
+            m_RenderUITransparentForwardPass = new DrawObjectsPass("Render Transparents", false, RenderPassEvent.ScreenCameraUITransparent, RenderQueueRange.transparent, layerMaskUI, m_DefaultStencilState, stencilData.stencilReference);
 
 #if UNITY_EDITOR
             m_SceneViewDepthCopyPass = new SceneViewDepthCopyPass(RenderPassEvent.AfterRendering + 9, copyDepthMaterial);
@@ -239,6 +249,10 @@ namespace UnityEngine.Rendering.LWRP
                     EnqueuePass(m_FinalBlitPass);
                 }
             }
+
+            // UGUN
+            EnqueuePass(m_RenderUIOpaqueForwardPass);
+            EnqueuePass(m_RenderUITransparentForwardPass);
 
 #if UNITY_EDITOR
             if (renderingData.cameraData.isSceneViewCamera)

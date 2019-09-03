@@ -74,7 +74,9 @@ namespace UnityEngine.Rendering.LWRP
                 cmd.SetRenderTarget(BuiltinRenderTextureType.CameraTarget, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store);
 
                 // Clearing render target is cost free on mobile and it avoid tile loading
-                if (m_IsMobileOrSwitch)
+                // UGEN
+                // Must clear for Screen Spawn canvases.  Don't need to clear color, but I this is free on mobile tiled renderers.
+                if (true ) // m_IsMobileOrSwitch)
                     cmd.ClearRenderTarget(true, true, Color.black);
 				var pipe = GraphicsSettings.renderPipelineAsset as LightweightRenderPipelineAsset;
                 if(pipe.blitMaterial!=null)
