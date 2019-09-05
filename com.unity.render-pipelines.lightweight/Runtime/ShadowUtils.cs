@@ -24,19 +24,19 @@ namespace u
         public static float n;
         public static float d;
         public static float nearZ = 2.0f;
-        public static float farZ = 128.0f;
+        public static float farZ = 96.0f;
         public static float aspect = 1.0f;
         public static float aspectY = aspect*9.0f/16.0f;
         public static bool using2;
         public static float LoV;
         public static float sinV;
         public static float nearZ0 = 0.5f;
-        public static float farZ0 = 128;
+        public static float farZ0 = 96;
         public static Vector2 W;
         public static float lGain = 1.0f;
 
         public static float nearZ1 = 1.0f;
-        public static float farZ2 =256.0f;
+        public static float farZ2 =192.0f;
         public Vector4 Y;
         public Vector4 Z;
         public Vector4 C;

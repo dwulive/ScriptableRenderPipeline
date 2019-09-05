@@ -118,7 +118,7 @@ real SampleShadowmap(float4 shadowCoord, TEXTURE2D_SHADOW_PARAM(ShadowMap, sampl
     // Compiler will optimize this branch away as long as isPerspectiveProjection is known at compile time
     if (isPerspectiveProjection)
         shadowCoord.xyz /= shadowCoord.w;
-
+    shadowCoord.z -= (2.5/4096);
     real attenuation;
 
 #ifdef _SHADOWS_SOFT
