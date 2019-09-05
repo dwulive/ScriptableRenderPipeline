@@ -172,15 +172,15 @@ namespace UnityEngine.Rendering
         }
 
         // Explicit load and store actions
-        public static void SetRenderTarget(CommandBuffer cmd, RenderTargetIdentifier buffer, RenderBufferLoadAction loadAction, RenderBufferStoreAction storeAction, ClearFlag clearFlag, Color clearColor)
+        public static void SetRenderTarget(CommandBuffer cmd, RenderTargetIdentifier buffer, RenderBufferLoadAction loadAction, RenderBufferStoreAction storeAction, RenderBufferLoadAction depthLoadAction, RenderBufferStoreAction depthStoreAction, ClearFlag clearFlag, Color clearColor)
         {
-            cmd.SetRenderTarget(buffer, loadAction, storeAction);
+            cmd.SetRenderTarget(buffer, loadAction, storeAction,depthLoadAction,depthStoreAction);
             ClearRenderTarget(cmd, clearFlag, clearColor);
         }
 
         public static void SetRenderTarget(CommandBuffer cmd, RenderTargetIdentifier buffer, RenderBufferLoadAction loadAction, RenderBufferStoreAction storeAction, ClearFlag clearFlag)
         {
-            SetRenderTarget(cmd, buffer, loadAction, storeAction, clearFlag, Color.clear);
+            SetRenderTarget(cmd, buffer, loadAction, storeAction, loadAction,storeAction, clearFlag, Color.clear);
         }
 
         public static void SetRenderTarget(CommandBuffer cmd, RenderTargetIdentifier colorBuffer, RenderBufferLoadAction colorLoadAction, RenderBufferStoreAction colorStoreAction,

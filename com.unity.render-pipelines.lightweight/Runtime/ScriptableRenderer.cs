@@ -427,7 +427,7 @@ namespace UnityEngine.Rendering.LWRP
             if (dimension == TextureDimension.Tex2DArray)
                 CoreUtils.SetRenderTarget(cmd, colorAttachment, clearFlags, clearColor, 0, CubemapFace.Unknown, -1);
             else
-                CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction, clearFlags, clearColor);
+                CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction,colorLoadAction,colorStoreAction, clearFlags, clearColor);
         }
 
         static void SetRenderTarget(

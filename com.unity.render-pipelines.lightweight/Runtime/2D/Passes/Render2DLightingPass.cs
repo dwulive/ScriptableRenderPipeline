@@ -101,7 +101,7 @@ namespace UnityEngine.Experimental.Rendering.LWRP
                     RendererLighting.ClearDirtyLighting(cmd);
                 }
 
-                CoreUtils.SetRenderTarget(cmd, colorAttachment, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store, ClearFlag.None, Color.white);
+                CoreUtils.SetRenderTarget(cmd, colorAttachment, RenderBufferLoadAction.Load, RenderBufferStoreAction.Store,RenderBufferLoadAction.Load,RenderBufferStoreAction.Store, ClearFlag.None, Color.white);
                 context.ExecuteCommandBuffer(cmd);
 
                 Profiler.BeginSample("RenderSpritesWithLighting - Draw Transparent Renderers");

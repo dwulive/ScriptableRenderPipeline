@@ -234,6 +234,8 @@ namespace UnityEngine.Rendering.LWRP
             RenderTargetIdentifier colorAttachment,
             RenderBufferLoadAction colorLoadAction,
             RenderBufferStoreAction colorStoreAction,
+            RenderBufferLoadAction depthLoadAction,
+            RenderBufferStoreAction depthStoreAction,
             ClearFlag clearFlags,
             Color clearColor,
             TextureDimension dimension)
@@ -241,7 +243,7 @@ namespace UnityEngine.Rendering.LWRP
             if (dimension == TextureDimension.Tex2DArray)
                 CoreUtils.SetRenderTarget(cmd, colorAttachment, clearFlags, clearColor, 0, CubemapFace.Unknown, -1);
             else
-                CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction, clearFlags, clearColor);
+                CoreUtils.SetRenderTarget(cmd, colorAttachment, colorLoadAction, colorStoreAction,depthLoadAction,depthStoreAction, clearFlags, clearColor);
         }
     }
 }
