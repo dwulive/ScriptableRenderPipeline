@@ -15,14 +15,16 @@ namespace UnityEngine.Rendering.LWRP
         List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>();
         string m_ProfilerTag;
         bool m_IsOpaque;
+        bool disableShadows;
 
-        public DrawObjectsPass(string profilerTag, bool opaque, RenderPassEvent evt, RenderQueueRange renderQueueRange, LayerMask layerMask, StencilState stencilState, int stencilReference)
+        public DrawObjectsPass(string profilerTag, bool opaque, RenderPassEvent evt, RenderQueueRange renderQueueRange, LayerMask layerMask, StencilState stencilState, int stencilReference, bool disableShadows)
         {
             m_ProfilerTag = profilerTag;
             m_ShaderTagIdList.Add(new ShaderTagId("ForwardBase"));
             m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
             m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
             renderPassEvent = evt;
+            this.disableShadows = disableShadows;
             m_FilteringSettings = new FilteringSettings(renderQueueRange, layerMask);
             m_RenderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
             m_IsOpaque = opaque;
@@ -45,12 +47,16 @@ namespace UnityEngine.Rendering.LWRP
                 cmd.Clear();
 
                 Camera camera = renderingData.cameraData.camera;
+                var shadows = renderingData.shadowData.supportsMainLightShadows;
+                if (disableShadows)
+                    renderingData.shadowData.supportsMainLightShadows = false;
                 var sortFlags = (m_IsOpaque) ? renderingData.cameraData.defaultOpaqueSortFlags : SortingCriteria.CommonTransparent;
                 var drawSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortFlags);
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref m_FilteringSettings, ref m_RenderStateBlock);
 
                 // Render objects that did not match any shader pass with error shader
                 RenderingUtils.RenderObjectsWithError(context, ref renderingData.cullResults, camera, m_FilteringSettings, SortingCriteria.None);
+                renderingData.shadowData.supportsMainLightShadows = shadows;
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
