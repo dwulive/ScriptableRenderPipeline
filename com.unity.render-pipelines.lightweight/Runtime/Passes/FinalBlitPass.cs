@@ -74,7 +74,11 @@ namespace UnityEngine.Rendering.LWRP
             if (cameraData.isStereoEnabled || cameraData.isSceneViewCamera || cameraData.isDefaultViewport)
             {
                 // This set render target is necessary so we change the LOAD state to DontCare.
-                cmd.SetRenderTarget(BuiltinRenderTextureType.CameraTarget, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.DontCare, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.DontCare);
+                cmd.SetRenderTarget(BuiltinRenderTextureType.CameraTarget,
+                    RenderBufferLoadAction.DontCare,
+				   cameraData.isSceneViewCamera ? RenderBufferStoreAction.Store : RenderBufferStoreAction.DontCare,
+                    RenderBufferLoadAction.DontCare,
+                    cameraData.isSceneViewCamera ? RenderBufferStoreAction.Store : RenderBufferStoreAction.DontCare);
 
                 // Clearing render target is cost free on mobile and it avoid tile loading
                 // UGEN

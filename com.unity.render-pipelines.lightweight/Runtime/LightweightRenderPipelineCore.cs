@@ -134,7 +134,8 @@ namespace UnityEngine.Rendering.LWRP
             desc.sRGB = (QualitySettings.activeColorSpace == ColorSpace.Linear);
             desc.msaaSamples = msaaSamples;
             desc.bindMS = false;
-            desc.memoryless = (msaaSamples > 1 ? RenderTextureMemoryless.MSAA :RenderTextureMemoryless.Color ) | RenderTextureMemoryless.Depth;
+
+            desc.memoryless = (camera.cameraType == CameraType.SceneView) ?RenderTextureMemoryless.None :  (msaaSamples > 1 ? RenderTextureMemoryless.MSAA :RenderTextureMemoryless.Color ) | RenderTextureMemoryless.Depth;
             desc.useDynamicScale = camera.allowDynamicResolution;
             return desc;
         }
