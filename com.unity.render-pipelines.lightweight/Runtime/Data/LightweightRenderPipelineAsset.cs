@@ -80,6 +80,7 @@ namespace UnityEngine.Rendering.LWRP
         internal ScriptableRenderer m_Renderer;
 
         [NonSerialized] public Material blitMaterial;
+        [NonSerialized] public Camera uiCamera;
         // Default values set when a new LightweightRenderPipeline asset is created
         [SerializeField] int k_AssetVersion = 4;
 

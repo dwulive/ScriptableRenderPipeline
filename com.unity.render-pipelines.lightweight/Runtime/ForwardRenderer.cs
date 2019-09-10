@@ -249,8 +249,7 @@ namespace UnityEngine.Rendering.LWRP
                     EnqueuePass(m_FinalBlitPass);
                 }
             }
-
-            // UGUN
+            // UGEN
             EnqueuePass(m_RenderUIOpaqueForwardPass);
             EnqueuePass(m_RenderUITransparentForwardPass);
 

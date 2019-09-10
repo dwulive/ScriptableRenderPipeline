@@ -106,10 +106,18 @@ namespace UnityEngine.Rendering.LWRP
 
                 Camera camera = cameraData.camera;
                 cmd.SetViewProjectionMatrices(Matrix4x4.identity, Matrix4x4.identity);
-                cmd.SetViewport(m_PixelRect != Rect.zero ? m_PixelRect : cameraData.camera.pixelRect);
+                cmd.SetViewport(m_PixelRect != Rect.zero ? m_PixelRect : camera.pixelRect);
                 cmd.DrawMesh(RenderingUtils.fullscreenMesh, Matrix4x4.identity, blitMaterial);
-                cmd.SetViewProjectionMatrices(camera.worldToCameraMatrix, camera.projectionMatrix);
+    
             }
+            if (pipe.uiCamera != null)
+            {
+                var worldToCameraMatrix = cameraData.camera.worldToCameraMatrix;
+                var projectionMatrix = pipe.uiCamera.projectionMatrix;
+                cmd.SetViewProjectionMatrices(worldToCameraMatrix, projectionMatrix);
+                LightweightRenderPipeline.ModifyCameraShaderConstants(ref worldToCameraMatrix, ref projectionMatrix, cameraData.camera.transform.position,cmd);
+            }
+            CoreUtils.SetKeyword(cmd, ShaderKeywordStrings.MainLightShadows, false);
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);

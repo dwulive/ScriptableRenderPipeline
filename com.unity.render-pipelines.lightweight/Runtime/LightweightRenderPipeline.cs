@@ -130,6 +130,8 @@ namespace UnityEngine.Rendering.LWRP
             SortCameras(cameras);
             foreach (Camera camera in cameras)
             {
+                if (camera.depth >= 100)
+                    continue;
                 BeginCameraRendering(renderContext, camera);
 
                 UnityEngine.Experimental.VFX.VFXManager.ProcessCamera(camera); //Visual Effect Graph is not yet a required package but calling this method when there isn't any VisualEffect component has no effect (but needed for Camera sorting in Visual Effect Graph context)
@@ -431,7 +433,7 @@ namespace UnityEngine.Rendering.LWRP
         static PerObjectData GetPerObjectLightFlags(int additionalLightsCount)
         {
             // UGEN
-            var configuration = PerObjectData.LightData;
+            var configuration = PerObjectData.None;
 //            var configuration = PerObjectData.ReflectionProbes | PerObjectData.Lightmaps | PerObjectData.LightProbe | PerObjectData.LightData | PerObjectData.OcclusionProbe;
 
             if (additionalLightsCount > 0)
@@ -506,6 +508,17 @@ namespace UnityEngine.Rendering.LWRP
             Matrix4x4 viewProjMatrix = projMatrix * viewMatrix;
             Matrix4x4 invViewProjMatrix = Matrix4x4.Inverse(viewProjMatrix);
             Shader.SetGlobalMatrix(PerCameraBuffer._InvCameraViewProj, invViewProjMatrix);
+        }
+
+        static internal void ModifyCameraShaderConstants(ref Matrix4x4 projectionMatrix, ref Matrix4x4 worldToCameraMatrix, Vector3 cameraPosition, CommandBuffer cmd)
+        {
+            cmd.SetGlobalVector(PerCameraBuffer._WorldSpaceCameraPos, cameraPosition);
+       
+            Matrix4x4 projMatrix = GL.GetGPUProjectionMatrix(projectionMatrix, false);
+            ref Matrix4x4 viewMatrix = ref worldToCameraMatrix;
+            Matrix4x4 viewProjMatrix = projMatrix * viewMatrix;
+            Matrix4x4 invViewProjMatrix = Matrix4x4.Inverse(viewProjMatrix);
+            cmd.SetGlobalMatrix(PerCameraBuffer._InvCameraViewProj, invViewProjMatrix);
         }
 
         static Lightmapping.RequestLightsDelegate lightsDelegate = (Light[] requests, NativeArray<LightDataGI> lightsOutput) =>
