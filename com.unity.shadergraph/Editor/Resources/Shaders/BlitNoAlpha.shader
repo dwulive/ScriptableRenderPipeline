@@ -38,7 +38,7 @@ Shader "Hidden/BlitNoAlpha"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 return half4(UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, i.texcoord).xyz, 1.0);

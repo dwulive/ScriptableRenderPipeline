@@ -96,7 +96,7 @@ namespace UnityEngine.Rendering.LWRP
 
             for (int cascadeIndex = 0; cascadeIndex < m_ShadowCasterCascadesCount; ++cascadeIndex)
             {
-                bool success = ShadowUtils.ExtractDirectionalLightMatrix(renderingData.cameraData.camera, ref renderingData.cullResults, ref renderingData.shadowData,
+                bool success = ShadowUtils.ExtractDirectionalLightMatrix(ref renderingData,
                     shadowLightIndex, cascadeIndex, m_ShadowmapWidth, m_ShadowmapHeight, shadowResolution, light.shadowNearPlane,
                     out m_CascadeSplitDistances[cascadeIndex], out m_CascadeSlices[cascadeIndex], out m_CascadeSlices[cascadeIndex].viewMatrix, out m_CascadeSlices[cascadeIndex].projectionMatrix);
 

@@ -31,12 +31,11 @@ namespace u
         public static float LoV;
         public static float sinV;
         public static float nearZ0 = 0.5f;
-        public static float farZ0 = 96;
+        public static float farZ0 = 512;
         public static Vector2 W;
         public static float lGain = 1.0f;
 
         public static float nearZ1 = 1.0f;
-        public static float farZ2 =192.0f;
         public Vector4 Y;
         public Vector4 Z;
         public Vector4 C;
@@ -182,22 +181,31 @@ namespace UnityEngine.Rendering.LWRP
                 Assert.AreApproximatelyEqual(clip.y, -0.0f, 1e-4f);
             }
         }
-        public static bool ExtractDirectionalLightMatrix(Camera cam,ref CullingResults cullResults, ref ShadowData shadowData, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
+        public static bool ExtractDirectionalLightMatrix(ref RenderingData rd, int shadowLightIndex, int cascadeIndex, int shadowmapWidth, int shadowmapHeight, int shadowResolution, float shadowNearPlane, out Vector4 cascadeSplitDistance, out ShadowSliceData shadowSliceData, out Matrix4x4 viewMatrix, out Matrix4x4 projMatrix)
         {
+            Camera cam = rd.cameraData.camera;
+            ref CullingResults cullResults = ref rd.cullResults;
+            ref ShadowData shadowData = ref rd.shadowData;
+            var pipe = ((LightweightRenderPipelineAsset)GraphicsSettings.renderPipelineAsset);
+            var farZ = pipe.shadowDistance;
+       
+            I.farZ = farZ;
             I.i.projMatrix0 = cam.projectionMatrix;
             I.M0 = cam.transform.localToWorldMatrix;
             I.M1 = cam.cameraToWorldMatrix;
             cam.CalculateFrustumCorners(new Rect(0, 0,1, 1), 1, Camera.MonoOrStereoscopicEye.Mono, I.corners);
+            for (int i = 0; i < 4; ++i)
+                I.corners[i] = Vector3.Normalize(I.corners[i]);
             var camM = cam.transform.localToWorldMatrix;
             var cs = new Vector3[6];
             var points = new List<Vector3>();
-            var midZ = Mathf.Lerp(I.nearZ , I.farZ,0.25f);
+            var midZ = Mathf.Lerp(I.nearZ , farZ,0.25f);
             cs[0] = camM.MultiplyPoint3x4(I.corners[1]*I.nearZ);
             cs[1] = camM.MultiplyPoint3x4(I.corners[0]*I.nearZ);
             cs[2] = camM.MultiplyPoint3x4(I.corners[1]*midZ );
             cs[3] = camM.MultiplyPoint3x4(I.corners[0]*midZ );
-            cs[4] = camM.MultiplyPoint3x4(I.corners[1]*I.farZ);
-            cs[5] = camM.MultiplyPoint3x4(I.corners[0]*I.farZ);
+            cs[4] = camM.MultiplyPoint3x4(I.corners[1]*farZ);
+            cs[5] = camM.MultiplyPoint3x4(I.corners[0]*farZ);
             for (int i = 0; i < cs.Length; ++i)
                 AddPoint(cs[i], points);
              // vertical
@@ -215,8 +223,8 @@ namespace UnityEngine.Rendering.LWRP
             cs[1] = camM.MultiplyPoint3x4(I.corners[3] * I.nearZ);
             cs[2] = camM.MultiplyPoint3x4(I.corners[2] * midZ);
             cs[3] = camM.MultiplyPoint3x4(I.corners[3] * midZ);
-            cs[4] = camM.MultiplyPoint3x4(I.corners[2] * I.farZ);
-            cs[5] = camM.MultiplyPoint3x4(I.corners[3] * I.farZ);
+            cs[4] = camM.MultiplyPoint3x4(I.corners[2] * farZ);
+            cs[5] = camM.MultiplyPoint3x4(I.corners[3] * farZ);
             for (int i = 0; i < cs.Length; ++i)
                 AddPoint(cs[i], points);
             // vertical
@@ -229,9 +237,14 @@ namespace UnityEngine.Rendering.LWRP
             // along bottom
             AddSegment(cs[1], cs[3], points);
             AddSegment(cs[3], cs[5], points);
-
-
             var camZ = (Vector3)camM.GetColumn(2);
+
+            var cFar = camM.MultiplyPoint3x4(new Vector3(0, 0, farZ));
+            var near = camM.MultiplyPoint3x4(new Vector3(0, 0, I.nearZ));
+            AddPoint(cFar,points);
+            AddPoint(near, points);
+            AddSegment(near, cFar, points);
+
 
             I.camZ = camZ;
             ShadowSplitData splitData;
@@ -376,7 +389,7 @@ namespace UnityEngine.Rendering.LWRP
 
             // depth and normal bias scale is in shadowmap texel size in world space
             float texelSize = frustumSize / shadowResolution;
-            float depthBias = -shadowData.bias[shadowLightIndex].x * texelSize;
+            float depthBias = -shadowData.bias[shadowLightIndex].x * (1.0f/65536.0f);
             float normalBias = -shadowData.bias[shadowLightIndex].y * texelSize;
             
             if (shadowData.supportsSoftShadows)
@@ -459,7 +472,7 @@ namespace UnityEngine.Rendering.LWRP
             // near/far plane's distance from the eye in view space of the shadow receiver volume.
             //      Vector2 znf = -computeNearFar(camera.view, wsShadowReceiversVolume.data(), vertexCount);
             float zn = I.nearZ2;// Mathf.Max(camera.zn, znf[0]); // near plane distance from the eye
-            float zf = I.farZ2;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
+            float zf = I.farZ;// Mathf.Min(camera.zf, znf[1]); // far plane distance from the eye
                                //    var LMpMv = projMatrix * viewMatrix;
           var LMpMv = viewMatrix;
                                //   Vector3 lsCameraPosition = projMatrix*(viewMatrix * points[0]);
