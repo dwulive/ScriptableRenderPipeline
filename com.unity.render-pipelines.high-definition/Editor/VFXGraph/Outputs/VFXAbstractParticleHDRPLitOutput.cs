@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 namespace UnityEditor.VFX
 {
-    abstract class VFXAbstractParticleHDRPLitOutput : VFXAbstractParticleOutput
+    abstract class VFXAbstractParticleHDRPLitOutput : VFXShaderGraphParticleOutput
     {
         public enum MaterialType
         {
@@ -89,6 +89,8 @@ namespace UnityEditor.VFX
         [VFXSetting(VFXSettingAttribute.VisibleFlags.InInspector), SerializeField]
         protected bool enableEnvLight = true;
 
+        protected VFXAbstractParticleHDRPLitOutput(bool strip = false) : base(strip) { }
+
         protected virtual bool allowTextures { get { return true; }}
 
         public class HDRPLitInputProperties
@@ -153,11 +155,22 @@ namespace UnityEditor.VFX
 
         protected override bool needsExposureWeight { get { return (colorMode & ColorMode.Emissive) != 0 || useEmissive || useEmissiveMap; } }
 
+        protected override bool bypassExposure { get { return false; } }
+
+        protected override RPInfo currentRP
+        {
+            get { return hdrpLitInfo; }
+        }
+        public override bool isLitShader { get => true; }
+
         protected override IEnumerable<VFXPropertyWithValue> inputProperties
         {
             get
             {
                 var properties = base.inputProperties;
+
+                if (shaderGraph == null)
+                {
                 properties = properties.Concat(PropertiesFromType("HDRPLitInputProperties"));
                 properties = properties.Concat(PropertiesFromType(kMaterialTypeToName[(int)materialType]));
 
@@ -182,6 +195,7 @@ namespace UnityEditor.VFX
 
                 if (((colorMode & ColorMode.Emissive) == 0) && useEmissive)
                     properties = properties.Concat(PropertiesFromType("EmissiveColorProperties"));
+                }
 
                 return properties;
             }
@@ -192,9 +206,10 @@ namespace UnityEditor.VFX
             foreach (var exp in base.CollectGPUExpressions(slotExpressions))
                 yield return exp;
 
+            if( shaderGraph == null)
+            {
             yield return slotExpressions.First(o => o.name == "smoothness");
 
-            uint diffusionProfileHash;
             switch (materialType)
             {
                 case MaterialType.Standard:
@@ -208,10 +223,12 @@ namespace UnityEditor.VFX
 
                 case MaterialType.Translucent:
                 case MaterialType.SimpleLitTranslucent:
+                {
                     yield return slotExpressions.First(o => o.name == "thickness");
-                    diffusionProfileHash = (diffusionProfileAsset?.profile != null) ? diffusionProfileAsset.profile.hash : 0;
+                    uint diffusionProfileHash = (diffusionProfileAsset?.profile != null) ? diffusionProfileAsset.profile.hash : 0;
                     yield return new VFXNamedExpression(VFXValue.Constant(diffusionProfileHash), "diffusionProfileHash");
                     break;
+                }
 
                 default: break;
             }
@@ -239,6 +256,7 @@ namespace UnityEditor.VFX
 
             if (((colorMode & ColorMode.Emissive) == 0) && useEmissive)
                 yield return slotExpressions.First(o => o.name == "emissiveColor");
+        }
         }
 
         public override IEnumerable<string> additionalDefines
@@ -339,11 +357,11 @@ namespace UnityEditor.VFX
                 foreach (var setting in base.filteredOutSettings)
                     yield return setting;
 
-                yield return "colorMappingMode";
+                yield return "colorMapping";
 
                 if (materialType != MaterialType.Translucent && materialType != MaterialType.SimpleLitTranslucent)
                 {
-                    yield return "diffusionProfileHash";
+                    yield return "diffusionProfileAsset";
                     yield return "multiplyThicknessWithAlpha";
                 }
 
@@ -375,7 +393,7 @@ namespace UnityEditor.VFX
 
         public override void OnEnable()
         {
-            colorMappingMode = ColorMappingMode.Default;
+            colorMapping = ColorMappingMode.Default;
             base.OnEnable();
         }
 

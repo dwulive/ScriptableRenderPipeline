@@ -5,7 +5,7 @@ namespace UnityEngine.Rendering.HighDefinition
 {
     // RenderPipelineSettings define settings that can't be change during runtime. It is equivalent to the GraphicsSettings of Unity (Tiers + shader variant removal).
     // This allow to allocate resource or not for a given feature.
-    // FrameSettings control within a frame what is enable or not(enableShadow, enableStereo, enableDistortion...).
+    // FrameSettings control within a frame what is enable or not(enableShadow, enableDistortion...).
     // HDRenderPipelineAsset reference the current RenderPipelineSettings used, there is one per supported platform(Currently this feature is not implemented and only one GlobalFrameSettings is available).
     // A Camera with HDAdditionalData has one FrameSettings that configures how it will render. For example a camera used for reflection will disable distortion and post-process.
     // Additionally, on a Camera there is another FrameSettings called ActiveFrameSettings that is created on the fly based on FrameSettings and allows modifications for debugging purpose at runtime without being serialized on disk.
@@ -38,6 +38,13 @@ namespace UnityEngine.Rendering.HighDefinition
             R16G16B16A16 = GraphicsFormat.R16G16B16A16_SFloat
         }
 
+        public enum CustomBufferFormat
+        {
+            R8G8B8A8 = GraphicsFormat.R8G8B8A8_SNorm,
+            R16G16B16A16 = GraphicsFormat.R16G16B16A16_SFloat,
+            R11G11B10 = GraphicsFormat.B10G11R11_UFloatPack32,
+        }
+
         /// <summary>Default RenderPipelineSettings</summary>
         public static readonly RenderPipelineSettings @default = new RenderPipelineSettings()
         {
@@ -50,6 +57,8 @@ namespace UnityEngine.Rendering.HighDefinition
             supportTransparentDepthPrepass = true,
             supportTransparentDepthPostpass = true,
             colorBufferFormat = ColorBufferFormat.R11G11B10,
+            supportCustomPass = true,
+            customBufferFormat = CustomBufferFormat.R8G8B8A8,
             supportedLitShaderMode = SupportedLitShaderMode.DeferredOnly,
             supportDecals = true,
             msaaSampleCount = MSAASamples.None,
@@ -63,9 +72,19 @@ namespace UnityEngine.Rendering.HighDefinition
             postProcessSettings = GlobalPostProcessSettings.@default,
             dynamicResolutionSettings = GlobalDynamicResolutionSettings.@default,
             lowresTransparentSettings = GlobalLowResolutionTransparencySettings.@default,
+            xrSettings = GlobalXRSettings.@default,
+            postProcessQualitySettings = GlobalPostProcessingQualitySettings.@default,
             supportRayTracing = false,
             supportedRaytracingTier = RaytracingTier.Tier2,
+            lodBias = new FloatScalableSetting(new[] { 1.0f, 1, 1 }, ScalableSettingSchemaId.With3Levels),
+            maximumLODLevel = new IntScalableSetting(new[] { 0, 0, 0 }, ScalableSettingSchemaId.With3Levels),
         };
+
+        [Serializable]
+        public struct LightSettings
+        {
+            public BoolScalableSetting useContactShadow;
+        }
 
         // Lighting
         public bool supportShadowMask;
@@ -81,6 +100,8 @@ namespace UnityEngine.Rendering.HighDefinition
         public bool supportTransparentDepthPrepass;
         public bool supportTransparentDepthPostpass;
         public ColorBufferFormat colorBufferFormat;
+        public bool supportCustomPass;
+        public CustomBufferFormat customBufferFormat;
         public SupportedLitShaderMode supportedLitShaderMode;
 
         // Engine
@@ -108,5 +129,11 @@ namespace UnityEngine.Rendering.HighDefinition
         public GlobalPostProcessSettings postProcessSettings;
         public GlobalDynamicResolutionSettings dynamicResolutionSettings;
         public GlobalLowResolutionTransparencySettings lowresTransparentSettings;
+        public GlobalXRSettings xrSettings;
+        public GlobalPostProcessingQualitySettings postProcessQualitySettings;
+
+        public LightSettings lightSettings;
+        public IntScalableSetting maximumLODLevel;
+        public FloatScalableSetting lodBias;
     }
 }

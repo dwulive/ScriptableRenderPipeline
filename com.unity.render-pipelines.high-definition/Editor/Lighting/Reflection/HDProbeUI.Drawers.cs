@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditorInternal;
 using System.Reflection;
 using UnityEngine;
@@ -352,7 +353,7 @@ namespace UnityEditor.Rendering.HighDefinition
                                     },
                                     GUILayout.ExpandWidth(true)))
                             {
-                                HDBakedReflectionSystem.BakeProbes(new HDProbe[] { serialized.target });
+                                HDBakedReflectionSystem.BakeProbes(serialized.serializedObject.targetObjects.OfType<HDProbe>().ToArray());
                                 GUIUtility.ExitGUI();
                             }
 
@@ -398,13 +399,6 @@ namespace UnityEditor.Rendering.HighDefinition
                         probe, assetPath, target, null,
                         out var cameraSettings, out var cameraPositionSettings
                     );
-
-                    /*HDProbeSystem.Render(
-                        probe, null, target,
-                        out HDProbe.RenderData renderData,
-                        forceFlipY: probe.type == ProbeSettings.ProbeType.ReflectionProbe
-                    );
-                    HDTextureUtilities.WriteTextureFileToDisk(target, assetPath);*/
                     AssetDatabase.ImportAsset(assetPath);
                     HDBakedReflectionSystem.ImportAssetAt(probe, assetPath);
                     CoreUtils.Destroy(target);
