@@ -29,6 +29,10 @@ CBUFFER_START(UnityTerrain)
 #ifdef DEBUG_DISPLAY
     UNITY_TERRAIN_CB_DEBUG_VARS
 #endif
+#ifdef SCENESELECTIONPASS
+    int _ObjectId;
+    int _PassValue;
+#endif
 CBUFFER_END
 
 #ifdef UNITY_INSTANCING_ENABLED
@@ -225,7 +229,7 @@ void GetSurfaceAndBuiltinData(inout FragInputs input, float3 V, inout PositionIn
     float3 bentNormalWS = surfaceData.normalWS;
 
     // By default we use the ambient occlusion with Tri-ace trick (apply outside) for specular occlusion.
-#ifdef _MASKMAP
+#ifdef _SPECULAR_OCCLUSION_FROM_AMBIENT_OCCLUSION
     surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
 #endif
 
