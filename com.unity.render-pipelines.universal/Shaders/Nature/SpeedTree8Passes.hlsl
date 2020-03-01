@@ -274,7 +274,7 @@ void InitializeInputData(SpeedTreeFragmentInput input, half3 normalTS, out Input
     inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
     inputData.viewDirectionWS = half3(input.interpolated.normalWS.w, input.interpolated.tangentWS.w, input.interpolated.bitangentWS.w);
 #else
-    inputData.normalWS = input.interpolated.normalWS;
+    inputData.normalWS = NormalizeNormalPerPixel(input.interpolated.normalWS);
     inputData.viewDirectionWS = input.interpolated.viewDirWS;
 #endif
 
@@ -375,6 +375,8 @@ half4 SpeedTree8Frag(SpeedTreeFragmentInput input) : SV_Target
 
     half4 color = UniversalFragmentPBR(inputData, albedo, metallic, specular, smoothness, occlusion, emission, alpha);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
+    color.a = OutputAlpha(color.a);
+
     return color;
 }
 

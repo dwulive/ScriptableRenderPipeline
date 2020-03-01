@@ -217,7 +217,7 @@ namespace UnityEditor.Rendering.HighDefinition.Drawing
                 });
             });
 
-            ps.Add(new PropertyRow(CreateLabel("Enable Shadow Matte", indentLevel)), (row) =>
+            ps.Add(new PropertyRow(CreateLabel("Shadow Matte", indentLevel)), (row) =>
             {
                 row.Add(new Toggle(), (toggle) =>
                 {
@@ -225,6 +225,16 @@ namespace UnityEditor.Rendering.HighDefinition.Drawing
                     toggle.OnToggleChanged(ChangeEnableShadowMatte);
                 });
             });
+
+            ps.Add(new PropertyRow(CreateLabel("DOTS instancing", indentLevel)), (row) =>
+            {
+                row.Add(new Toggle(), (toggle) =>
+                {
+                    toggle.value = m_Node.dotsInstancing.isOn;
+                    toggle.OnToggleChanged(ChangeDotsInstancing);
+                });
+            });
+
 
             Add(ps);
         }
@@ -282,6 +292,15 @@ namespace UnityEditor.Rendering.HighDefinition.Drawing
             };
             UpdateRenderingPassValue(evt.newValue);
         }
+
+        void ChangeDotsInstancing(ChangeEvent<bool> evt)
+        {
+            m_Node.owner.owner.RegisterCompleteObjectUndo("DotsInstancing Change");
+            ToggleData td = m_Node.dotsInstancing;
+            td.isOn = evt.newValue;
+            m_Node.dotsInstancing = td;
+        }
+
 
         void UpdateRenderingPassValue(HDRenderQueue.RenderQueueType newValue)
         {
@@ -367,7 +386,7 @@ namespace UnityEditor.Rendering.HighDefinition.Drawing
 
         void ChangeEnableShadowMatte(ChangeEvent<bool> evt)
         {
-            m_Node.owner.owner.RegisterCompleteObjectUndo("Enable Shadow Matte");
+            m_Node.owner.owner.RegisterCompleteObjectUndo("Shadow Matte");
             ToggleData td = m_Node.enableShadowMatte;
             td.isOn = evt.newValue;
             m_Node.enableShadowMatte = td;

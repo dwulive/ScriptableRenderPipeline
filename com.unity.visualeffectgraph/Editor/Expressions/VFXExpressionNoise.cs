@@ -43,7 +43,6 @@ namespace UnityEditor.VFX
 
             return VFXValue.Constant(VFXExpressionNoise.GenerateValueNoise2D(coordinate, floatParams.x, octaveCount, floatParams.y, floatParams.z));
         }
-
         public override string GetCodeString(string[] parents)
         {
             return string.Format("GenerateValueNoise({0}, {1}.x, {2}, {1}.y, {1}.z)", parents[0], parents[1], parents[2]);
@@ -339,21 +338,22 @@ namespace UnityEditor.VFX
     class VFXExpressionVoroNoise2D : VFXExpression
     {
         public VFXExpressionVoroNoise2D() : this(VFXValue<Vector2>.Default, VFXValue<Vector3>.Default) {}
-        public VFXExpressionVoroNoise2D(params VFXExpression[] parents) : base(VFXExpression.Flags.None, parents) {}
+        public VFXExpressionVoroNoise2D(params VFXExpression[] parents) : base(VFXExpression.Flags.InvalidOnCPU, parents) {}
+        sealed public override VFXValueType valueType { get { return VFXValueType.Float; } }
 
-        public override VFXExpressionOperation operation { get { return VFXExpressionOperation.VoroNoise2D; } }
+        public override VFXExpressionOperation operation { get { return VFXExpressionOperation.None; } }
 
-        sealed protected override VFXExpression Evaluate(VFXExpression[] constParents)
+        /*sealed protected override VFXExpression Evaluate(VFXExpression[] constParents)
         {
             var coordinate = constParents[0].Get<Vector2>();
             var floatParams = constParents[1].Get<Vector3>();
 
             return VFXValue.Constant(VFXExpressionNoise.GenerateVoroNoise2D(coordinate, floatParams.x, floatParams.y, floatParams.z));
-        }
+        }*/
 
         public override string GetCodeString(string[] parents)
         {
-            return string.Format("GenerateVoroNoise({0}, {1}.y, {1}.x, {1}.z)", parents[0], parents[1]);
+            return string.Format("GenerateVoroNoise({0}, {1}.x, {1}.y, {1}.z)", parents[0], parents[1]);
         }
     }
 }
